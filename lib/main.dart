@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:note_filest1/screens/editNote.dart';
 
 
+
+
 void main() {
 
   runApp(const MyApp());
@@ -45,30 +47,50 @@ class _MyHomePageState extends State<MyHomePage> {
 
   bool actionButtonPressed=false;
   bool gridView=false;
-
+  bool menuPressed =false;
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
+      drawer: NavigationDrawer(
+        children: [],
+
+      ),
       appBar: AppBar(
 
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        leading: Builder(builder: (context) =>  IconButton(
+          icon: Icon(menuPressed == false?Icons.menu_rounded : Icons.close_rounded),
+          onPressed: (){
+            if(menuPressed == true){menuPressed = false ;}
 
+            else {
+              menuPressed = true;
+
+            }
+    setState(() {
+
+    });
+            return Scaffold.of(context).openDrawer();
+
+          },
+
+        )),
         title: Text(widget.title),
-        actions: [IconButton(icon: Padding(
+        actions: [Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Icon(gridView ? Icons.grid_view_rounded: Icons.view_list_rounded),
-        ),onPressed: (){
-          if(gridView == true) {
-            gridView =false;
-          } else {
-            gridView = true;
-          }
-          setState(() {
+          child: IconButton(icon: Icon(gridView ? Icons.grid_view_rounded: Icons.view_list_rounded),onPressed: (){
+            if(gridView == true) {
+              gridView =false;
+            } else {
+              gridView = true;
+            }
+            setState(() {
 
-          });
-        },)],
+            });
+          },),
+        )],
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),

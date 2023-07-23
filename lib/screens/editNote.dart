@@ -1,7 +1,6 @@
 
 
 
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 
@@ -17,36 +16,48 @@ class _EditNoteState extends State<EditNote> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Your note"),
-
+        leading: IconButton(onPressed: (){
+          /*TODO if there is data show dialog ask the user if he need to return without save*/
+          Navigator.pop(context);
+        },icon: Icon(Icons.arrow_back_rounded),),
+        title: Center(child: const Text("Your note")),
+        actions: [Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: IconButton(onPressed: (){}, icon: Icon(Icons.save_rounded)),
+        )],
       ),
-     body:  Padding(
+     body:   Padding(
        padding: EdgeInsets.all(8.0),
-       child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-         children: [
-           TextField(
-             decoration: InputDecoration(hintText: "Title",border: InputBorder.none
-             ),
-           ),
-           Text("the time"),//TODO add the time
-           Expanded(
-             child: TextField(
-               keyboardType: TextInputType.multiline,
-               expands: true,
+       child: Container(
+         decoration: BoxDecoration(
+           color: Colors.grey[300],
+           borderRadius: BorderRadius.circular(10)
+         ),
+         child: Padding(
+           padding: const EdgeInsets.all(8.0),
+           child: Column(
 
-               autocorrect: true,
-               decoration: InputDecoration(
-                 border: OutlineInputBorder(
-
+              crossAxisAlignment: CrossAxisAlignment.start,
+             children: [
+               TextField(
+                 decoration: InputDecoration(hintText: "Title",border: InputBorder.none
                  ),
-
                ),
+               Text("the time"),//TODO add the time
+               TextField(
+                 keyboardType: TextInputType.multiline,
+                  minLines: 5,
+                  maxLines: 20,
+                 autocorrect: true,
+                 decoration: InputDecoration(
+                   border: InputBorder.none,
+                     hintText: "your note"    ),
 
-             ),
-           )
+               )
 
-         ],
+             ],
+           ),
+         ),
        ),
      ),
 

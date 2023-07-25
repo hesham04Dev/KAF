@@ -13,11 +13,13 @@ class EditNote extends StatefulWidget {
 }
 
 class _EditNoteState extends State<EditNote> {
-  String titleOfnote = "";
+  String titleOfNote = "";
   String noteText = "";
 
   @override
   Widget build(BuildContext context) {
+    final routeArgs = ModalRoute.of(context)!.settings.arguments as List<bool>;
+    bool isDark =routeArgs[0];
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -53,7 +55,7 @@ class _EditNoteState extends State<EditNote> {
         padding: const EdgeInsets.all(8.0),
         child: Container(
           decoration: BoxDecoration(
-              color: Colors.grey[300], borderRadius: BorderRadius.circular(10)),
+              color: isDark == true ? Colors.white10:Colors.grey[300], borderRadius: BorderRadius.circular(10)),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(

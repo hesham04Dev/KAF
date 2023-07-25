@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:note_filest1/screens/editNote.dart';
 
 void main() {
@@ -13,7 +14,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      themeMode: ThemeMode.light,
+      //themeMode: MediaQuery.maybePlatformBrightnessOf(context) != Brightness.light ?ThemeMode.dark:ThemeMode.light,
+      themeMode:ThemeMode.dark,
       debugShowMaterialGrid: false,
       theme: ThemeData(
         useMaterial3: true,
@@ -42,8 +44,10 @@ class _MyHomePageState extends State<MyHomePage> {
   bool actionButtonPressed = false;
   bool gridView = false;
 
+
   @override
   Widget build(BuildContext context) {
+    bool isDark= MediaQuery.maybePlatformBrightnessOf(context) == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -128,15 +132,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   //TODO open the page of this folder that can contains files and folders
                   // TODO open the page of the note allow to edit it and show the count of the words
                 },
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 15),
+                child:  Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
                   child: Row(
                     children: [
-                      Icon(Icons.folder_rounded, size: 50, color: Colors.brown),
-                      SizedBox(
+                      Icon(Icons.folder_rounded, size: 50, color: Theme.of(context).colorScheme.secondary ),
+                      const SizedBox(
                         width: 10,
                       ),
-                      FittedBox(
+                      const FittedBox(
                         child: Text(
                           "hello",
                           style: TextStyle(fontSize: 20),
@@ -189,14 +193,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                       onSubmitted: (value) {
                                         /*TODO */
                                       },
-                                      decoration: const InputDecoration(
+                                      decoration:   InputDecoration(
                                           hintText: " Folder Name",
-                                          /*  border: UnderlineInputBorder(
-                                          borderRadius: BorderRadius.circular(20)
-                                        ),*/
-
+                                            border: const UnderlineInputBorder(),
                                           filled: true,
-                                          fillColor: Colors.white),
+                                          fillColor: isDark == true ? Colors.black12 :Colors.white),
                                     ),
                                   ),
                                 ),
@@ -227,7 +228,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     shape: const OvalBorder(),
                     mini: true,
                     onPressed: () {
-                      Navigator.pushNamed(context, EditNote.routeName);
+                      Navigator.pushNamed(context, EditNote.routeName,arguments:[isDark] );
                     },
                     child: const Icon(Icons.note_add),
                   ),

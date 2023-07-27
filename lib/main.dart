@@ -15,14 +15,26 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       //themeMode: MediaQuery.maybePlatformBrightnessOf(context) != Brightness.light ?ThemeMode.dark:ThemeMode.light,
-      themeMode:ThemeMode.dark,
+      themeMode: ThemeMode.light,
       debugShowMaterialGrid: false,
       theme: ThemeData(
+        fontFamily: "Cairo",
+        /*appBarTheme: const AppBarTheme(
+            titleTextStyle:
+                TextStyle(fontWeight: FontWeight.w600, fontSize: 30,
+                color: Colors.black87)),*/
+        appBarTheme: const AppBarTheme(
+            titleTextStyle: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 20,
+                color: Colors.black87),
+            centerTitle: true,
+            shape: ContinuousRectangleBorder(
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(200)),
+            )),
         useMaterial3: true,
       ),
-      darkTheme: ThemeData.dark(
-        useMaterial3: true,
-      ),
+
       home: const MyHomePage(title: 'Note Files'),
       routes: {
         EditNote.routeName: (_) => const EditNote(),
@@ -44,10 +56,11 @@ class _MyHomePageState extends State<MyHomePage> {
   bool actionButtonPressed = false;
   bool gridView = false;
 
-
   @override
   Widget build(BuildContext context) {
-    bool isDark= MediaQuery.maybePlatformBrightnessOf(context) == Brightness.dark;
+    bool isDark =
+        MediaQuery.maybePlatformBrightnessOf(context) == Brightness.dark;
+    var folderName = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -121,38 +134,73 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: ListView.builder(
-          itemBuilder: (context, index) {
-            return MaterialButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                onPressed: () {
-                  //TODO open the page of this folder that can contains files and folders
-                  // TODO open the page of the note allow to edit it and show the count of the words
-                },
-                child:  Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
-                  child: Row(
-                    children: [
-                      Icon(Icons.folder_rounded, size: 50, color: Theme.of(context).colorScheme.secondary ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      const FittedBox(
-                        child: Text(
-                          "hello",
-                          style: TextStyle(fontSize: 20),
+      body: gridView
+          ? Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return MaterialButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      onPressed: () {
+                        //TODO open the page of this folder that can contains files and folders
+                        // TODO open the page of the note allow to edit it and show the count of the words
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 15),
+                        child: Row(
+                          children: [
+                            Icon(Icons.folder_rounded,
+                                size: 50,
+                                color: Theme.of(context).colorScheme.secondary),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const FittedBox(
+                              child: Text(
+                                "hello",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
-                ));
-          },
-          itemCount: 20,
-        ),
-      ),
+                      ));
+                },
+                itemCount: 20,
+              ),
+            )
+          : Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
+            child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 200,
+                    childAspectRatio: 3 / 2,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 20
+                    ),
+                itemBuilder: (context, index) {
+                  return MaterialButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                    onPressed: () {
+
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.folder_rounded,
+                            size: 50,
+                            color: Theme.of(context).colorScheme.secondary),
+                        const SizedBox(height: 5,),
+                        const FittedBox(child: Text("data"))
+                      ],
+                    ),
+                  );
+                },
+        itemCount: 50,
+              ),
+          ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         mainAxisSize: MainAxisSize.min,
@@ -172,8 +220,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         context: context,
                         builder: (BuildContext context) => Dialog(
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)
-                          ),
+                              borderRadius: BorderRadius.circular(15)),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
@@ -189,15 +236,17 @@ class _MyHomePageState extends State<MyHomePage> {
                                     width: 200,
                                     child: TextField(
                                       keyboardType: TextInputType.text,
-                                      /*TODO controller*/
+                                      controller: folderName,
                                       onSubmitted: (value) {
                                         /*TODO */
                                       },
-                                      decoration:   InputDecoration(
+                                      decoration: InputDecoration(
                                           hintText: " Folder Name",
-                                            border: const UnderlineInputBorder(),
+                                          border: const UnderlineInputBorder(),
                                           filled: true,
-                                          fillColor: isDark == true ? Colors.black12 :Colors.white),
+                                          fillColor: isDark == true
+                                              ? Colors.black12
+                                              : Colors.white),
                                     ),
                                   ),
                                 ),
@@ -228,7 +277,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     shape: const OvalBorder(),
                     mini: true,
                     onPressed: () {
-                      Navigator.pushNamed(context, EditNote.routeName,arguments:[isDark] );
+                      Navigator.pushNamed(context, EditNote.routeName,
+                          arguments: [isDark]);
                     },
                     child: const Icon(Icons.note_add),
                   ),

@@ -20,7 +20,9 @@ class _EditNoteState extends State<EditNote> {
   @override
   Widget build(BuildContext context) {
     final routeArgs = ModalRoute.of(context)!.settings.arguments as List<bool>;
-    bool isDark = !routeArgs[0];
+    bool isDark = routeArgs[0];
+    print(formatDate(DateTime.now(), [yy, "/", mm, "/", dd, "   ", hh, ":", nn])
+        .toString(),);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -32,6 +34,9 @@ class _EditNoteState extends State<EditNote> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      const SizedBox(
+                        height: 10,
+                      ),
                       const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text("Discard your note", style: MediumText()),
@@ -77,8 +82,10 @@ class _EditNoteState extends State<EditNote> {
           icon: const Icon(Icons.arrow_back_rounded),
         ),
         title: Text(
-          formatDate(DateTime.now(), [yy, "/", mm, "/", dd, "   ", hh, ":", mm])
-              .toString(),
+            formatDate(DateTime.now(), [yy, "/", mm, "/", dd, "   ", hh, ":", nn])
+                .toString(),
+
+          style: TextStyle(color: isDark ? Colors.white : Colors.black),
         ),
         actions: [
           Padding(
@@ -104,8 +111,7 @@ class _EditNoteState extends State<EditNote> {
             padding: const EdgeInsets.all(8.0),
             child: Form(
               key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: ListView(
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -139,8 +145,8 @@ class _EditNoteState extends State<EditNote> {
                           : noteTextController.text,
                       child: TextFormField(
                         keyboardType: TextInputType.multiline,
-                        minLines: 5,
-                        maxLines: 20,
+                        minLines: 1,
+                        maxLines: null,
                         onChanged: (value) {
                           setState(() {});
                         },

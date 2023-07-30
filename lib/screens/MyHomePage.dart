@@ -218,4 +218,15 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-}
+}/*
+TODO the open page
+TODO the show note page
+TODO make the app work db
+TODO make delete work
+TODO make edit work
+TODO add about page
+TODO make import and export and merge work  make the page of backup
+TODO dynamic colors android 13
+TODO arabic lang
+TODO icon of the application that also supports dyanamic colors
+*/

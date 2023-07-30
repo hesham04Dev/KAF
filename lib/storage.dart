@@ -1,4 +1,4 @@
-import 'dart:io';
+/*import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 class HcodyStorage {
   Future<String> get _localPath async {
@@ -31,4 +31,4 @@ class HcodyStorage {
     Directory("$path/$name").create();
   }
 
-}
+}*///TODO DELETE IT MOVE THIS FILE TO MYLIB

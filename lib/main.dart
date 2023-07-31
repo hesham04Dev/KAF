@@ -8,29 +8,34 @@ import 'screens/MyHomePage.dart';
 import 'screens/editNote.dart';
 
 void main() async {
+
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  static final _defaultLightColorScheme =
+  ColorScheme.fromSwatch(primarySwatch: Colors.orange,brightness:Brightness.light );
 
-  Future<CorePalette?> colorPalette() async {
+  static final _defaultDarkColorScheme = ColorScheme.fromSwatch(
+      primarySwatch: Colors.orange, brightness: Brightness.dark);
+  /*Future<CorePalette?> colorPalette() async {
     return await DynamicColorPlugin.getCorePalette() as CorePalette?;
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
-    CorePalette corePalette =  colorPalette() as CorePalette?;
-    return MaterialApp(
+    //CorePalette corePalette =  colorPalette() as CorePalette?;
+    return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
+
+      return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      //themeMode: MediaQuery.maybePlatformBrightnessOf(context) != Brightness.light ?ThemeMode.dark:ThemeMode.light,
-      themeMode: ThemeMode.dark,
       /*Debug only un commit the above line and delete this line TODO*/
       debugShowMaterialGrid: false,
-
+/*
       theme: ThemeData(
-        colorScheme: (corePalette == null)
+       /* colorScheme: (corePalette == null)
             ? ColorScheme.fromSeed(
                 seedColor: Colors.orangeAccent,
                 brightness: MediaQuery.maybePlatformBrightnessOf(context) ??
@@ -64,7 +69,9 @@ class MyApp extends StatelessWidget {
                 inversePrimary: corePalette!.primary.get(80) as Color,
                 brightness: MediaQuery.maybePlatformBrightnessOf(context) ??
                     Brightness.light,
-              ),
+              ),*/
+
+        colorScheme: lightColorScheme ?? _defaultLightColorScheme,
         fontFamily: "Cairo",
         brightness: MediaQuery.maybePlatformBrightnessOf(context),
         /*appBarTheme: const AppBarTheme(
@@ -83,11 +90,43 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
+        darkTheme: ThemeData(
+          colorScheme: darkColorScheme ?? _defaultDarkColorScheme,
+          useMaterial3: true,
+        ),*/
+        theme: ThemeData(
+          colorScheme: lightColorScheme ?? _defaultLightColorScheme,
+          useMaterial3: true,
+          fontFamily: "Cairo",
+          appBarTheme: const AppBarTheme(
+            titleTextStyle: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 20,
+            ),
+            centerTitle: true,
 
+          ),
+        ),
+        darkTheme: ThemeData(
+          colorScheme: darkColorScheme ?? _defaultDarkColorScheme,
+          useMaterial3: true,
+          fontFamily: "Cairo",
+          appBarTheme: const AppBarTheme(
+            titleTextStyle: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 20,
+            ),
+            centerTitle: true,
+
+          ),
+
+        ),
       home: const MyHomePage(title: 'Note Files'),
       routes: {
         EditNote.routeName: (_) => const EditNote(),
       },
     );
-  }
+
+  });
+}
 }

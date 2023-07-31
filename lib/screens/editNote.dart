@@ -1,7 +1,12 @@
-import 'package:auto_direction/auto_direction.dart';
+
 import 'package:date_format/date_format.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:note_filest1/models/DiscardNoteDialog.dart';
 import 'package:note_filest1/models/styles.dart';
+
+import '../translations/locale_keys.g.dart';
+import '../models/AutoDirection.dart';
 
 class EditNote extends StatefulWidget {
   const EditNote({super.key});
@@ -30,52 +35,7 @@ class _EditNoteState extends State<EditNote> {
             showDialog(
               context: context,
               builder: (context) {
-                return Dialog(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text("Discard your note", style: MediumText()),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
-                        width: 200,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                },
-                                child: const Text(
-                                  "Discard",
-                                  style: TextStyle(
-                                      color: Colors.red, fontSize: 19),
-                                )),
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text(
-                                  "Cancel",
-                                  style: MediumText(),
-                                ))
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                    ],
-                  ),
-                );
+                return DiscardNoteDialog(isDark:isDark);
               },
             );
           },
@@ -105,7 +65,7 @@ class _EditNoteState extends State<EditNote> {
         padding: const EdgeInsets.all(8.0),
         child: Container(
           decoration: BoxDecoration(
-              color: isDark == true ? Colors.white10 : Colors.grey[300],
+              color: isDark == true ? Colors.white10 : Colors.black12,
               borderRadius: BorderRadius.circular(10)),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -126,12 +86,12 @@ class _EditNoteState extends State<EditNote> {
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter the title';
+                            return LocaleKeys.titleError.tr();
                           }
                           return null;
                         },
-                        decoration: const InputDecoration(
-                          hintText: " Your Title",
+                        decoration:  InputDecoration(
+                          hintText: LocaleKeys.yourTitle.tr(),
                         ),
                         style: const MediumText(),
                       ),
@@ -152,16 +112,16 @@ class _EditNoteState extends State<EditNote> {
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your note';
+                            return LocaleKeys.noteError.tr();
                           }
                           return null;
                         },
                         controller: noteTextController,
                         autocorrect: true,
                         style: const MediumText(),
-                        decoration: const InputDecoration(
+                        decoration:  InputDecoration(
                           border: InputBorder.none,
-                          hintText: " Your note",
+                          hintText: LocaleKeys.yourNote.tr(),
                         ),
                       ),
                     ),

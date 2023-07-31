@@ -1,14 +1,18 @@
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+
 
 import '../models/FolderButton.dart';
 import '../models/FolderNameDialog.dart';
+
+import '../translations/locale_keys.g.dart';
 import 'editNote.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key });
 
-  final String title;
+
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -17,15 +21,17 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool actionButtonPressed = false;
   bool gridView = true;
+  final String title = LocaleKeys.title.tr();
   /*TODO get it form the db*/
 
   @override
   Widget build(BuildContext context) {
     bool isDark =
         MediaQuery.maybePlatformBrightnessOf(context) == Brightness.dark;
+   // context.setLocale(Locale("ar"));
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         leading: Builder(
             builder: (context) => IconButton(
               icon: const Icon(
@@ -35,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 return Scaffold.of(context).openDrawer();
               },
             )),
-        title: Text(widget.title,style: TextStyle(
+        title: Text(title,style: TextStyle(
             color: isDark ?Colors.white: Colors.black
         )),
         actions: [
@@ -77,27 +83,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 TextButton(
                     onPressed: () {},
-                    child: const Padding(
+                    child:  Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
-                        "Setting",
-                        style: TextStyle(fontSize: 20),
-                      ),
+                        LocaleKeys.settings,
+                        style: TextStyle(fontSize: 20,color: !isDark ? Colors.black : Colors.white)
+                      ).tr(),
                     )),
                 const SizedBox(
                   height: 10,
                 ),
                 TextButton(
                     onPressed: () {},
-                    child: const Padding(
+                    child:  Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: Text("backup", style: TextStyle(fontSize: 20)),
+                      child: Text(LocaleKeys.backup, style: TextStyle(fontSize: 20,color: !isDark ? Colors.black : Colors.white)).tr(),
                     ))
               ],
             ),
           ),
         ],
       ),
+
       body: gridView
           ? Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -110,11 +117,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   Icon(Icons.folder_rounded,
                       size: 50,
-                      color: Theme.of(context).colorScheme.secondary),
+                      color: Theme.of(context).colorScheme.primary),
                   const SizedBox(
                     width: 10,
                   ),
-                  const FittedBox(
+                   FittedBox(
                     child: Text(
                       "hello",
                       style: TextStyle(fontSize: 20),
@@ -146,7 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   Icon(Icons.folder_rounded,
                       size: 70,
-                      color: Theme.of(context).colorScheme.secondary),
+                      color: Theme.of(context).colorScheme.primary),
                   const SizedBox(height: 5,),
                   const FittedBox(child: Text("data is long text"))
                 ],

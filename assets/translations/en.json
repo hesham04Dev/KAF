@@ -1,0 +1,16 @@
+{
+  "title": "Note Shelf",
+  "settings": "Settings",
+  "backup": "Backup",
+  "titleError": "Please enter your title",
+  "noteError": "Please enter your note",
+  "yourTitle": " Your Title",
+  "yourNote": "Your Note",
+  "discardYourNote": "Discard your note",
+  "discard" : "Discard",
+  "cancel": "Cancel",
+  "edit" : "Edit",
+  "delete" : "Delete",
+  "done": "Done",
+  "folderName": "Folder Name"
+}

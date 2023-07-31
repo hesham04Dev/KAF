@@ -1,0 +1,16 @@
+{
+  "title": "رف المذكرات",
+  "settings": "الإعدادات",
+  "backup": "النسخ الاحتياطي",
+  "titleError": "رجائا ادخل العنوان",
+  "noteError": "رجائا ادخل المذكرة",
+  "yourTitle": " العنوان",
+  "yourNote": " ادخل مذكرتك",
+  "discardYourNote": "هل تريد تجاهل مذكرتك",
+  "discard" : "تجاهل",
+  "cancel": "إلغاء",
+  "edit" : "تعديل",
+  "delete" : "حذف",
+  "done": "تم",
+  "folderName": "اسم المجلد"
+}

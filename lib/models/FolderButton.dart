@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'EditOrDileteFolder.dart';
 
 class FolderButton extends StatelessWidget {
-  bool isDark;
-  Widget child;
+  final bool isDark;
+  final Widget child;
    FolderButton({super.key, required this.isDark,required this.child});
 
   @override

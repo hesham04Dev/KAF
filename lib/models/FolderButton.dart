@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 import 'EditOrDileteFolder.dart';
 
 class FolderButton extends StatelessWidget {
+  final Map<String,String> locale;
   final bool isDark;
   final Widget child;
-   FolderButton({super.key, required this.isDark,required this.child});
+   FolderButton({super.key, required this.isDark,required this.child,required this.locale});
 
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
         onLongPress: (){
       showModalBottomSheet(context: context, builder: (context){
-        return EditOrDeleteFolder(/*isDark: isDark,*/onDelete: (){/*TODO*/},onSubmitNewName: (){/*TODO*/},);
+        return EditOrDeleteFolder(onDelete: (){/*TODO*/},onSubmitNewName: (){/*TODO*/},locale: locale,);
       });
     },
     shape: RoundedRectangleBorder(

@@ -1,12 +1,14 @@
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 
-import '../translations/locale_keys.g.dart';
+
+import '../translations/translations.dart';
 import 'styles.dart';
 
 class DiscardNoteDialog extends StatelessWidget {
   final bool isDark;
-  const DiscardNoteDialog({super.key ,required this.isDark});
+  final Map<String, String> locale;
+  const DiscardNoteDialog({super.key ,required this.isDark, required this.locale});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class DiscardNoteDialog extends StatelessWidget {
           ),
            Padding(
             padding: EdgeInsets.all(8.0),
-            child: Text(LocaleKeys.discardYourNote, style: MediumText()).tr(),
+            child: Text(locale[TranslationsKeys.discardYourNote]!, style: MediumText()),
           ),
           const SizedBox(
             height: 10,
@@ -34,21 +36,21 @@ class DiscardNoteDialog extends StatelessWidget {
                       Navigator.pop(context);
                       Navigator.pop(context);
                     },
-                    child: const Text(
-                      LocaleKeys.discard,
+                    child:  Text(
+                      locale[TranslationsKeys.discard]!,
                       style: TextStyle(
                           color: Colors.red, fontSize: 19),
-                    ).tr()),
+                    )),
                 TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
                     child:  Text(
-                      LocaleKeys.cancel,
+                      locale[TranslationsKeys.cancel]!,
                       style: TextStyle(
                           //color: isDark ?Theme.of(context).primaryColor :null
                       ),
-                    ).tr())
+                    ))
               ],
             ),
           ),

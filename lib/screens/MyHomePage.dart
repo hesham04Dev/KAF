@@ -1,16 +1,18 @@
 
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
+import 'package:note_filest1/translations/translations.dart';
 
 
 import '../models/FolderButton.dart';
 import '../models/FolderNameDialog.dart';
 
-import '../translations/locale_keys.g.dart';
+
 import 'editNote.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key });
+  final  Map<String,String> locale;
+  const MyHomePage({super.key, required this.locale });
 
 
 
@@ -21,11 +23,12 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool actionButtonPressed = false;
   bool gridView = true;
-  final String title = LocaleKeys.title.tr();
+
   /*TODO get it form the db*/
 
   @override
   Widget build(BuildContext context) {
+    final String title = widget.locale[TranslationsKeys.title]!;
     bool isDark =
         MediaQuery.maybePlatformBrightnessOf(context) == Brightness.dark;
    // context.setLocale(Locale("en"));
@@ -86,10 +89,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     child:  Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
-                        LocaleKeys.settings,
+                        widget.locale[TranslationsKeys.settings]!,
 
                           //style: TextStyle(fontSize: 20, color: !isDark ? Colors.black : Colors.white )
-                      ).tr(),
+                      ),
                     )),
                 const SizedBox(
                   height: 10,
@@ -98,9 +101,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     onPressed: () {},
                     child:  Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: Text(LocaleKeys.backup,
+                      child: Text(widget.locale[TranslationsKeys.backup]!,
                           //style:  TextStyle(fontSize: 20,color: !isDark ? Colors.black : Colors.white)
-                      ).tr(),
+                      ),
                     ))
               ],
             ),
@@ -113,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: ListView.separated(
           itemBuilder: (context, index) {
-            return FolderButton(isDark: isDark, child:Padding(
+            return FolderButton(locale:widget.locale,isDark: isDark, child:Padding(
               padding: const EdgeInsets.symmetric(
                   horizontal: 5, vertical: 15),
               child: Row(
@@ -151,6 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           itemBuilder: (context, index) {
             return FolderButton(
+              locale: widget.locale,
               isDark: isDark,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -183,7 +187,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     //shape: const CircleBorder(),
                     mini: true,
                     onPressed: () {
-                      showDialog(context: context, builder:(context) => FolderNameDialog(/*isDark: isDark,*/onSubmit: (){/*TODO*/},));
+                      showDialog(context: context, builder:(context) => FolderNameDialog(onSubmit: (){/*TODO*/},
+                      locale: widget.locale,));
                     },
                     child: const Icon(Icons.create_new_folder),
                   ),

@@ -1,12 +1,14 @@
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
-import 'package:note_filest1/translations/locale_keys.g.dart';
+
+
+import '../translations/translations.dart';
 
 class FolderNameDialog extends StatelessWidget {
-  //final bool isDark;
+  final Map<String, String> locale;
   final Function onSubmit;
 
-  FolderNameDialog({super.key, /*required this.isDark,*/ required this.onSubmit});
+  FolderNameDialog({super.key, required this.locale, required this.onSubmit});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,7 @@ class FolderNameDialog extends StatelessWidget {
                       onSubmit();
                     },
                     decoration: InputDecoration(
-                        hintText: LocaleKeys.folderName.tr(),
+                        hintText: locale[TranslationsKeys.folderName]!,
                         border: const UnderlineInputBorder(),
                         filled: true,
                         //fillColor:  isDark == true ? Colors.black12 : null
@@ -45,13 +47,13 @@ class FolderNameDialog extends StatelessWidget {
                   /*TODO */
                   Navigator.pop(context);
                 },
-                child:  Text(LocaleKeys.done,
+                child:  Text(locale[TranslationsKeys.done]!,
                   style: TextStyle(
                  // color: isDark ?Theme.of(context).primaryColor : Colors.black,
                  // fontFamily: "Cairo"
                     fontSize: 15
                ),
-              ).tr(),
+              ),
               ),
               const SizedBox(
                 height: 10,

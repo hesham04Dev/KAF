@@ -1,17 +1,19 @@
 
 import 'package:date_format/date_format.dart';
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 import 'package:note_filest1/models/DiscardNoteDialog.dart';
 import 'package:note_filest1/models/styles.dart';
 
-import '../translations/locale_keys.g.dart';
+
 import '../models/AutoDirection.dart';
+import '../translations/translations.dart';
 
 class EditNote extends StatefulWidget {
-  const EditNote({super.key});
+  final Map<String, String> locale;
+  const EditNote({super.key, required this.locale});
 
-  static String routeName = "EditNote";
+  static const String routeName = "EditNote";
 
   @override
   State<EditNote> createState() => _EditNoteState();
@@ -35,7 +37,7 @@ class _EditNoteState extends State<EditNote> {
             showDialog(
               context: context,
               builder: (context) {
-                return DiscardNoteDialog(isDark:isDark);
+                return DiscardNoteDialog(isDark:isDark , locale: widget.locale,);
               },
             );
           },
@@ -86,12 +88,12 @@ class _EditNoteState extends State<EditNote> {
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return LocaleKeys.titleError.tr();
+                            return widget.locale[TranslationsKeys.titleError]!;
                           }
                           return null;
                         },
                         decoration:  InputDecoration(
-                          hintText: LocaleKeys.yourTitle.tr(),
+                          hintText: widget.locale[TranslationsKeys.yourTitle]!,
                         ),
                         style: const MediumText(),
                       ),
@@ -112,7 +114,7 @@ class _EditNoteState extends State<EditNote> {
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return LocaleKeys.noteError.tr();
+                            return widget.locale[TranslationsKeys.noteError]!;
                           }
                           return null;
                         },
@@ -121,7 +123,7 @@ class _EditNoteState extends State<EditNote> {
                         style: const MediumText(),
                         decoration:  InputDecoration(
                           border: InputBorder.none,
-                          hintText: LocaleKeys.yourNote.tr(),
+                          hintText: widget.locale[TranslationsKeys.yourNote]!,
                         ),
                       ),
                     ),

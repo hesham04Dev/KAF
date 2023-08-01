@@ -1,21 +1,24 @@
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 
 import 'screens/MyHomePage.dart';
 import 'screens/editNote.dart';
-import 'translations/codegen_loader.g.dart';
+
+import 'translations/translations.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await EasyLocalization.ensureInitialized();
+  //WidgetsFlutterBinding.ensureInitialized();
+  //await EasyLocalization.ensureInitialized();
   runApp(
-    EasyLocalization(
-        supportedLocales: [Locale('en'), Locale('ar')],
+    /*EasyLocalization(
+        supportedLocales: [Locale('en')., Locale('ar')],
         path: 'assets/translations',
         fallbackLocale: Locale('en'),
         assetLoader: CodegenLoader(),
-        child: MyApp()),
+        child: */
+        MyApp()
+  /*),*/
   );
 }
 
@@ -30,7 +33,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+Map<String,String> locale;
+if(Translations.supportedLocales.contains(Localizations.localeOf(context).languageCode )){
+  String lang =Localizations.localeOf(context).languageCode;
+   locale = Translations.mapLocales[lang]!;
+}else{
+  locale = Translations.mapLocales["en"]!;
+}
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
       return MaterialApp(
        // themeMode: ThemeMode.dark,
@@ -38,7 +47,7 @@ class MyApp extends StatelessWidget {
 
         /*Debug only un commit the above line and delete this line TODO*/
         debugShowMaterialGrid: false,
-        localizationsDelegates: context.localizationDelegates,
+        /*localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         localeResolutionCallback: (locale, supportedLocales) {
           if (supportedLocales.contains(locale)) {
@@ -47,7 +56,7 @@ class MyApp extends StatelessWidget {
           }
           return Locale('en');
         },
-        locale: context.locale,
+        locale: context.locale,*/
         theme: ThemeData(
             dialogBackgroundColor: Colors.white,
             scaffoldBackgroundColor: Colors.white,
@@ -115,9 +124,9 @@ class MyApp extends StatelessWidget {
             centerTitle: true,
           ),
         ),
-        home: const MyHomePage(),
+        home:  MyHomePage(locale: locale),
         routes: {
-          EditNote.routeName: (_) => const EditNote(),
+          EditNote.routeName: (_) =>  EditNote(locale: locale),
         },
       );
     });

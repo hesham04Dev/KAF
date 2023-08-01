@@ -1,18 +1,17 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../translations/translations.dart';
 import 'FolderNameDialog.dart';
 import 'styles.dart';
-import '../translations/locale_keys.g.dart';
 
 class EditOrDeleteFolder extends StatelessWidget {
-  //final bool isDark;
+  final Map<String, String> locale;
   final Function onSubmitNewName;
   final Function onDelete;
 
   EditOrDeleteFolder(
       {super.key,
-     // required this.isDark,
+      required this.locale,
       required this.onSubmitNewName,
       required this.onDelete});
 
@@ -32,7 +31,7 @@ class EditOrDeleteFolder extends StatelessWidget {
                 showDialog(
                     context: context,
                     builder: (context) => FolderNameDialog(
-                          //isDark: isDark,
+                          locale: locale,
                           onSubmit: () {
                             onSubmitNewName();
                           },
@@ -42,7 +41,7 @@ class EditOrDeleteFolder extends StatelessWidget {
                   width: double.infinity,
                   child: Center(
                       child: Text(
-                    LocaleKeys.edit.tr(),
+                    locale[TranslationsKeys.edit]!,
                     style: MediumText(),
                   )))),
         ),
@@ -60,7 +59,7 @@ class EditOrDeleteFolder extends StatelessWidget {
                   width: double.infinity,
                   child: Center(
                     child: Text(
-                      LocaleKeys.delete.tr(),
+                      locale[TranslationsKeys.delete]!,
                       style: TextStyle(color: Colors.red, fontSize: 19),
                     ),
                   ))),

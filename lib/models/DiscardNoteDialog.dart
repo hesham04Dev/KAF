@@ -46,7 +46,7 @@ class DiscardNoteDialog extends StatelessWidget {
                     child:  Text(
                       LocaleKeys.cancel,
                       style: TextStyle(
-                          color: isDark ?Theme.of(context).primaryColor :Colors.black
+                          //color: isDark ?Theme.of(context).primaryColor :null
                       ),
                     ).tr())
               ],

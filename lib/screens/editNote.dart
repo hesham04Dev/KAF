@@ -45,7 +45,7 @@ class _EditNoteState extends State<EditNote> {
             formatDate(DateTime.now(), [yy, "/", mm, "/", dd, "   ", hh, ":", nn])
                 .toString(),
 
-          style: TextStyle(color: isDark ? Colors.white : Colors.black),
+         // style: TextStyle(color: isDark ? Colors.white : Colors.black),
         ),
         actions: [
           Padding(

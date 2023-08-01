@@ -12,7 +12,7 @@ class FolderButton extends StatelessWidget {
     return MaterialButton(
         onLongPress: (){
       showModalBottomSheet(context: context, builder: (context){
-        return EditOrDeleteFolder(isDark: isDark,onDelete: (){/*TODO*/},onSubmitNewName: (){/*TODO*/},);
+        return EditOrDeleteFolder(/*isDark: isDark,*/onDelete: (){/*TODO*/},onSubmitNewName: (){/*TODO*/},);
       });
     },
     shape: RoundedRectangleBorder(

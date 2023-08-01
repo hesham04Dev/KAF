@@ -6,13 +6,13 @@ import 'styles.dart';
 import '../translations/locale_keys.g.dart';
 
 class EditOrDeleteFolder extends StatelessWidget {
-  final bool isDark;
+  //final bool isDark;
   final Function onSubmitNewName;
   final Function onDelete;
 
   EditOrDeleteFolder(
       {super.key,
-      required this.isDark,
+     // required this.isDark,
       required this.onSubmitNewName,
       required this.onDelete});
 
@@ -32,7 +32,7 @@ class EditOrDeleteFolder extends StatelessWidget {
                 showDialog(
                     context: context,
                     builder: (context) => FolderNameDialog(
-                          isDark: isDark,
+                          //isDark: isDark,
                           onSubmit: () {
                             onSubmitNewName();
                           },

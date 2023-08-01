@@ -28,10 +28,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     bool isDark =
         MediaQuery.maybePlatformBrightnessOf(context) == Brightness.dark;
-   // context.setLocale(Locale("ar"));
+   // context.setLocale(Locale("en"));
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        //backgroundColor: Theme.of(context).colorScheme.primary,
         leading: Builder(
             builder: (context) => IconButton(
               icon: const Icon(
@@ -41,10 +41,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 return Scaffold.of(context).openDrawer();
               },
             )),
-        title: Text(title,style: TextStyle(
-            color: isDark ?Colors.white: Colors.black
-        )),
-        actions: [
+        title: Text(title,
+        //    style: TextStyle(        color: isDark ?Colors.white: Colors.black )
+        ),
+        /*actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: IconButton(
@@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
           )
-        ],
+        ],*/
       ),
       drawer: NavigationDrawer(
         children: [
@@ -75,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      icon: const Icon(Icons.close_rounded)),
+                      icon: const Icon(Icons.close_rounded,color: Colors.red,)),
                 ),
                 const Divider(),
                 const SizedBox(
@@ -87,7 +87,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       padding: EdgeInsets.all(8.0),
                       child: Text(
                         LocaleKeys.settings,
-                        style: TextStyle(fontSize: 20,color: !isDark ? Colors.black : Colors.white)
+
+                          //style: TextStyle(fontSize: 20, color: !isDark ? Colors.black : Colors.white )
                       ).tr(),
                     )),
                 const SizedBox(
@@ -97,7 +98,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     onPressed: () {},
                     child:  Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: Text(LocaleKeys.backup, style: TextStyle(fontSize: 20,color: !isDark ? Colors.black : Colors.white)).tr(),
+                      child: Text(LocaleKeys.backup,
+                          //style:  TextStyle(fontSize: 20,color: !isDark ? Colors.black : Colors.white)
+                      ).tr(),
                     ))
               ],
             ),
@@ -117,7 +120,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   Icon(Icons.folder_rounded,
                       size: 50,
-                      color: Theme.of(context).colorScheme.primary),
+                     // color: Theme.of(context).colorScheme.primary
+                ),
                   const SizedBox(
                     width: 10,
                   ),
@@ -153,7 +157,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   Icon(Icons.folder_rounded,
                       size: 70,
-                      color: Theme.of(context).colorScheme.primary),
+                      //color: Theme.of(context).colorScheme.primary
+                ),
                   const SizedBox(height: 5,),
                   const FittedBox(child: Text("data is long text"))
                 ],
@@ -175,10 +180,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: FloatingActionButton(
-                    shape: const CircleBorder(),
+                    //shape: const CircleBorder(),
                     mini: true,
                     onPressed: () {
-                      showDialog(context: context, builder:(context) => FolderNameDialog(isDark: isDark,onSubmit: (){/*TODO*/},));
+                      showDialog(context: context, builder:(context) => FolderNameDialog(/*isDark: isDark,*/onSubmit: (){/*TODO*/},));
                     },
                     child: const Icon(Icons.create_new_folder),
                   ),
@@ -187,7 +192,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: const EdgeInsets.all(8.0),
                   child: FloatingActionButton(
                     heroTag: null,
-                    shape: const CircleBorder(),
+                    //shape: const CircleBorder(),
                     mini: true,
                     onPressed: () {
                       Navigator.pushNamed(context, EditNote.routeName,
@@ -203,7 +208,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           FloatingActionButton(
               heroTag: null,
-              shape: const CircleBorder(),
+              //shape: const CircleBorder(),
               onPressed: () {
                 if (actionButtonPressed == false) {
                   actionButtonPressed = true;
@@ -234,6 +239,9 @@ TODO make edit work
 TODO add about page
 TODO make import and export and merge work  make the page of backup
 # dynamic colors android 13
-TODO arabic lang
+# arabic lang
 TODO icon of the application that also supports dyanamic colors
+ seying avedio about that
+# improve the default theme
+TODO create my own way to the localization
 */

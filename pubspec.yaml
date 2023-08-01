@@ -83,7 +83,7 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-assets:
+  assets:
    - assets/translations/
   #   - images/a_dot_ham.jpeg
 
@@ -98,7 +98,7 @@ assets:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-fonts:
+  fonts:
     - family: Cairo
       fonts:
         - asset: assets/fonts/Cairo-Medium.ttf

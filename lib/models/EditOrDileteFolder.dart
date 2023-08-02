@@ -8,12 +8,18 @@ class EditOrDeleteFolder extends StatelessWidget {
   final Map<String, String> locale;
   final Function onSubmitNewName;
   final Function onDelete;
-
+  final bool isRtl;
+  final db;
+  final int parentFolderId;
   EditOrDeleteFolder(
       {super.key,
       required this.locale,
       required this.onSubmitNewName,
-      required this.onDelete});
+      required this.onDelete,
+      required this.isRtl,
+      required this.db,
+      required this.parentFolderId
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +37,12 @@ class EditOrDeleteFolder extends StatelessWidget {
                 showDialog(
                     context: context,
                     builder: (context) => FolderNameDialog(
+                          db: db,
+                          parentFolderId:parentFolderId ,
                           locale: locale,
-                          onSubmit: () {
-                            onSubmitNewName();
+                          isRtl: isRtl,
+                          onSubmit: (newName) {
+                            onSubmitNewName(newName);
                           },
                         ));
               },

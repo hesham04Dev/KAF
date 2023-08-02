@@ -1,17 +1,20 @@
-
 import 'package:date_format/date_format.dart';
-
 import 'package:flutter/material.dart';
 import 'package:note_filest1/models/DiscardNoteDialog.dart';
 import 'package:note_filest1/models/styles.dart';
 
-
+import '../collection/Folder.dart';
+import '../collection/Note.dart';
 import '../models/AutoDirection.dart';
 import '../translations/translations.dart';
 
 class EditNote extends StatefulWidget {
   final Map<String, String> locale;
-  const EditNote({super.key, required this.locale});
+  final db;
+
+
+
+  const EditNote({super.key, required this.locale, required this.db,});
 
   static const String routeName = "EditNote";
 
@@ -26,10 +29,14 @@ class _EditNoteState extends State<EditNote> {
 
   @override
   Widget build(BuildContext context) {
-    final routeArgs = ModalRoute.of(context)!.settings.arguments as List<bool>;
-    bool isDark = routeArgs[0];
-    print(formatDate(DateTime.now(), [yy, "/", mm, "/", dd, "   ", hh, ":", nn])
-        .toString(),);
+    final routeArgs = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    bool isDark = routeArgs["isDark"];
+    final String? folderId =routeArgs['folderId'];
+    final int? parentFolderId = routeArgs['parentFolderId'];
+    print(
+      formatDate(DateTime.now(), [yy, "/", mm, "/", dd, "   ", hh, ":", nn])
+          .toString(),
+    );
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -37,25 +44,34 @@ class _EditNoteState extends State<EditNote> {
             showDialog(
               context: context,
               builder: (context) {
-                return DiscardNoteDialog(isDark:isDark , locale: widget.locale,);
+                return DiscardNoteDialog(
+                  locale: widget.locale,
+                );
               },
             );
           },
           icon: const Icon(Icons.arrow_back_rounded),
         ),
         title: Text(
-            formatDate(DateTime.now(), [yy, "/", mm, "/", dd, "   ", hh, ":", nn])
-                .toString(),
-
-         // style: TextStyle(color: isDark ? Colors.white : Colors.black),
+          formatDate(DateTime.now(), [yy, "/", mm, "/", dd, "   ", hh, ":", nn])
+              .toString(),
         ),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: IconButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    //TODO SAVE THE DATA IN DB
+                    // SAVE THE DATA IN DB
+                    var newNote = Note()
+                      ..title = titleController.text
+                      ..date = DateTime.now()
+                      ..content = noteTextController.text
+                      ..parentFolder.value = parentFolderId != null ?widget.db.folders.get(parentFolderId): null;
+                    /*TODO if there is no any folder and parent is null what to do*/
+                    await widget.db.writeTxn(() async {
+                      await widget.db.Note.put(newNote);
+                    });
                     Navigator.pop(context);
                   }
                 },
@@ -92,7 +108,7 @@ class _EditNoteState extends State<EditNote> {
                           }
                           return null;
                         },
-                        decoration:  InputDecoration(
+                        decoration: InputDecoration(
                           hintText: widget.locale[TranslationsKeys.yourTitle]!,
                         ),
                         style: const MediumText(),
@@ -121,7 +137,7 @@ class _EditNoteState extends State<EditNote> {
                         controller: noteTextController,
                         autocorrect: true,
                         style: const MediumText(),
-                        decoration:  InputDecoration(
+                        decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: widget.locale[TranslationsKeys.yourNote]!,
                         ),

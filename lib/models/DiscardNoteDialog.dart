@@ -6,9 +6,9 @@ import '../translations/translations.dart';
 import 'styles.dart';
 
 class DiscardNoteDialog extends StatelessWidget {
-  final bool isDark;
+
   final Map<String, String> locale;
-  const DiscardNoteDialog({super.key ,required this.isDark, required this.locale});
+  const DiscardNoteDialog({super.key , required this.locale});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class DiscardNoteDialog extends StatelessWidget {
                     child:  Text(
                       locale[TranslationsKeys.cancel]!,
                       style: TextStyle(
-                          //color: isDark ?Theme.of(context).primaryColor :null
+
                       ),
                     ))
               ],

@@ -1,62 +1,50 @@
+import 'dart:io';
+
 import 'package:dynamic_color/dynamic_color.dart';
-
 import 'package:flutter/material.dart';
+import 'package:isar/isar.dart';
+import 'package:note_filest1/collection/Folder.dart';
+import 'package:note_filest1/collection/Note.dart';
+import 'package:note_filest1/collection/Setting.dart';
 
+import 'package:path_provider/path_provider.dart';
 import 'screens/MyHomePage.dart';
 import 'screens/editNote.dart';
-
 import 'translations/translations.dart';
+var isar;
+void main() async{
 
-void main() async {
-  //WidgetsFlutterBinding.ensureInitialized();
-  //await EasyLocalization.ensureInitialized();
-  runApp(
-    /*EasyLocalization(
-        supportedLocales: [Locale('en')., Locale('ar')],
-        path: 'assets/translations',
-        fallbackLocale: Locale('en'),
-        assetLoader: CodegenLoader(),
-        child: */
-        MyApp()
-  /*),*/
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+   MyApp({super.key});
 
   static final _defaultLightColorScheme = ColorScheme.fromSwatch(
       primarySwatch: Colors.green, brightness: Brightness.light);
 
   static final _defaultDarkColorScheme = ColorScheme.fromSwatch(
       primarySwatch: Colors.green, brightness: Brightness.dark);
-
+bool isRtl = false;
   @override
   Widget build(BuildContext context) {
-Map<String,String> locale;
-if(Translations.supportedLocales.contains(Localizations.localeOf(context).languageCode )){
-  String lang =Localizations.localeOf(context).languageCode;
-   locale = Translations.mapLocales[lang]!;
-}else{
-  locale = Translations.mapLocales["en"]!;
-}
+    Map<String, String> locale;
+    String lang = "${Platform.localeName[0]}${Platform.localeName[1]}";
+    if (Translations.supportedLocales.contains(lang)) {
+      locale = Translations.mapLocales[lang]!;
+
+    } else {
+      locale = Translations.mapLocales["en"]!;
+    }
+    if(lang == "ar") isRtl = true;
+    else isRtl = false;
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
       return MaterialApp(
-       // themeMode: ThemeMode.dark,
+        // themeMode: ThemeMode.dark,
         debugShowCheckedModeBanner: false,
 
         /*Debug only un commit the above line and delete this line TODO*/
         debugShowMaterialGrid: false,
-        /*localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        localeResolutionCallback: (locale, supportedLocales) {
-          if (supportedLocales.contains(locale)) {
-            print(locale);
-            return locale;
-          }
-          return Locale('en');
-        },
-        locale: context.locale,*/
         theme: ThemeData(
             dialogBackgroundColor: Colors.white,
             scaffoldBackgroundColor: Colors.white,
@@ -92,18 +80,16 @@ if(Translations.supportedLocales.contains(Localizations.localeOf(context).langua
             )),
         darkTheme: ThemeData(
           inputDecorationTheme: InputDecorationTheme(
-            fillColor: Colors.white10,
-            hintStyle: TextStyle(
-              color: Colors.white70
-            )
-          ),
+              fillColor: Colors.white10,
+              hintStyle: TextStyle(color: Colors.white70)),
           textButtonTheme: TextButtonThemeData(
               style: ButtonStyle(
                   textStyle: MaterialStatePropertyAll(TextStyle(
-                      color: darkColorScheme?.primary ?? _defaultDarkColorScheme.primary,
+                      color: darkColorScheme?.primary ??
+                          _defaultDarkColorScheme.primary,
                       fontFamily: "Cairo",
                       fontSize: 19)))),
-          scaffoldBackgroundColor:Color.fromARGB(255, 50, 50, 50),
+          scaffoldBackgroundColor: Color.fromARGB(255, 50, 50, 50),
           floatingActionButtonTheme:
               FloatingActionButtonThemeData(shape: const CircleBorder()),
           iconTheme: IconThemeData(
@@ -124,9 +110,13 @@ if(Translations.supportedLocales.contains(Localizations.localeOf(context).langua
             centerTitle: true,
           ),
         ),
-        home:  MyHomePage(locale: locale),
+        home: Directionality(
+            textDirection:isRtl? TextDirection.rtl : TextDirection.ltr,
+            child: MyHomePage(locale: locale, isRtl :isRtl,db:isar)),
         routes: {
-          EditNote.routeName: (_) =>  EditNote(locale: locale),
+          EditNote.routeName: (_) => Directionality(
+              textDirection: isRtl? TextDirection.rtl : TextDirection.ltr,
+              child: EditNote(locale: locale,db:isar )),
         },
       );
     });

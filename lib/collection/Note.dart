@@ -12,5 +12,5 @@ class Note {
   late DateTime? date;
   late String? title;
   late String? content;
-  final parentFolder = IsarLink<Folder>();
+  late int?  parentFolderId;
 }

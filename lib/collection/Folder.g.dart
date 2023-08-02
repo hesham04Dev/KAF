@@ -25,7 +25,7 @@ const FolderSchema = CollectionSchema(
     r'parent': PropertySchema(
       id: 1,
       name: r'parent',
-      type: IsarType.string,
+      type: IsarType.long,
     )
   },
   estimateSize: _folderEstimateSize,
@@ -54,12 +54,6 @@ int _folderEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
-  {
-    final value = object.parent;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
   return bytesCount;
 }
 
@@ -70,7 +64,7 @@ void _folderSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.name);
-  writer.writeString(offsets[1], object.parent);
+  writer.writeLong(offsets[1], object.parent);
 }
 
 Folder _folderDeserialize(
@@ -82,7 +76,7 @@ Folder _folderDeserialize(
   final object = Folder();
   object.id = id;
   object.name = reader.readStringOrNull(offsets[0]);
-  object.parent = reader.readStringOrNull(offsets[1]);
+  object.parent = reader.readLongOrNull(offsets[1]);
   return object;
 }
 
@@ -96,7 +90,7 @@ P _folderDeserializeProp<P>(
     case 0:
       return (reader.readStringOrNull(offset)) as P;
     case 1:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -404,54 +398,46 @@ extension FolderQueryFilter on QueryBuilder<Folder, Folder, QFilterCondition> {
   }
 
   QueryBuilder<Folder, Folder, QAfterFilterCondition> parentEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+      int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'parent',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<Folder, Folder, QAfterFilterCondition> parentGreaterThan(
-    String? value, {
+    int? value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'parent',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<Folder, Folder, QAfterFilterCondition> parentLessThan(
-    String? value, {
+    int? value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'parent',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<Folder, Folder, QAfterFilterCondition> parentBetween(
-    String? lower,
-    String? upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -460,75 +446,6 @@ extension FolderQueryFilter on QueryBuilder<Folder, Folder, QFilterCondition> {
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Folder, Folder, QAfterFilterCondition> parentStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'parent',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Folder, Folder, QAfterFilterCondition> parentEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'parent',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Folder, Folder, QAfterFilterCondition> parentContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'parent',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Folder, Folder, QAfterFilterCondition> parentMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'parent',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Folder, Folder, QAfterFilterCondition> parentIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'parent',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Folder, Folder, QAfterFilterCondition> parentIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'parent',
-        value: '',
       ));
     });
   }
@@ -610,10 +527,9 @@ extension FolderQueryWhereDistinct on QueryBuilder<Folder, Folder, QDistinct> {
     });
   }
 
-  QueryBuilder<Folder, Folder, QDistinct> distinctByParent(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Folder, Folder, QDistinct> distinctByParent() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'parent', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'parent');
     });
   }
 }
@@ -631,7 +547,7 @@ extension FolderQueryProperty on QueryBuilder<Folder, Folder, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Folder, String?, QQueryOperations> parentProperty() {
+  QueryBuilder<Folder, int?, QQueryOperations> parentProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'parent');
     });

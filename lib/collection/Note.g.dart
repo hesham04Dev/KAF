@@ -27,8 +27,13 @@ const NoteSchema = CollectionSchema(
       name: r'date',
       type: IsarType.dateTime,
     ),
-    r'title': PropertySchema(
+    r'parentFolderId': PropertySchema(
       id: 2,
+      name: r'parentFolderId',
+      type: IsarType.long,
+    ),
+    r'title': PropertySchema(
+      id: 3,
       name: r'title',
       type: IsarType.string,
     )
@@ -39,14 +44,7 @@ const NoteSchema = CollectionSchema(
   deserializeProp: _noteDeserializeProp,
   idName: r'id',
   indexes: {},
-  links: {
-    r'parentFolder': LinkSchema(
-      id: 7970997191213649145,
-      name: r'parentFolder',
-      target: r'Folder',
-      single: true,
-    )
-  },
+  links: {},
   embeddedSchemas: {},
   getId: _noteGetId,
   getLinks: _noteGetLinks,
@@ -83,7 +81,8 @@ void _noteSerialize(
 ) {
   writer.writeString(offsets[0], object.content);
   writer.writeDateTime(offsets[1], object.date);
-  writer.writeString(offsets[2], object.title);
+  writer.writeLong(offsets[2], object.parentFolderId);
+  writer.writeString(offsets[3], object.title);
 }
 
 Note _noteDeserialize(
@@ -96,7 +95,8 @@ Note _noteDeserialize(
   object.content = reader.readStringOrNull(offsets[0]);
   object.date = reader.readDateTimeOrNull(offsets[1]);
   object.id = id;
-  object.title = reader.readStringOrNull(offsets[2]);
+  object.parentFolderId = reader.readLongOrNull(offsets[2]);
+  object.title = reader.readStringOrNull(offsets[3]);
   return object;
 }
 
@@ -112,6 +112,8 @@ P _noteDeserializeProp<P>(
     case 1:
       return (reader.readDateTimeOrNull(offset)) as P;
     case 2:
+      return (reader.readLongOrNull(offset)) as P;
+    case 3:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -123,13 +125,11 @@ Id _noteGetId(Note object) {
 }
 
 List<IsarLinkBase<dynamic>> _noteGetLinks(Note object) {
-  return [object.parentFolder];
+  return [];
 }
 
 void _noteAttach(IsarCollection<dynamic> col, Id id, Note object) {
   object.id = id;
-  object.parentFolder
-      .attach(col, col.isar.collection<Folder>(), r'parentFolder', id);
 }
 
 extension NoteQueryWhereSort on QueryBuilder<Note, Note, QWhere> {
@@ -472,6 +472,75 @@ extension NoteQueryFilter on QueryBuilder<Note, Note, QFilterCondition> {
     });
   }
 
+  QueryBuilder<Note, Note, QAfterFilterCondition> parentFolderIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'parentFolderId',
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> parentFolderIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'parentFolderId',
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> parentFolderIdEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'parentFolderId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> parentFolderIdGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'parentFolderId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> parentFolderIdLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'parentFolderId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> parentFolderIdBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'parentFolderId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<Note, Note, QAfterFilterCondition> titleIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -619,20 +688,7 @@ extension NoteQueryFilter on QueryBuilder<Note, Note, QFilterCondition> {
 
 extension NoteQueryObject on QueryBuilder<Note, Note, QFilterCondition> {}
 
-extension NoteQueryLinks on QueryBuilder<Note, Note, QFilterCondition> {
-  QueryBuilder<Note, Note, QAfterFilterCondition> parentFolder(
-      FilterQuery<Folder> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'parentFolder');
-    });
-  }
-
-  QueryBuilder<Note, Note, QAfterFilterCondition> parentFolderIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'parentFolder', 0, true, 0, true);
-    });
-  }
-}
+extension NoteQueryLinks on QueryBuilder<Note, Note, QFilterCondition> {}
 
 extension NoteQuerySortBy on QueryBuilder<Note, Note, QSortBy> {
   QueryBuilder<Note, Note, QAfterSortBy> sortByContent() {
@@ -656,6 +712,18 @@ extension NoteQuerySortBy on QueryBuilder<Note, Note, QSortBy> {
   QueryBuilder<Note, Note, QAfterSortBy> sortByDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'date', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterSortBy> sortByParentFolderId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'parentFolderId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterSortBy> sortByParentFolderIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'parentFolderId', Sort.desc);
     });
   }
 
@@ -709,6 +777,18 @@ extension NoteQuerySortThenBy on QueryBuilder<Note, Note, QSortThenBy> {
     });
   }
 
+  QueryBuilder<Note, Note, QAfterSortBy> thenByParentFolderId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'parentFolderId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterSortBy> thenByParentFolderIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'parentFolderId', Sort.desc);
+    });
+  }
+
   QueryBuilder<Note, Note, QAfterSortBy> thenByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
@@ -736,6 +816,12 @@ extension NoteQueryWhereDistinct on QueryBuilder<Note, Note, QDistinct> {
     });
   }
 
+  QueryBuilder<Note, Note, QDistinct> distinctByParentFolderId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'parentFolderId');
+    });
+  }
+
   QueryBuilder<Note, Note, QDistinct> distinctByTitle(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -760,6 +846,12 @@ extension NoteQueryProperty on QueryBuilder<Note, Note, QQueryProperty> {
   QueryBuilder<Note, DateTime?, QQueryOperations> dateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'date');
+    });
+  }
+
+  QueryBuilder<Note, int?, QQueryOperations> parentFolderIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'parentFolderId');
     });
   }
 

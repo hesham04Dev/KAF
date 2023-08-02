@@ -8,11 +8,14 @@ import '../models/FolderButton.dart';
 import '../models/FolderNameDialog.dart';
 
 
+import 'SettingPage.dart';
 import 'editNote.dart';
 
 class MyHomePage extends StatefulWidget {
   final  Map<String,String> locale;
-  const MyHomePage({super.key, required this.locale });
+  final isRtl;
+  final db;
+  const MyHomePage({super.key, required this.locale,required this.isRtl,required this.db });
 
 
 
@@ -23,18 +26,20 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool actionButtonPressed = false;
   bool gridView = true;
-
+  //widget.db.
   /*TODO get it form the db*/
 
   @override
   Widget build(BuildContext context) {
+    //final gridView = widget.db.settings.get(SettingsPage.gridViewId);
     final String title = widget.locale[TranslationsKeys.title]!;
     bool isDark =
         MediaQuery.maybePlatformBrightnessOf(context) == Brightness.dark;
-   // context.setLocale(Locale("en"));
+    final folderId = 0;
+    final parentFolderId = 0; /*TODO get them*/
     return Scaffold(
       appBar: AppBar(
-        //backgroundColor: Theme.of(context).colorScheme.primary,
+
         leading: Builder(
             builder: (context) => IconButton(
               icon: const Icon(
@@ -45,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             )),
         title: Text(title,
-        //    style: TextStyle(        color: isDark ?Colors.white: Colors.black )
+
         ),
         /*actions: [
           Padding(
@@ -91,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Text(
                         widget.locale[TranslationsKeys.settings]!,
 
-                          //style: TextStyle(fontSize: 20, color: !isDark ? Colors.black : Colors.white )
+
                       ),
                     )),
                 const SizedBox(
@@ -116,7 +121,12 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: ListView.separated(
           itemBuilder: (context, index) {
-            return FolderButton(locale:widget.locale,isDark: isDark, child:Padding(
+            return FolderButton(
+              parentFolderId: 0,
+              id: 0,/*TODO get it from index from the data getted*/
+              db: widget.db,
+                isRtl: widget.isRtl,
+                locale:widget.locale,isDark: isDark, child:Padding(
               padding: const EdgeInsets.symmetric(
                   horizontal: 5, vertical: 15),
               child: Row(
@@ -134,6 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
+
                 ],
               ),
             ));
@@ -154,6 +165,10 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           itemBuilder: (context, index) {
             return FolderButton(
+              id: 0 /*TODO get it from index data getted*/,
+              parentFolderId: 0,
+              db:widget.db,
+              isRtl: widget.isRtl,
               locale: widget.locale,
               isDark: isDark,
               child: Column(
@@ -187,7 +202,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     //shape: const CircleBorder(),
                     mini: true,
                     onPressed: () {
-                      showDialog(context: context, builder:(context) => FolderNameDialog(onSubmit: (){/*TODO*/},
+                      showDialog(context: context, builder:(context) => FolderNameDialog(
+                        db: widget.db,
+                        parentFolderId: -1 /*TODO*/,
+                        isRtl:  widget.isRtl,
+                        onSubmit: (){/*TODO*/},
                       locale: widget.locale,));
                     },
                     child: const Icon(Icons.create_new_folder),
@@ -201,7 +220,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     mini: true,
                     onPressed: () {
                       Navigator.pushNamed(context, EditNote.routeName,
-                          arguments: [isDark]);
+                          arguments: {
+                        isDark :isDark,
+                        folderId: folderId,
+                        parentFolderId: parentFolderId
+                          });
                     },
                     child: const Icon(Icons.note_add),
                   ),

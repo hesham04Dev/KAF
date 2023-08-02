@@ -1,23 +1,19 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:note_filest1/models/GridViewBody.dart';
 import 'package:note_filest1/translations/translations.dart';
-
 
 import '../models/FolderButton.dart';
 import '../models/FolderNameDialog.dart';
-
-
-import 'SettingPage.dart';
+import '../models/ListViewBody.dart';
 import 'editNote.dart';
 
 class MyHomePage extends StatefulWidget {
-  final  Map<String,String> locale;
+  final Map<String, String> locale;
   final isRtl;
   final db;
-  const MyHomePage({super.key, required this.locale,required this.isRtl,required this.db });
 
-
+  const MyHomePage(
+      {super.key, required this.locale, required this.isRtl, required this.db});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -26,6 +22,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool actionButtonPressed = false;
   bool gridView = true;
+
   //widget.db.
   /*TODO get it form the db*/
 
@@ -39,18 +36,17 @@ class _MyHomePageState extends State<MyHomePage> {
     final parentFolderId = 0; /*TODO get them*/
     return Scaffold(
       appBar: AppBar(
-
         leading: Builder(
             builder: (context) => IconButton(
-              icon: const Icon(
-                Icons.menu_rounded,
-              ),
-              onPressed: () {
-                return Scaffold.of(context).openDrawer();
-              },
-            )),
-        title: Text(title,
-
+                  icon: const Icon(
+                    Icons.menu_rounded,
+                  ),
+                  onPressed: () {
+                    return Scaffold.of(context).openDrawer();
+                  },
+                )),
+        title: Text(
+          title,
         ),
         /*actions: [
           Padding(
@@ -83,7 +79,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      icon: const Icon(Icons.close_rounded,color: Colors.red,)),
+                      icon: const Icon(
+                        Icons.close_rounded,
+                        color: Colors.red,
+                      )),
                 ),
                 const Divider(),
                 const SizedBox(
@@ -91,12 +90,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 TextButton(
                     onPressed: () {},
-                    child:  Padding(
+                    child: Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
                         widget.locale[TranslationsKeys.settings]!,
-
-
                       ),
                     )),
                 const SizedBox(
@@ -104,10 +101,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 TextButton(
                     onPressed: () {},
-                    child:  Padding(
+                    child: Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: Text(widget.locale[TranslationsKeys.backup]!,
-                          //style:  TextStyle(fontSize: 20,color: !isDark ? Colors.black : Colors.white)
+                      child: Text(
+                        widget.locale[TranslationsKeys.backup]!,
+                        //style:  TextStyle(fontSize: 20,color: !isDark ? Colors.black : Colors.white)
                       ),
                     ))
               ],
@@ -115,78 +113,9 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-
       body: gridView
-          ? Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: ListView.separated(
-          itemBuilder: (context, index) {
-            return FolderButton(
-              parentFolderId: 0,
-              id: 0,/*TODO get it from index from the data getted*/
-              db: widget.db,
-                isRtl: widget.isRtl,
-                locale:widget.locale,isDark: isDark, child:Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 5, vertical: 15),
-              child: Row(
-                children: [
-                  Icon(Icons.folder_rounded,
-                      size: 50,
-                     // color: Theme.of(context).colorScheme.primary
-                ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                   FittedBox(
-                    child: Text(
-                      "hello",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-
-                ],
-              ),
-            ));
-          },
-          separatorBuilder: (context, index) =>
-          const  Divider(color: Colors.white54),
-          itemCount: 20/*listLength*/,
-        ),
-      )
-          : Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 220,
-              childAspectRatio: 1.2,
-              crossAxisSpacing: 20,
-              mainAxisSpacing: 20
-          ),
-          itemBuilder: (context, index) {
-            return FolderButton(
-              id: 0 /*TODO get it from index data getted*/,
-              parentFolderId: 0,
-              db:widget.db,
-              isRtl: widget.isRtl,
-              locale: widget.locale,
-              isDark: isDark,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.folder_rounded,
-                      size: 70,
-                      //color: Theme.of(context).colorScheme.primary
-                ),
-                  const SizedBox(height: 5,),
-                  const FittedBox(child: Text("data is long text"))
-                ],
-              ),
-            );
-          },
-          itemCount: 50,
-        ),
-      ),
+          ? GridViewBody()
+          : ListViewBody(),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         mainAxisSize: MainAxisSize.min,
@@ -202,12 +131,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     //shape: const CircleBorder(),
                     mini: true,
                     onPressed: () {
-                      showDialog(context: context, builder:(context) => FolderNameDialog(
-                        db: widget.db,
-                        parentFolderId: -1 /*TODO*/,
-                        isRtl:  widget.isRtl,
-                        onSubmit: (){/*TODO*/},
-                      locale: widget.locale,));
+                      showDialog(
+                          context: context,
+                          builder: (context) => FolderNameDialog(
+                                db: widget.db,
+                                parentFolderId: -1 /*TODO*/,
+                                isRtl: widget.isRtl,
+                                onSubmit: () {
+                                  /*TODO*/
+                                },
+                                locale: widget.locale,
+                              ));
                     },
                     child: const Icon(Icons.create_new_folder),
                   ),
@@ -221,9 +155,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     onPressed: () {
                       Navigator.pushNamed(context, EditNote.routeName,
                           arguments: {
-                        isDark :isDark,
-                        folderId: folderId,
-                        parentFolderId: parentFolderId
+                            isDark: isDark,
+                            folderId: folderId,
+                            parentFolderId: parentFolderId
                           });
                     },
                     child: const Icon(Icons.note_add),
@@ -245,7 +179,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 }
                 setState(() {});
               },
-
               child: Transform.rotate(
                 origin: Offset.zero,
                 angle: actionButtonPressed == false ? 0 : 3.14,
@@ -258,7 +191,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-}/*
+} /*
 TODO the open page
 TODO the show note page
 TODO make the app work db

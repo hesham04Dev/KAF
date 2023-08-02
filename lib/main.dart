@@ -2,42 +2,43 @@ import 'dart:io';
 
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:isar/isar.dart';
-import 'package:note_filest1/collection/Folder.dart';
-import 'package:note_filest1/collection/Note.dart';
-import 'package:note_filest1/collection/Setting.dart';
+import 'package:note_filest1/isarCURD.dart';
 
-import 'package:path_provider/path_provider.dart';
 import 'screens/MyHomePage.dart';
 import 'screens/editNote.dart';
 import 'translations/translations.dart';
-var isar;
-void main() async{
 
+late final isar;
+
+void main() async {
+  isar = IsarService();
+  isar.openDB();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-   MyApp({super.key});
+  MyApp({super.key});
 
   static final _defaultLightColorScheme = ColorScheme.fromSwatch(
       primarySwatch: Colors.green, brightness: Brightness.light);
 
   static final _defaultDarkColorScheme = ColorScheme.fromSwatch(
       primarySwatch: Colors.green, brightness: Brightness.dark);
-bool isRtl = false;
+  bool isRtl = false;
+
   @override
   Widget build(BuildContext context) {
     Map<String, String> locale;
     String lang = "${Platform.localeName[0]}${Platform.localeName[1]}";
     if (Translations.supportedLocales.contains(lang)) {
       locale = Translations.mapLocales[lang]!;
-
     } else {
       locale = Translations.mapLocales["en"]!;
     }
-    if(lang == "ar") isRtl = true;
-    else isRtl = false;
+    if (lang == "ar")
+      isRtl = true;
+    else
+      isRtl = false;
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
       return MaterialApp(
         // themeMode: ThemeMode.dark,
@@ -111,12 +112,12 @@ bool isRtl = false;
           ),
         ),
         home: Directionality(
-            textDirection:isRtl? TextDirection.rtl : TextDirection.ltr,
-            child: MyHomePage(locale: locale, isRtl :isRtl,db:isar)),
+            textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
+            child: MyHomePage(locale: locale, isRtl: isRtl, db: isar)),
         routes: {
           EditNote.routeName: (_) => Directionality(
-              textDirection: isRtl? TextDirection.rtl : TextDirection.ltr,
-              child: EditNote(locale: locale,db:isar )),
+              textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
+              child: EditNote(locale: locale, db: isar)),
         },
       );
     });

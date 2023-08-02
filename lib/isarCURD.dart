@@ -84,6 +84,10 @@ class IsarService {
     final isar = await db;
     isar.writeTxnSync<int>(() => isar.settings.putSync(newSetting));
   }
+  Future<Setting?> getSetting(int SettingId) async {
+    final isar = await db;
+    return await isar.settings.filter().idEqualTo(SettingId).findFirst();
+  }
 
   Future<Isar> openDB() async {
     if (Isar.instanceNames.isEmpty) {

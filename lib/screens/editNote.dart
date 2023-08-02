@@ -67,7 +67,7 @@ class _EditNoteState extends State<EditNote> {
                       ..title = titleController.text
                       ..date = DateTime.now()
                       ..content = noteTextController.text
-                      ..parentFolder.value = parentFolderId != null ?widget.db.folders.get(parentFolderId): null;
+                      ..parentFolderId = parentFolderId != null ?widget.db.folders.get(parentFolderId): null;
                     /*TODO if there is no any folder and parent is null what to do*/
                     await widget.db.writeTxn(() async {
                       await widget.db.Note.put(newNote);

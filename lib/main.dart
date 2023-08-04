@@ -10,10 +10,13 @@ import 'translations/translations.dart';
 
 late final isar;
 
+
 void main() async {
-  isar = IsarService();
-  isar.openDB();
+  isar =  IsarService();
+  await isar.openDB();
+
   runApp(MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
@@ -41,7 +44,7 @@ class MyApp extends StatelessWidget {
       isRtl = false;
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
       return MaterialApp(
-        // themeMode: ThemeMode.dark,
+         themeMode: ThemeMode.light,
         debugShowCheckedModeBanner: false,
 
         /*Debug only un commit the above line and delete this line TODO*/
@@ -113,13 +116,50 @@ class MyApp extends StatelessWidget {
         ),
         home: Directionality(
             textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
-            child: MyHomePage(locale: locale, isRtl: isRtl, db: isar)),
+            child:MyHomePage(locale: locale, isRtl: isRtl, db: isar)),
         routes: {
           EditNote.routeName: (_) => Directionality(
               textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
-              child: EditNote(locale: locale, db: isar)),
+              child: EditNote(locale: locale, db: isar , isRtl: isRtl)),
         },
       );
     });
+  }
+}
+class MyScreen extends StatefulWidget {
+  @override
+  _MyScreenState createState() => _MyScreenState();
+}
+
+class _MyScreenState extends State<MyScreen> {
+  Future<String> fetchData() async {
+    // Simulating an asynchronous operation
+    await Future.delayed(Duration(seconds: 2));
+    return 'Data loaded';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Loading Example')),
+      body: FutureBuilder<String>(
+        future: fetchData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(), // Show loading icon
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          } else {
+            return Center(
+              child: Text('Data: ${snapshot.data}'),
+            );
+          }
+        },
+      ),
+    );
   }
 }

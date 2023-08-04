@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../isarCURD.dart';
 import '../translations/translations.dart';
 import 'FolderNameDialog.dart';
 import 'styles.dart';
@@ -9,8 +10,8 @@ class EditOrDeleteFolder extends StatelessWidget {
   final Function onSubmitNewName;
   final Function onDelete;
   final bool isRtl;
-  final db;
-  final int parentFolderId;
+  final IsarService db;
+  final int? parentFolderId;
   EditOrDeleteFolder(
       {super.key,
       required this.locale,

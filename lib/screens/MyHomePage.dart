@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:note_filest1/models/GridViewBody.dart';
 import 'package:note_filest1/translations/translations.dart';
 
+import '../collection/Folder.dart';
+import '../collection/Note.dart';
+import '../functions/isDark.dart';
+import '../isarCURD.dart';
 import '../models/FolderButton.dart';
 import '../models/FolderNameDialog.dart';
 import '../models/ListViewBody.dart';
@@ -9,11 +13,13 @@ import 'editNote.dart';
 
 class MyHomePage extends StatefulWidget {
   final Map<String, String> locale;
-  final isRtl;
-  final db;
+  final bool isRtl;
+  final IsarService db;
+  final int? parentFolderId ;
+  final String? folderName;
 
   const MyHomePage(
-      {super.key, required this.locale, required this.isRtl, required this.db});
+      {super.key, required this.locale, required this.isRtl, required this.db,this.parentFolderId,this.folderName});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -21,50 +27,45 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool actionButtonPressed = false;
-  bool gridView = true;
+  bool isGridView = false;
 
   //widget.db.
   /*TODO get it form the db*/
+    List<Folder> listFolders = [];
+    List<Note> listNotes = [];
 
   @override
   Widget build(BuildContext context) {
-    //final gridView = widget.db.settings.get(SettingsPage.gridViewId);
-    final String title = widget.locale[TranslationsKeys.title]!;
-    bool isDark =
-        MediaQuery.maybePlatformBrightnessOf(context) == Brightness.dark;
-    final folderId = 0;
-    final parentFolderId = 0; /*TODO get them*/
+    //final isGridView = widget.db.settings.get(SettingsPage.isGridViewId);
+    final String title = widget.parentFolderId == null ?widget.locale[TranslationsKeys.title]! : widget.folderName!;
+    bool isDark = isDarkMode(context);
+
+    /*TODO get them*/
+ Future<String>? getBodyData()async{
+
+  listFolders = await widget.db.getFolders(widget.parentFolderId);
+  listNotes = await widget.db.getNotes(widget.parentFolderId);
+
+
+  return "done";
+}
+print("parentFolderId:  ${widget.parentFolderId}");
     return Scaffold(
       appBar: AppBar(
-        leading: Builder(
-            builder: (context) => IconButton(
-                  icon: const Icon(
-                    Icons.menu_rounded,
-                  ),
-                  onPressed: () {
-                    return Scaffold.of(context).openDrawer();
-                  },
-                )),
+        leading:widget.parentFolderId == null ? null : IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back)),
         title: Text(
           title,
         ),
-        /*actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: IconButton(
-              icon: Icon(
-                  gridView ? Icons.grid_view_rounded : Icons.view_list_rounded),
+        actions: widget.parentFolderId == null ? null : [Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(
+                Icons.menu_rounded,
+              ),
               onPressed: () {
-                if (gridView == true) {
-                  gridView = false;
-                } else {
-                  gridView = true;
-                }
-                setState(() {});
+                return Scaffold.of(context).openDrawer();
               },
-            ),
-          )
-        ],*/
+            )) ],
+
       ),
       drawer: NavigationDrawer(
         children: [
@@ -113,9 +114,27 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: gridView
-          ? GridViewBody()
-          : ListViewBody(),
+      body:FutureBuilder<String>(
+        future: getBodyData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(), // Show loading icon
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          } else {
+            return isGridView
+               ? GridViewBody(db:widget.db ,isRtl: widget.isRtl,locale: widget.locale,isGridView: isGridView)
+              : ListViewBody(db:widget.db ,isRtl: widget.isRtl,locale: widget.locale,isGridView: isGridView,listNotes: listNotes,listFolders: listFolders );
+
+          }
+        },
+      ),
+
+
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         mainAxisSize: MainAxisSize.min,
@@ -135,10 +154,15 @@ class _MyHomePageState extends State<MyHomePage> {
                           context: context,
                           builder: (context) => FolderNameDialog(
                                 db: widget.db,
-                                parentFolderId: -1 /*TODO*/,
+                                parentFolderId: null,
                                 isRtl: widget.isRtl,
-                                onSubmit: () {
-                                  /*TODO*/
+                                onSubmit: (text) {
+                                  final newFolder = Folder()..name = text
+                                    ..parent = widget.parentFolderId;
+                                  widget.db.saveFolder(newFolder);
+                                  setState(() {
+
+                                  });
                                 },
                                 locale: widget.locale,
                               ));
@@ -155,9 +179,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     onPressed: () {
                       Navigator.pushNamed(context, EditNote.routeName,
                           arguments: {
-                            isDark: isDark,
-                            folderId: folderId,
-                            parentFolderId: parentFolderId
+                            "isDark": isDark,
+                            "parentFolderId": widget.parentFolderId
                           });
                     },
                     child: const Icon(Icons.note_add),
@@ -205,4 +228,14 @@ TODO icon of the application that also supports dyanamic colors
  seying avedio about that
 # improve the default theme
 TODO create my own way to the localization
+
+
+
+
+
+TODO open note page adding edit in the top re calling the edit note with  title and content argument and put the old text in the note
+open folder page reclling the homepage with defferent parentFolderId
+  and on the top calling the name of the folder note add argument for the name of the folder
+delete all folders inside the deleted folder
+TODO sittings page adding
 */

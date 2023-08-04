@@ -2,19 +2,24 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:note_filest1/models/DiscardNoteDialog.dart';
 import 'package:note_filest1/models/styles.dart';
-
-import '../collection/Folder.dart';
+import 'package:note_filest1/screens/MyHomePage.dart';
 import '../collection/Note.dart';
+import '../functions/isDark.dart';
+import '../isarCURD.dart';
 import '../models/AutoDirection.dart';
 import '../translations/translations.dart';
 
 class EditNote extends StatefulWidget {
   final Map<String, String> locale;
-  final db;
+  final IsarService db;
+  final bool isRtl;
+   final int? parentFolderId;
+   final String? oldTitle;
+   final String? oldContent;
+   final int? idOfNote;
 
 
-
-  const EditNote({super.key, required this.locale, required this.db,});
+  const EditNote({super.key, required this.locale, required this.db,required this.isRtl,this.parentFolderId,this.oldTitle,this.oldContent,this.idOfNote});
 
   static const String routeName = "EditNote";
 
@@ -27,16 +32,35 @@ class _EditNoteState extends State<EditNote> {
   var noteTextController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+
+  late final bool isDark;
+
+  @override
+  void initState() {
+    super.initState();
+    //final routeArgs = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+     isDark = /*routeArgs["isDark"] ??*/ isDarkMode(context);
+
+     //parentFolderId = routeArgs['parentFolderId'];
+
+    /// these arguments fore using this page to edit the note
+     /*oldTitle = routeArgs['title'];
+     oldContent = routeArgs['content'];
+     widget.idOfNote = routeArgs['id'];*/
+
+    /// oldTitle and oldContent are the text written in the note
+    widget.oldTitle == null ? null :titleController.text = widget.oldTitle!;
+    widget.oldContent == null ? null :noteTextController.text = widget.oldContent!;
+    /// by doing that we put the old text in the TextFormField
+
+  }
+
   @override
   Widget build(BuildContext context) {
     final routeArgs = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    bool isDark = routeArgs["isDark"];
-    final String? folderId =routeArgs['folderId'];
-    final int? parentFolderId = routeArgs['parentFolderId'];
-    print(
-      formatDate(DateTime.now(), [yy, "/", mm, "/", dd, "   ", hh, ":", nn])
-          .toString(),
-    );
+    isDark = routeArgs["isDark"] ?? isDarkMode(context);
+
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -62,19 +86,34 @@ class _EditNoteState extends State<EditNote> {
             child: IconButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    // SAVE THE DATA IN DB
+                    if(widget.idOfNote == null){
                     var newNote = Note()
                       ..title = titleController.text
                       ..date = DateTime.now()
                       ..content = noteTextController.text
-                      ..parentFolderId = parentFolderId != null ?widget.db.folders.get(parentFolderId): null;
-                    /*TODO if there is no any folder and parent is null what to do*/
-                    await widget.db.writeTxn(() async {
-                      await widget.db.Note.put(newNote);
-                    });
+                      ..parentFolderId = widget.parentFolderId != null ? widget.parentFolderId: null;
+
+
+                    widget.db.saveNote(newNote);}
+                    else {
+                      var oldNote = await widget.db.getNote(widget.idOfNote!);
+                      oldNote!.title = titleController.text;
+                      oldNote!.date = DateTime.now();
+                      oldNote!.content = noteTextController.text;
+                      widget.db.updateNote(oldNote);
+                    }
+
                     Navigator.pop(context);
-                  }
-                },
+
+
+                    /*TODO use another way this way*/
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) =>  MyHomePage(locale: widget.locale, isRtl: widget.isRtl, db: widget.db)),
+                    );
+
+
+                }},
                 icon: const Icon(Icons.save_rounded)),
           )
         ],
@@ -98,6 +137,7 @@ class _EditNoteState extends State<EditNote> {
                           ? titleController.text[0]
                           : titleController.text,
                       child: TextFormField(
+
                         controller: titleController,
                         onChanged: (value) {
                           setState(() {});

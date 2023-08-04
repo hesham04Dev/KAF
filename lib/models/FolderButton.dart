@@ -1,65 +1,74 @@
 import 'package:flutter/material.dart';
+import 'package:note_filest1/models/FolderOrNoteButton.dart';
+import 'package:note_filest1/screens/MyHomePage.dart';
 
+import '../isarCURD.dart';
 import 'EditOrDileteFolder.dart';
 
 class FolderButton extends StatelessWidget {
   final Map<String, String> locale;
-  final bool isDark;
+  //final bool isDark;
   final Widget child;
-  final isRtl;
-  final db;
-  final int parentFolderId;
-
+  final bool isRtl;
+  final IsarService db;
+  final int? parentFolderId;
+  final bool isGridView;
   final int id;
+  final Function onDelete;
 
-  FolderButton({
-    required this.parentFolderId,
-    super.key,
-    required this.db,
-    required this.isDark,
-    required this.child,
-    required this.locale,
-    required this.isRtl,
-    required this.id,
-  });
+  final String folderName;
+
+  FolderButton(
+      {required this.onDelete,
+      required this.parentFolderId,
+      super.key,
+      required this.db,
+      //required this.isDark,
+      required this.child,
+      required this.locale,
+      required this.isRtl,
+      required this.id,
+      required this.isGridView,
+      required this.folderName});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-        onLongPress: () {
-          showModalBottomSheet(
-              context: context,
-              builder: (context) {
-                return EditOrDeleteFolder(
-                  parentFolderId: parentFolderId,
-                  isRtl: isRtl,
-                  onDelete: () async {
-                    final existingFolder = await db.Folder.get(id);
-                    /*TODO delete every notes inside this folder*/
-
-                    await db.writeTxn(() async {
-                      await db.folders.delete(existingFolder.id!);
-                    });
-                  },
-                  onSubmitNewName: (newName) async {
-
-                    final existingFolder = await db.folders.get(id);
-                    existingFolder.name = newName;
-
-                    await db.writeTxn(() async {
-                      await db.folders.put(existingFolder.id!);
-                    });
-                  },
-                  locale: locale,
-                  db: db,
-                );
-              });
-        },
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        onPressed: () {
-          //TODO open the page of this folder that can contains files and folders
-          // TODO open the page of the note allow to edit it and show the count of the words
-        },
-        child: child);
+    return FolderOrNoteButton(
+      child: Text(folderName, style: TextStyle(fontSize: 20)),
+      icon: Icon(
+        Icons.folder_rounded,
+        size: 50,
+      ),
+      isGridView: isGridView,
+      onLongPressed: () {
+        showModalBottomSheet(
+            context: context,
+            builder: (context) {
+              return EditOrDeleteFolder(
+                parentFolderId: parentFolderId,
+                isRtl: isRtl,
+                onDelete: () async {
+                  final existingFolder = await db.getFolder(id);
+                  db.deleteFolder(existingFolder!.id);
+                },
+                onSubmitNewName: (newName) async {
+                  final existingFolder = await db.getFolder(id);
+                  existingFolder!.name = newName;
+                  db.updateFolder(existingFolder);
+                },
+                locale: locale,
+                db: db,
+              );
+            });
+      },
+      onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  MyHomePage(locale: locale, isRtl: isRtl, db: db,parentFolderId: id,folderName: folderName),
+            ));
+      },
+    );
   }
 }

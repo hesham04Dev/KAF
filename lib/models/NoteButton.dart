@@ -14,9 +14,7 @@ class NoteButton extends StatelessWidget {
   final int noteId;
   final IsarService db;
   final int? parentFolderId;
-  final locale;
-  final bool isRtl;
-  const NoteButton({super.key,required this.isGridView,required this.noteTitle,required this.noteTime,required this.db,required this.noteContent,required this.noteId,this.parentFolderId, required this.locale, required this.isRtl});
+  const NoteButton({super.key,required this.isGridView,required this.noteTitle,required this.noteTime,required this.db,required this.noteContent,required this.noteId,this.parentFolderId});
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +22,11 @@ class NoteButton extends StatelessWidget {
         isGridView: isGridView,
         //icon: Icon(Icons.note_rounded,size: 70),
         onLongPressed: (){},
-        onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => NotePage(date: noteTime, title: noteTitle, db:db,content: noteContent , id:noteId, parentFolderId: parentFolderId ,locale: locale,isRtl: isRtl),));},
+        onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => NotePage(date: noteTime, title: noteTitle, db:db,content: noteContent , id:noteId, parentFolderId: parentFolderId ,),));},
         child: isGridView ?FittedBox(child: Text(noteTitle,overflow: TextOverflow.ellipsis,)):Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+
             Text(noteTime,overflow: TextOverflow.ellipsis),
             MultiLineText(margin: 82,maxLines: 1,text: noteTitle, bold:true),
 

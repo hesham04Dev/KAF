@@ -13,13 +13,10 @@ class EditNote extends StatefulWidget {
   final Map<String, String> locale;
   final IsarService db;
   final bool isRtl;
-   final int? parentFolderId;
-   final String? oldTitle;
-   final String? oldContent;
-   final int? idOfNote;
 
 
-  const EditNote({super.key, required this.locale, required this.db,required this.isRtl,this.parentFolderId,this.oldTitle,this.oldContent,this.idOfNote});
+
+  const EditNote({super.key, required this.locale, required this.db,required this.isRtl});
 
   static const String routeName = "EditNote";
 
@@ -33,34 +30,24 @@ class _EditNoteState extends State<EditNote> {
   final _formKey = GlobalKey<FormState>();
 
 
-  late final bool isDark;
-
-  @override
-  void initState() {
-    super.initState();
-    //final routeArgs = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-     isDark = /*routeArgs["isDark"] ??*/ isDarkMode(context);
-
-     //parentFolderId = routeArgs['parentFolderId'];
-
-    /// these arguments fore using this page to edit the note
-     /*oldTitle = routeArgs['title'];
-     oldContent = routeArgs['content'];
-     widget.idOfNote = routeArgs['id'];*/
-
-    /// oldTitle and oldContent are the text written in the note
-    widget.oldTitle == null ? null :titleController.text = widget.oldTitle!;
-    widget.oldContent == null ? null :noteTextController.text = widget.oldContent!;
-    /// by doing that we put the old text in the TextFormField
-
-  }
 
   @override
   Widget build(BuildContext context) {
+
     final routeArgs = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    isDark = routeArgs["isDark"] ?? isDarkMode(context);
+    bool isDark = routeArgs["isDark"] ?? isDarkMode(context);
 
+    final int? parentFolderId = routeArgs['parentFolderId'];
 
+  /// these arguments fore using this page to edit the note
+    final String? oldTitle = routeArgs['title'];
+    final String? oldContent = routeArgs['content'];
+    final int? idOfNote = routeArgs['id'];
+
+    /// oldTitle and oldContent are the text written in the note
+    oldTitle == null ? null :titleController.text = oldTitle;
+    oldContent == null ? null :noteTextController.text = oldContent;
+    /// by doing that we put the old text in the TextFormField
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -86,17 +73,17 @@ class _EditNoteState extends State<EditNote> {
             child: IconButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    if(widget.idOfNote == null){
+                    if(idOfNote == null){
                     var newNote = Note()
                       ..title = titleController.text
                       ..date = DateTime.now()
                       ..content = noteTextController.text
-                      ..parentFolderId = widget.parentFolderId != null ? widget.parentFolderId: null;
+                      ..parentFolderId = parentFolderId != null ? parentFolderId: null;
 
 
                     widget.db.saveNote(newNote);}
                     else {
-                      var oldNote = await widget.db.getNote(widget.idOfNote!);
+                      var oldNote = await widget.db.getNote(idOfNote);
                       oldNote!.title = titleController.text;
                       oldNote!.date = DateTime.now();
                       oldNote!.content = noteTextController.text;

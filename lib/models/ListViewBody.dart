@@ -90,8 +90,7 @@ class _ListViewBodyState extends State<ListViewBody> {
               (index) => Column(
                     children: [
                       NoteButton(
-                           locale:  widget.locale,
-                          isRtl: widget.isRtl,
+
                           parentFolderId: widget.listNotes[index]!.parentFolderId,
                           db: widget.db,
                           isGridView: widget.isGridView,

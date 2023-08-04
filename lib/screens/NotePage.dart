@@ -10,10 +10,8 @@ class NotePage extends StatelessWidget {
   final String content;
   final IsarService db;
   final int id;
-  final locale;
-  final bool isRtl;
   final int? parentFolderId;
-  const NotePage({super.key,required this.date,required this.title,required this.db,required this.id,required this.content,required this.parentFolderId,required this.locale,required this.isRtl});
+  const NotePage({super.key,required this.date,required this.title,required this.db,required this.id,required this.content,required this.parentFolderId,});
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +21,15 @@ class NotePage extends StatelessWidget {
         actions: [
           IconButton(onPressed: (){
             Navigator.pop(context);
-            Navigator.push(context,MaterialPageRoute(builder: (context) =>
-                EditNote(locale: locale, db: db, isRtl: isRtl,parentFolderId: parentFolderId,idOfNote: id,oldContent: content,oldTitle: title,)
-            ));
+            Navigator.pushNamed(context, EditNote.routeName,
+                arguments: {
+                  //"isDark": isDark,
+                  "parentFolderId": parentFolderId,
+                  "title": title,
+                  "content" : content,
+                  "id":id
+
+                });
           }, icon: Icon(Icons.edit)),
           IconButton(onPressed: (){
             db.deleteNote(id);

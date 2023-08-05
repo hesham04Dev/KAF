@@ -2,7 +2,7 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 
 
-import '../screens/MyHomePage.dart';
+import '../screens/FolderPage.dart';
 
 import '../collection/Note.dart';
 import '../functions/boolFn.dart';
@@ -100,7 +100,7 @@ class EditNote extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              MyHomePage(locale: locale, isRtl: isRtl, db: db)),
+                              FolderPage(locale: locale, isRtl: isRtl, db: db)),
                     );
                   }
                 },

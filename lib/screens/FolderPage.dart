@@ -12,21 +12,21 @@ import '../models/FolderNameDialog.dart';
 import '../models/ListViewBody.dart';
 import 'editNote.dart';
 
-class MyHomePage extends StatefulWidget {
+class FolderPage extends StatefulWidget {
   final Map<String, String> locale;
   final bool isRtl;
   final IsarService db;
   final int? parentFolderId ;
   final String? folderName;
 
-  const MyHomePage(
+  const FolderPage(
       {super.key, required this.locale, required this.isRtl, required this.db,this.parentFolderId,this.folderName});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<FolderPage> createState() => _FolderPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _FolderPageState extends State<FolderPage> {
   bool actionButtonPressed = false;
 
 

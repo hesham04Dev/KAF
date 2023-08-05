@@ -4,7 +4,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import '../isarCURD.dart';
 
-import 'screens/MyHomePage.dart';
+import 'screens/FolderPage.dart';
 import 'screens/editNote.dart';
 import 'translations/translations.dart';
 
@@ -133,7 +133,7 @@ class MyApp extends StatelessWidget {
         ),
         home: Directionality(
             textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
-            child:MyHomePage(locale: locale, isRtl: isRtl, db: isar)),
+            child:FolderPage(locale: locale, isRtl: isRtl, db: isar)),
         routes: {
           EditNote.routeName: (_) => Directionality(
               textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,

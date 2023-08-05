@@ -27,13 +27,23 @@ const NoteSchema = CollectionSchema(
       name: r'date',
       type: IsarType.dateTime,
     ),
-    r'parentFolderId': PropertySchema(
+    r'isContentRtl': PropertySchema(
       id: 2,
+      name: r'isContentRtl',
+      type: IsarType.bool,
+    ),
+    r'isTitleRtl': PropertySchema(
+      id: 3,
+      name: r'isTitleRtl',
+      type: IsarType.bool,
+    ),
+    r'parentFolderId': PropertySchema(
+      id: 4,
       name: r'parentFolderId',
       type: IsarType.long,
     ),
     r'title': PropertySchema(
-      id: 3,
+      id: 5,
       name: r'title',
       type: IsarType.string,
     )
@@ -81,8 +91,10 @@ void _noteSerialize(
 ) {
   writer.writeString(offsets[0], object.content);
   writer.writeDateTime(offsets[1], object.date);
-  writer.writeLong(offsets[2], object.parentFolderId);
-  writer.writeString(offsets[3], object.title);
+  writer.writeBool(offsets[2], object.isContentRtl);
+  writer.writeBool(offsets[3], object.isTitleRtl);
+  writer.writeLong(offsets[4], object.parentFolderId);
+  writer.writeString(offsets[5], object.title);
 }
 
 Note _noteDeserialize(
@@ -95,8 +107,10 @@ Note _noteDeserialize(
   object.content = reader.readStringOrNull(offsets[0]);
   object.date = reader.readDateTimeOrNull(offsets[1]);
   object.id = id;
-  object.parentFolderId = reader.readLongOrNull(offsets[2]);
-  object.title = reader.readStringOrNull(offsets[3]);
+  object.isContentRtl = reader.readBoolOrNull(offsets[2]);
+  object.isTitleRtl = reader.readBoolOrNull(offsets[3]);
+  object.parentFolderId = reader.readLongOrNull(offsets[4]);
+  object.title = reader.readStringOrNull(offsets[5]);
   return object;
 }
 
@@ -112,8 +126,12 @@ P _noteDeserializeProp<P>(
     case 1:
       return (reader.readDateTimeOrNull(offset)) as P;
     case 2:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 3:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 4:
+      return (reader.readLongOrNull(offset)) as P;
+    case 5:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -472,6 +490,58 @@ extension NoteQueryFilter on QueryBuilder<Note, Note, QFilterCondition> {
     });
   }
 
+  QueryBuilder<Note, Note, QAfterFilterCondition> isContentRtlIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'isContentRtl',
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> isContentRtlIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'isContentRtl',
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> isContentRtlEqualTo(
+      bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isContentRtl',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> isTitleRtlIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'isTitleRtl',
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> isTitleRtlIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'isTitleRtl',
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> isTitleRtlEqualTo(
+      bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isTitleRtl',
+        value: value,
+      ));
+    });
+  }
+
   QueryBuilder<Note, Note, QAfterFilterCondition> parentFolderIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -715,6 +785,30 @@ extension NoteQuerySortBy on QueryBuilder<Note, Note, QSortBy> {
     });
   }
 
+  QueryBuilder<Note, Note, QAfterSortBy> sortByIsContentRtl() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isContentRtl', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterSortBy> sortByIsContentRtlDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isContentRtl', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterSortBy> sortByIsTitleRtl() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isTitleRtl', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterSortBy> sortByIsTitleRtlDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isTitleRtl', Sort.desc);
+    });
+  }
+
   QueryBuilder<Note, Note, QAfterSortBy> sortByParentFolderId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'parentFolderId', Sort.asc);
@@ -777,6 +871,30 @@ extension NoteQuerySortThenBy on QueryBuilder<Note, Note, QSortThenBy> {
     });
   }
 
+  QueryBuilder<Note, Note, QAfterSortBy> thenByIsContentRtl() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isContentRtl', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterSortBy> thenByIsContentRtlDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isContentRtl', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterSortBy> thenByIsTitleRtl() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isTitleRtl', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterSortBy> thenByIsTitleRtlDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isTitleRtl', Sort.desc);
+    });
+  }
+
   QueryBuilder<Note, Note, QAfterSortBy> thenByParentFolderId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'parentFolderId', Sort.asc);
@@ -816,6 +934,18 @@ extension NoteQueryWhereDistinct on QueryBuilder<Note, Note, QDistinct> {
     });
   }
 
+  QueryBuilder<Note, Note, QDistinct> distinctByIsContentRtl() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isContentRtl');
+    });
+  }
+
+  QueryBuilder<Note, Note, QDistinct> distinctByIsTitleRtl() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isTitleRtl');
+    });
+  }
+
   QueryBuilder<Note, Note, QDistinct> distinctByParentFolderId() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'parentFolderId');
@@ -846,6 +976,18 @@ extension NoteQueryProperty on QueryBuilder<Note, Note, QQueryProperty> {
   QueryBuilder<Note, DateTime?, QQueryOperations> dateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'date');
+    });
+  }
+
+  QueryBuilder<Note, bool?, QQueryOperations> isContentRtlProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isContentRtl');
+    });
+  }
+
+  QueryBuilder<Note, bool?, QQueryOperations> isTitleRtlProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isTitleRtl');
     });
   }
 

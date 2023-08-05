@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/FolderOrNoteButton.dart';
 import '../models/MultiLineText.dart';
-import '../screens/MyHomePage.dart';
+import '../screens/FolderPage.dart';
 
 import '../isarCURD.dart';
 import 'EditOrDileteFolder.dart';
@@ -67,7 +67,7 @@ class FolderButton extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) =>
-                  MyHomePage(locale: locale, isRtl: isRtl, db: db,parentFolderId: id,folderName: folderName),
+                  FolderPage(locale: locale, isRtl: isRtl, db: db,parentFolderId: id,folderName: folderName),
             ));
       },
     );

@@ -11,8 +11,6 @@ class ListViewBody extends StatefulWidget {
   final IsarService db;
   final bool isRtl;
   final Map<String, String> locale;
-  //final bool isDark;
-  final bool isGridView;
   final List<Folder> listFolders;
   final List<Note> listNotes;
 
@@ -22,7 +20,6 @@ class ListViewBody extends StatefulWidget {
       required this.isRtl,
       //required this.isDark,
       required this.locale,
-      required this.isGridView,
       required this.listFolders,
       required this.listNotes});
 
@@ -56,7 +53,7 @@ class _ListViewBodyState extends State<ListViewBody> {
                           parentFolderId: widget.listFolders[index].parent,
                           id: widget.listFolders[index].id,
                           db: widget.db,
-                          isGridView: widget.isGridView,
+
                           folderName: widget.listFolders[index]!.name as String,
                           isRtl: widget.isRtl,
                           locale: widget.locale,
@@ -96,7 +93,7 @@ class _ListViewBodyState extends State<ListViewBody> {
                           locale: widget.locale,
                           parentFolderId: widget.listNotes[index]!.parentFolderId,
                           db: widget.db,
-                          isGridView: widget.isGridView,
+
                           noteContent: widget.listNotes[index]!.content!,
                           noteId: widget.listNotes[index]!.id,
                           noteTitle: widget.listNotes[index]!.title!,

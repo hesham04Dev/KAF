@@ -5,7 +5,7 @@ import 'package:path_provider/path_provider.dart';
 
 import 'collection/Folder.dart';
 import 'collection/Note.dart';
-import 'collection/Setting.dart';
+
 
 class IsarService {
   late Future<Isar> db;
@@ -90,26 +90,13 @@ class IsarService {
     isar.writeTxn(() =>  isar.notes.put(oldNote!));
   }
 
-  Future<void> saveSetting(Setting newSetting) async {
-    final isar = await db;
-    isar.writeTxnSync<int>(() => isar.settings.putSync(newSetting));
-  }
-  Future<void> updateSetting(Setting updateSetting) async {
-    final isar = await db;
-    final oldSetting = await isar.settings.get(updateSetting.id);
-    oldSetting!.value = updateSetting.value ;
-    isar.writeTxn(() =>  isar.settings.put(oldSetting!));
-  }
-  Future<Setting?> getSetting(int SettingId) async {
-    final isar = await db;
-    return await isar.settings.filter().idEqualTo(SettingId).findFirst();
-  }
+
 
   Future<Isar> openDB() async {
     if (Isar.instanceNames.isEmpty) {
       final dir = await getApplicationSupportDirectory();
       return await Isar.open(
-        [FolderSchema, NoteSchema, SettingSchema],
+        [FolderSchema, NoteSchema],
         directory: dir.path,
         inspector: true, /*TODO make it false after end*/
       );

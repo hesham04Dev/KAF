@@ -13,7 +13,6 @@ class FolderButton extends StatelessWidget {
   final bool isRtl;
   final IsarService db;
   final int? parentFolderId;
-  final bool isGridView;
   final int id;
   final Function onDelete;
 
@@ -29,7 +28,6 @@ class FolderButton extends StatelessWidget {
       required this.locale,
       required this.isRtl,
       required this.id,
-      required this.isGridView,
       required this.folderName});
 
   @override
@@ -43,7 +41,6 @@ class FolderButton extends StatelessWidget {
         Icons.folder_rounded,
         size: 50,
       ),
-      isGridView: isGridView,
       onLongPressed: () {
         showModalBottomSheet(
             context: context,

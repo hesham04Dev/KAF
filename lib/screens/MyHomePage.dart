@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/GridViewBody.dart';
+
 import '../screens/About.dart';
 import '../translations/translations.dart';
 
@@ -7,7 +7,7 @@ import '../collection/Folder.dart';
 import '../collection/Note.dart';
 import '../functions/boolFn.dart';
 import '../isarCURD.dart';
-import '../models/FolderButton.dart';
+
 import '../models/FolderNameDialog.dart';
 import '../models/ListViewBody.dart';
 import 'editNote.dart';
@@ -28,20 +28,17 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool actionButtonPressed = false;
-  bool isGridView = false;
 
-  //widget.db.
-  /*TODO get it form the db*/
+
     List<Folder> listFolders = [];
     List<Note> listNotes = [];
 
   @override
   Widget build(BuildContext context) {
-    //final isGridView = widget.db.settings.get(SettingsPage.isGridViewId);
+
     final String title = widget.parentFolderId == null ?widget.locale[TranslationsKeys.title]! : widget.folderName!;
     bool isDark = isDarkMode(context);
 
-    /*TODO get them*/
  Future<String>? getBodyData()async{
 
   listFolders = await widget.db.getFolders(widget.parentFolderId);
@@ -142,9 +139,7 @@ print("parentFolderId:  ${widget.parentFolderId}");
               child: Text('Error: ${snapshot.error}'),
             );
           } else {
-            return isGridView
-               ? GridViewBody(db:widget.db ,isRtl: widget.isRtl,locale: widget.locale,isGridView: isGridView)
-              : ListViewBody(db:widget.db ,isRtl: widget.isRtl,locale: widget.locale,isGridView: isGridView,listNotes: listNotes,listFolders: listFolders );
+            return ListViewBody(db:widget.db ,isRtl: widget.isRtl,locale: widget.locale,listNotes: listNotes,listFolders: listFolders );
 
           }
         },
@@ -253,11 +248,11 @@ open note page adding edit in the top re calling the edit note with  title and c
 open folder page reclling the homepage with defferent parentFolderId
   and on the top calling the name of the folder note add argument for the name of the folder
 delete all folders inside the deleted folder
-TODO sittings page adding
 TODO state mangement by bloc
 
 
 TODO in the next version add search for the notes
+TODO in the next version add the backup of the notes
 adding the direction of the text inside the Note title and content
 
 */

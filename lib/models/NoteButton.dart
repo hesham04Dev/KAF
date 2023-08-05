@@ -8,7 +8,7 @@ import 'MultiLineText.dart';
 class NoteButton extends StatelessWidget {
   final bool isRtl;
   final Map<String, String> locale;
-  final bool isGridView;
+
   final String noteTitle;
   final String noteTime;
   final String noteContent;
@@ -17,13 +17,13 @@ class NoteButton extends StatelessWidget {
   final TextDirection titleDirection;
   final TextDirection contentDirection;
   final int? parentFolderId;
-  const NoteButton({super.key,required this.locale, required this.isGridView,required this.noteTitle,required this.noteTime,required this.db,required this.noteContent,required this.noteId,this.parentFolderId,required this.titleDirection,required this.contentDirection,required this.isRtl});
+  const NoteButton({super.key,required this.locale, required this.noteTitle,required this.noteTime,required this.db,required this.noteContent,required this.noteId,this.parentFolderId,required this.titleDirection,required this.contentDirection,required this.isRtl});
 
   @override
   Widget build(BuildContext context) {
     return FolderOrNoteButton(
         isRtl: isRtl,
-        isGridView: isGridView,
+
         withBackground: true,
         onLongPressed: (){},
         onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => NotePage(
@@ -31,7 +31,7 @@ class NoteButton extends StatelessWidget {
           contentDirection: contentDirection,
           locale: locale,
           date: noteTime, title: noteTitle, db:db,content: noteContent , id:noteId, parentFolderId: parentFolderId ,),));},
-        child: isGridView ?FittedBox(child: Text(noteTitle,overflow: TextOverflow.ellipsis,)):Padding(
+        child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Column(
 

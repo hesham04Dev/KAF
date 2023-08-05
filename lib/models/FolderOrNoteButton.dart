@@ -5,7 +5,6 @@ class FolderOrNoteButton extends StatelessWidget {
   final Function onLongPressed;
   final Function onPressed;
   final Widget child;
-  final bool isGridView;
   final Icon? icon;
   final bool withBackground;
 
@@ -16,7 +15,6 @@ class FolderOrNoteButton extends StatelessWidget {
       required this.onPressed,
       required this.child,
       this.icon,
-      required this.isGridView,
       this.withBackground = false});
 
   @override
@@ -33,18 +31,7 @@ class FolderOrNoteButton extends StatelessWidget {
       onPressed: () {
         onPressed();
       },
-      child: isGridView
-          ? Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                icon ?? SizedBox(),
-                const SizedBox(
-                  height: 5,
-                ),
-                FittedBox(child: child)
-              ],
-            )
-          : Row(
+      child:  Row(
             textDirection:isRtl ? TextDirection.rtl : TextDirection.ltr,
               children: [
                 icon ?? SizedBox(),

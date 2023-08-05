@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import '../translations/translations.dart';
 import 'styles.dart';
 
-class DiscardNoteDialog extends StatelessWidget {
-  final Map<String, String> locale;
+class MyWarningDialog extends StatelessWidget {
 
-  const DiscardNoteDialog({super.key, required this.locale});
+  final String TranslationsTitle;
+  final String TranslationsWarningButton;
+  final Function onWarningPressed;
+  final String TranslationsCancelButton;
+  const MyWarningDialog({super.key,required this.TranslationsWarningButton,required this.onWarningPressed,required this.TranslationsTitle,required this.TranslationsCancelButton});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +22,7 @@ class DiscardNoteDialog extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.all(8.0),
-            child: Text(locale[TranslationsKeys.discardYourNote]!,
+            child: Text(TranslationsTitle!,
                 style: MediumText()),
           ),
           const SizedBox(
@@ -32,11 +35,10 @@ class DiscardNoteDialog extends StatelessWidget {
               children: [
                 TextButton(
                     onPressed: () {
-                      Navigator.pop(context);
-                      Navigator.pop(context);
+                    onWarningPressed();
                     },
                     child: Text(
-                      locale[TranslationsKeys.discard]!,
+                      TranslationsWarningButton,
                       style: TextStyle(color: Colors.red, fontSize: 19),
                     )),
                 TextButton(
@@ -44,8 +46,8 @@ class DiscardNoteDialog extends StatelessWidget {
                       Navigator.pop(context);
                     },
                     child: Text(
-                      locale[TranslationsKeys.cancel]!,
-                      style: TextStyle(),
+                      TranslationsCancelButton,
+
                     ))
               ],
             ),

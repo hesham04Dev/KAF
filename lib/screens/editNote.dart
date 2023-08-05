@@ -1,13 +1,14 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:note_filest1/models/DiscardNoteDialog.dart';
 
-import 'package:note_filest1/screens/MyHomePage.dart';
+
+import '../screens/MyHomePage.dart';
 
 import '../collection/Note.dart';
-import '../functions/isDark.dart';
+import '../functions/boolFn.dart';
 import '../isarCURD.dart';
 import '../models/AutoDirectionTextFormField.dart';
+import '../models/MyWarningDialog.dart';
 import '../translations/translations.dart';
 
 class EditNote extends StatelessWidget {
@@ -49,8 +50,14 @@ class EditNote extends StatelessWidget {
             showDialog(
               context: context,
               builder: (context) {
-                return DiscardNoteDialog(
-                  locale: locale,
+                return MyWarningDialog(
+                  TranslationsWarningButton: locale[TranslationsKeys.discard]!,
+                  onWarningPressed: (){
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                  TranslationsTitle: locale[TranslationsKeys.discardYourNote]!,
+                  TranslationsCancelButton: locale[TranslationsKeys.cancel]!,
                 );
               },
             );
@@ -70,8 +77,10 @@ class EditNote extends StatelessWidget {
                     if (idOfNote == null) {
                       var newNote = Note()
                         ..title = titleController.text
+                        ..isTitleRtl= isRTL(titleController.text[0],isRtl)
                         ..date = DateTime.now()
                         ..content = noteTextController.text
+                        ..isContentRtl = isRTL(titleController.text[0],isRtl)
                         ..parentFolderId =
                             parentFolderId != null ? parentFolderId : null;
 
@@ -103,7 +112,8 @@ class EditNote extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Container(
           decoration: BoxDecoration(
-              color: isDark == true ? Colors.white10 : Colors.black12,
+
+            color: isDark == true ? Colors.white10 : Theme.of(context).primaryColor.withOpacity(0.1),
               borderRadius: BorderRadius.circular(10)),
           child: Padding(
             padding: const EdgeInsets.all(8.0),

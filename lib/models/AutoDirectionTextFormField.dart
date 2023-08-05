@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:note_filest1/models/styles.dart';
+import 'package:note_files/models/styles.dart';
 
 import 'AutoDirection.dart';
 

@@ -87,6 +87,8 @@ abstract class TranslationsKeys{
   static const delete = 'delete';
   static const done = 'done';
   static const folderName = 'folderName';
+  static const aboutContent = 'aboutContent';
+  static const about= 'about';
 }
 
 class Translations {
@@ -105,7 +107,9 @@ static const Map<String,String> ar = {
   "edit": "تعديل",
   "delete": "حذف",
   "done": "تم",
-  "folderName": "اسم المجلد"
+  "folderName": "اسم المجلد",
+  "about": "عن التطبيق",
+  "aboutContent": "مرحبًا بك في رف الملاحظات، رفيقك الموثوق لاتخاذ الملاحظات بكفاءة، وتنظيم سلس، وتصنيف بدون متاعب. يتيح هذا التطبيق منصة خالية من الفوضى وسهلة الاستخدام لتسجيل أفكارك، وملاحظاتك والمعلومات المهمة."
 };
 static const Map<String,String> en = {
   "title": "Note Shelf",
@@ -121,7 +125,9 @@ static const Map<String,String> en = {
   "edit": "Edit",
   "delete": "Delete",
   "done": "Done",
-  "folderName": "Folder Name"
+  "folderName": "Folder Name",
+  "about": "About",
+  "aboutContent": "Welcome to Note Shelf, your reliable companion for efficient note-taking, seamless organization, and hassle-free categorization. This app is committed to empowering you with a clutter-free and intuitive platform to capture your thoughts, ideas, and important information"
 };
 static const Map<String, Map<String,String>> mapLocales = {"ar": ar, "en": en};
 }

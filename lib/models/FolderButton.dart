@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:note_filest1/models/FolderOrNoteButton.dart';
-import 'package:note_filest1/screens/MyHomePage.dart';
+import '../models/FolderOrNoteButton.dart';
+import '../models/MultiLineText.dart';
+import '../screens/MyHomePage.dart';
 
 import '../isarCURD.dart';
 import 'EditOrDileteFolder.dart';
@@ -34,7 +35,10 @@ class FolderButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FolderOrNoteButton(
-      child: Text(folderName, style: TextStyle(fontSize: 20)),
+      isRtl: isRtl,
+      child: /*Text(folderName, style: TextStyle(fontSize: 20)),*/
+      MultiLineText(margin: 132,
+      text:folderName,maxLines: 1,bold: true,fontSize: 18,textDirection: isRtl? TextDirection.rtl : TextDirection.ltr, ),
       icon: Icon(
         Icons.folder_rounded,
         size: 50,

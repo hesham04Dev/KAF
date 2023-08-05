@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:note_filest1/models/GridViewBody.dart';
-import 'package:note_filest1/translations/translations.dart';
+import '../models/GridViewBody.dart';
+import '../screens/About.dart';
+import '../translations/translations.dart';
 
 import '../collection/Folder.dart';
 import '../collection/Note.dart';
-import '../functions/isDark.dart';
+import '../functions/boolFn.dart';
 import '../isarCURD.dart';
 import '../models/FolderButton.dart';
 import '../models/FolderNameDialog.dart';
@@ -106,9 +107,24 @@ print("parentFolderId:  ${widget.parentFolderId}");
                       padding: EdgeInsets.all(8.0),
                       child: Text(
                         widget.locale[TranslationsKeys.backup]!,
-                        //style:  TextStyle(fontSize: 20,color: !isDark ? Colors.black : Colors.white)
+
                       ),
-                    ))
+                    )),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => AboutPage(locale: widget.locale,isRtl: widget.isRtl),));
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        widget.locale[TranslationsKeys.about]!,
+                      ),
+                    )),
+
+
               ],
             ),
           ),
@@ -215,27 +231,33 @@ print("parentFolderId:  ${widget.parentFolderId}");
     );
   }
 } /*
-TODO the open page
-TODO the show note page
-TODO make the app work db
-TODO make delete work
-TODO make edit work
-TODO add about page
-TODO make import and export and merge work  make the page of backup
+the open page
+the show note page
+make the app work db
+make delete work
+make edit work
+add about page
+TODO late make import and export and merge work  make the page of backup
 # dynamic colors android 13
 # arabic lang
-TODO icon of the application that also supports dyanamic colors
+TODO late icon of the application that also supports dyanamic colors
  seying avedio about that
 # improve the default theme
-TODO create my own way to the localization
+create my own way to the localization
 
 
 
 
 
-TODO open note page adding edit in the top re calling the edit note with  title and content argument and put the old text in the note
+open note page adding edit in the top re calling the edit note with  title and content argument and put the old text in the note
 open folder page reclling the homepage with defferent parentFolderId
   and on the top calling the name of the folder note add argument for the name of the folder
 delete all folders inside the deleted folder
 TODO sittings page adding
+TODO state mangement by bloc
+
+
+TODO in the next version add search for the notes
+adding the direction of the text inside the Note title and content
+
 */

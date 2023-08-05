@@ -90,7 +90,10 @@ class _GridViewBodyState extends State<GridViewBody> {
               (index) => Column(
                     children: [
                       NoteButton(
-
+                          isRtl: widget.isRtl,
+                          contentDirection:  listNotes[index]!.isContentRtl?? widget.isRtl ? TextDirection.rtl : TextDirection.ltr ,
+                          titleDirection: listNotes[index]!.isTitleRtl?? widget.isRtl ? TextDirection.rtl : TextDirection.ltr ,
+                          locale: widget.locale,
                           noteContent: listNotes[index]!.content!,
                           noteId: listNotes[index]!.id,
                           db: widget.db,

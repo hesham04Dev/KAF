@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:note_filest1/isarCURD.dart';
+import '../isarCURD.dart';
 
 import 'screens/MyHomePage.dart';
 import 'screens/editNote.dart';
@@ -12,6 +12,7 @@ late final isar;
 
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   isar =  IsarService();
   await isar.openDB();
 
@@ -44,12 +45,20 @@ class MyApp extends StatelessWidget {
       isRtl = false;
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
       return MaterialApp(
-         themeMode: ThemeMode.light,
+         //themeMode: ThemeMode.dark,
         debugShowCheckedModeBanner: false,
 
         /*Debug only un commit the above line and delete this line TODO*/
         debugShowMaterialGrid: false,
         theme: ThemeData(
+          iconButtonTheme: IconButtonThemeData(
+            style: ButtonStyle(
+              iconColor: MaterialStatePropertyAll(
+                lightColorScheme?.onPrimary ??
+                    _defaultLightColorScheme.onPrimary,
+              )
+            )
+          ),
             dialogBackgroundColor: Colors.white,
             scaffoldBackgroundColor: Colors.white,
             dividerTheme: DividerThemeData(color: Colors.black),
@@ -83,6 +92,14 @@ class MyApp extends StatelessWidget {
               backgroundColor: Colors.white,
             )),
         darkTheme: ThemeData(
+          iconButtonTheme: IconButtonThemeData(
+              style: ButtonStyle(
+                  iconColor: MaterialStatePropertyAll(
+                    darkColorScheme?.onPrimary ??
+                        _defaultDarkColorScheme.onPrimary,
+                  )
+              )
+          ),
           inputDecorationTheme: InputDecorationTheme(
               fillColor: Colors.white10,
               hintStyle: TextStyle(color: Colors.white70)),

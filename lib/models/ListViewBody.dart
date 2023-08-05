@@ -1,6 +1,6 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:note_filest1/models/NoteButton.dart';
+import '../models/NoteButton.dart';
 
 import '../collection/Folder.dart';
 import '../collection/Note.dart';
@@ -90,7 +90,10 @@ class _ListViewBodyState extends State<ListViewBody> {
               (index) => Column(
                     children: [
                       NoteButton(
-
+                          isRtl: widget.isRtl,
+                          contentDirection:  widget.listNotes[index]!.isContentRtl?? widget.isRtl ? TextDirection.rtl : TextDirection.ltr ,
+                          titleDirection: widget.listNotes[index]!.isTitleRtl?? widget.isRtl ? TextDirection.rtl : TextDirection.ltr ,
+                          locale: widget.locale,
                           parentFolderId: widget.listNotes[index]!.parentFolderId,
                           db: widget.db,
                           isGridView: widget.isGridView,

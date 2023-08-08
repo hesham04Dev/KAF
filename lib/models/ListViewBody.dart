@@ -1,38 +1,50 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import '../models/NoteButton.dart';
+import 'package:note_files/provider/ListViewProvider.dart';
+import 'package:provider/provider.dart';
 
 import '../collection/Folder.dart';
 import '../collection/Note.dart';
 import '../isarCURD.dart';
+import '../models/NoteButton.dart';
 import 'FolderButton.dart';
 
-class ListViewBody extends StatefulWidget {
+class ListViewBody extends StatelessWidget {
   final IsarService db;
   final bool isRtl;
   final Map<String, String> locale;
-  final List<Folder> listFolders;
-  final List<Note> listNotes;
 
-   ListViewBody(
-      {super.key,
-      required this.db,
-      required this.isRtl,
-      //required this.isDark,
-      required this.locale,
-      required this.listFolders,
-      required this.listNotes});
+  final int? parentId;
+  //final List<Folder> listFolders;
+  //final List<Note> listNotes;
 
-  @override
-  State<ListViewBody> createState() => _ListViewBodyState();
-}
+  ListViewBody({
+   // required this.listFolders,
+    //required this.listNotes,
 
-class _ListViewBodyState extends State<ListViewBody> {
-  /*final List<Folder> listFolders = await db.getAllHomePageFolders();
-  final List<Note> listNotes = await db.getAllHomePageNotes();*/
+    required this.parentId,
+    required this.db,
+    required this.isRtl,
+    required this.locale,
+  });
+  List<Note> oldListNotes = [];
+  List<Folder> oldListFolders = [];
   @override
   Widget build(BuildContext context) {
-
+    print("building listview");
+   // Provider.of<ListViewProvider>(context,listen: true);
+    if(context.read<ListViewProvider>().listFolders.isEmpty){
+      print("folders is empty");
+   context.read<ListViewProvider>().getFoldersAndNotes(parentId);}
+    //if(provider.listFolders!.isNotEmpty){
+     // oldListFolders = provider.listFolders!;
+    //}
+   //if(context.read<ListViewProvider>().listFolders!.isNotEmpty)
+    oldListFolders = context.watch<ListViewProvider>().listFolders;
+  // if(context.read<ListViewProvider>().listNotes!.isNotEmpty)
+    oldListNotes = context.watch<ListViewProvider>().listNotes;
+    //oldListNotes = provider.listNotes!;
+    //listFolders[0].id;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: ListView(
@@ -41,23 +53,17 @@ class _ListViewBodyState extends State<ListViewBody> {
             height: 10,
           ),
           ...List<Widget>.generate(
-              widget.listFolders.length,
+              oldListFolders.length,
               (index) => Column(
                     children: [
                       FolderButton(
-                        onDelete: (){
-                          setState(() {
 
-                          });
-                        },
-                          parentFolderId: widget.listFolders[index].parent,
-                          id: widget.listFolders[index].id,
-                          db: widget.db,
-
-                          folderName: widget.listFolders[index]!.name as String,
-                          isRtl: widget.isRtl,
-                          locale: widget.locale,
-                          //isDark: widget.isDark,
+                          parentFolderId: oldListFolders[index].parent,
+                          id: oldListFolders[index].id,
+                          db: db,
+                          folderName: oldListFolders[index].name as String,
+                          isRtl: isRtl,
+                          locale: locale,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 5, vertical: 15),
@@ -72,7 +78,7 @@ class _ListViewBodyState extends State<ListViewBody> {
                                 ),
                                 FittedBox(
                                   child: Text(
-                                    widget.listFolders[index]!.name as String,
+                                    oldListFolders[index].name as String,
                                     style: TextStyle(fontSize: 20),
                                   ),
                                 ),
@@ -83,21 +89,25 @@ class _ListViewBodyState extends State<ListViewBody> {
                     ],
                   )),
           ...List<Widget>.generate(
-              widget.listNotes.length,
+              oldListNotes.length,
               (index) => Column(
                     children: [
                       NoteButton(
-                          isRtl: widget.isRtl,
-                          contentDirection:  widget.listNotes[index]!.isContentRtl?? widget.isRtl ? TextDirection.rtl : TextDirection.ltr ,
-                          titleDirection: widget.listNotes[index]!.isTitleRtl?? widget.isRtl ? TextDirection.rtl : TextDirection.ltr ,
-                          locale: widget.locale,
-                          parentFolderId: widget.listNotes[index]!.parentFolderId,
-                          db: widget.db,
-
-                          noteContent: widget.listNotes[index]!.content!,
-                          noteId: widget.listNotes[index]!.id,
-                          noteTitle: widget.listNotes[index]!.title!,
-                          noteTime: formatDate(widget.listNotes[index]!.date!,
+                          isRtl: isRtl,
+                          contentDirection:
+                          oldListNotes[index].isContentRtl ?? isRtl
+                                  ? TextDirection.rtl
+                                  : TextDirection.ltr,
+                          titleDirection: oldListNotes[index].isTitleRtl ?? isRtl
+                              ? TextDirection.rtl
+                              : TextDirection.ltr,
+                          locale: locale,
+                          parentFolderId:oldListNotes[index].parentFolderId,
+                          db: db,
+                          noteContent: oldListNotes[index].content!,
+                          noteId: oldListNotes[index].id,
+                          noteTitle: oldListNotes[index].title!,
+                          noteTime: formatDate(oldListNotes[index].date!,
                               [yy, "/", mm, "/", dd, "   ", hh, ":", nn])),
                       Divider(color: Colors.white54),
                     ],

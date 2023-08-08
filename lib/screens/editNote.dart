@@ -1,5 +1,7 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:note_files/provider/ListViewProvider.dart';
+import 'package:provider/provider.dart';
 
 
 import '../screens/FolderPage.dart';
@@ -27,6 +29,7 @@ class EditNote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ListViewProvider provider = Provider.of<ListViewProvider>(context,listen:false);
     final routeArgs =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     bool isDark = routeArgs["isDark"] ?? isDarkMode(context);
@@ -85,23 +88,20 @@ class EditNote extends StatelessWidget {
                             parentFolderId != null ? parentFolderId : null;
 
                       db.saveNote(newNote);
+                      provider.addNote(newNote);
                     } else {
                       var oldNote = await db.getNote(idOfNote);
                       oldNote!.title = titleController.text;
                       oldNote.date = DateTime.now();
                       oldNote.content = noteTextController.text;
                       db.updateNote(oldNote);
+                      provider.updateNotes();
                     }
 
                     Navigator.pop(context);
 
-                    /*TODO use another way this way*/
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              FolderPage(locale: locale, isRtl: isRtl, db: db)),
-                    );
+
+
                   }
                 },
                 icon: const Icon(Icons.save_rounded)),

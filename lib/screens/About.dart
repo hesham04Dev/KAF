@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../functions/TextDirectionFromisRtl.dart';
+import '../functions/isRtlTextDirection.dart';
 import '../models/MultiLineText.dart';
 
 import '../translations/translations.dart';

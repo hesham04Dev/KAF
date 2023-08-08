@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../functions/isRtlTextDirection.dart';
+
 class FolderOrNoteButton extends StatelessWidget {
   final bool isRtl;
   final Function onLongPressed;
@@ -31,16 +33,19 @@ class FolderOrNoteButton extends StatelessWidget {
       onPressed: () {
         onPressed();
       },
-      child:  Row(
-            textDirection:isRtl ? TextDirection.rtl : TextDirection.ltr,
-              children: [
-                icon ?? SizedBox(),
-                 SizedBox(
-                  width: icon == null ? null :10,
-                ),
-                child,
-              ],
-            ),
+      child:  Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+              textDirection:isRtlTextDirection(isRtl),
+                children: [
+                  icon ?? SizedBox(),
+                   SizedBox(
+                    width: icon == null ? null :10,
+                  ),
+                  child,
+                ],
+              ),
+      ),
     );
   }
 }

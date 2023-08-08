@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:note_files/provider/ListViewProvider.dart';
+import 'package:provider/provider.dart';
 
 import '../isarCURD.dart';
 import '../translations/translations.dart';
@@ -24,6 +26,7 @@ class EditOrDeleteFolder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //final provider =Provider.of<ListViewProvider>(context,listen: false);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -43,7 +46,8 @@ class EditOrDeleteFolder extends StatelessWidget {
                           locale: locale,
                           isRtl: isRtl,
                           onSubmit: (newName) {
-                            onSubmitNewName(newName);
+                          onSubmitNewName(newName);
+
                           },
                         ));
               },
@@ -63,6 +67,7 @@ class EditOrDeleteFolder extends StatelessWidget {
           child: TextButton(
               onPressed: () {
                 onDelete();
+
                 Navigator.pop(context);
               },
               child:  SizedBox(

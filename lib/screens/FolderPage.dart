@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:note_files/models/FloatingNewFolderNote.dart';
+import 'package:note_files/provider/ListViewProvider.dart';
+import 'package:provider/provider.dart';
 
 import '../screens/About.dart';
 import '../translations/translations.dart';
@@ -8,61 +11,78 @@ import '../collection/Note.dart';
 import '../functions/boolFn.dart';
 import '../isarCURD.dart';
 
-import '../models/FolderNameDialog.dart';
-import '../models/ListViewBody.dart';
-import 'editNote.dart';
 
-class FolderPage extends StatefulWidget {
+import '../models/ListViewBody.dart';
+
+
+class FolderPage extends StatelessWidget {
   final Map<String, String> locale;
   final bool isRtl;
   final IsarService db;
-  final int? parentFolderId ;
-  final String? folderName;
+  final bool modalRoute;
+ /* final int? parentFolderId;
+  final String? folderName;*/
 
-  const FolderPage(
-      {super.key, required this.locale, required this.isRtl, required this.db,this.parentFolderId,this.folderName});
+  FolderPage(
+      {super.key, required this.locale, required this.isRtl, required this.db,this.modalRoute = false  });
+  static const String routeName= "FolderPage";
+  //bool actionButtonPressed = false;
 
-  @override
-  State<FolderPage> createState() => _FolderPageState();
-}
-
-class _FolderPageState extends State<FolderPage> {
-  bool actionButtonPressed = false;
+    //List<Folder> oldListFolders =[];
+    //List<Note> oldListNotes =[];
 
 
-    List<Folder> listFolders = [];
-    List<Note> listNotes = [];
 
   @override
   Widget build(BuildContext context) {
+    print("building folder page");
+    final routeArgs =  modalRoute? null:  ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    //ListViewProvider provider = Provider.of<ListViewProvider>(context);
+    final int? parentFolderId = modalRoute ? null:routeArgs!["parentFolderId"];
+    final String? folderName = modalRoute ? null :routeArgs!["folderName"];
+    //if(provider == null) print("Please provide a provider");
 
-    final String title = widget.parentFolderId == null ?widget.locale[TranslationsKeys.title]! : widget.folderName!;
+    final String title = parentFolderId == null ? locale[TranslationsKeys
+        .title]! : folderName!;
     bool isDark = isDarkMode(context);
+   // print(provider.state);
+    /*if(provider.state == listScreenState.initial && provider!.listFolders!.isEmpty){
+      //print("listFolders :${provider.listFolders}");
+      print("first if");
+      //provider.getFoldersAndNotes(parentFolderId);
 
- Future<String>? getBodyData()async{
 
-  listFolders = await widget.db.getFolders(widget.parentFolderId);
-  listNotes = await widget.db.getNotes(widget.parentFolderId);
-
-
-  return "done";
-}
-print("parentFolderId:  ${widget.parentFolderId}");
-    return Scaffold(
+      return Container(
+        child: Center(child: SizedBox(child: CircularProgressIndicator(), width: 30, height: 30,))
+      );
+    }*//*else*///{
+     // oldListFolders = provider.listFolders ?? [];
+      //oldListNotes = provider.listNotes ?? [];
+     // if (oldListFolders.length == 0) print("failed");
+      //else print("success");
+    //  if(provider.listFolders!.length  > oldListFolders.length  && oldListFolders.length > 0) provider.updateFolders();
+      //if(provider.listFolders!.isNotEmpty && oldListFolders.isNotEmpty){
+     // if(provider.listNotes!.length  > oldListNotes.length && oldListNotes.length >0) provider.updateNotes();//}
+      //print("listFolders :${provider.listFolders}");
+      return Scaffold(
       appBar: AppBar(
-        leading:widget.parentFolderId == null ? null : IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back)),
+        leading: parentFolderId == null ? null : IconButton(onPressed: () {
+          Navigator.pop(context);
+        }, icon: Icon(Icons.arrow_back)),
         title: Text(
           title,
         ),
-        actions: widget.parentFolderId == null ? null : [Builder(
-            builder: (context) => IconButton(
-              icon: const Icon(
-                Icons.menu_rounded,
-              ),
-              onPressed: () {
-                return Scaffold.of(context).openDrawer();
-              },
-            )) ],
+        actions: parentFolderId == null ? null : [Builder(
+            builder: (context) =>
+                IconButton(
+                  icon: const Icon(
+                    Icons.menu_rounded,
+                  ),
+                  onPressed: () {
+                    return Scaffold.of(context).openDrawer();
+                  },
+                ))
+        ],
 
       ),
       drawer: NavigationDrawer(
@@ -92,7 +112,7 @@ print("parentFolderId:  ${widget.parentFolderId}");
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
-                        widget.locale[TranslationsKeys.settings]!,
+                        locale[TranslationsKeys.settings]!,
                       ),
                     )),
                 const SizedBox(
@@ -103,7 +123,7 @@ print("parentFolderId:  ${widget.parentFolderId}");
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
-                        widget.locale[TranslationsKeys.backup]!,
+                        locale[TranslationsKeys.backup]!,
 
                       ),
                     )),
@@ -112,12 +132,14 @@ print("parentFolderId:  ${widget.parentFolderId}");
                 ),
                 TextButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => AboutPage(locale: widget.locale,isRtl: widget.isRtl),));
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) =>
+                            AboutPage(locale: locale, isRtl: isRtl),));
                     },
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
-                        widget.locale[TranslationsKeys.about]!,
+                        locale[TranslationsKeys.about]!,
                       ),
                     )),
 
@@ -127,105 +149,17 @@ print("parentFolderId:  ${widget.parentFolderId}");
           ),
         ],
       ),
-      body:FutureBuilder<String>(
-        future: getBodyData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(), // Show loading icon
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
-          } else {
-            return ListViewBody(db:widget.db ,isRtl: widget.isRtl,locale: widget.locale,listNotes: listNotes,listFolders: listFolders );
-
-          }
-        },
-      ),
+      body:ListViewBody(db: db, isRtl: isRtl, locale: locale,parentId: parentFolderId, ),
 
 
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (actionButtonPressed)
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: FloatingActionButton(
-                    //shape: const CircleBorder(),
-                    mini: true,
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) => FolderNameDialog(
-                                db: widget.db,
-                                parentFolderId: null,
-                                isRtl: widget.isRtl,
-                                onSubmit: (text) {
-                                  final newFolder = Folder()..name = text
-                                    ..parent = widget.parentFolderId;
-                                  widget.db.saveFolder(newFolder);
-                                  setState(() {
-
-                                  });
-                                },
-                                locale: widget.locale,
-                              ));
-                    },
-                    child: const Icon(Icons.create_new_folder),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: FloatingActionButton(
-                    heroTag: null,
-                    //shape: const CircleBorder(),
-                    mini: true,
-                    onPressed: () {
-                      Navigator.pushNamed(context, EditNote.routeName,
-                          arguments: {
-                            "isDark": isDark,
-                            "parentFolderId": widget.parentFolderId
-                          });
-                    },
-                    child: const Icon(Icons.note_add),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                )
-              ],
-            ),
-          FloatingActionButton(
-              heroTag: null,
-              //shape: const CircleBorder(),
-              onPressed: () {
-                if (actionButtonPressed == false) {
-                  actionButtonPressed = true;
-                } else {
-                  actionButtonPressed = false;
-                }
-                setState(() {});
-              },
-              child: Transform.rotate(
-                origin: Offset.zero,
-                angle: actionButtonPressed == false ? 0 : 3.14,
-                child: const Icon(
-                  Icons.keyboard_arrow_up_rounded,
-                  size: 40,
-                ),
-              ))
-        ],
-      ),
+      floatingActionButton: FloatingNewFolderNote(db: db, isRtl: isRtl,locale: locale,parentFolderId: parentFolderId,isDark: isDark),
     );
+
+
+    }
   }
-} /*
+//}
+/*
 the open page
 the show note page
 make the app work db
@@ -235,7 +169,7 @@ add about page
 TODO late make import and export and merge work  make the page of backup
 # dynamic colors android 13
 # arabic lang
-TODO late icon of the application that also supports dyanamic colors
+TODO late icon of the application that also supports dynamic colors
  seying avedio about that
 # improve the default theme
 create my own way to the localization

@@ -49,11 +49,10 @@ class IsarService {
 
   Future<void> deleteFolder(int folderId) async {
     final isar = await db;
-    isar.writeTxnSync(() {
-      isar.folders.delete(folderId);
-      isar.folders.filter().parentEqualTo(folderId).deleteAllSync();
-      isar.notes.filter().parentFolderIdEqualTo(folderId).deleteAllSync();
-    });
+    await isar.writeTxn(() =>  isar.folders.delete(folderId));
+    await isar.writeTxnSync(()  =>  isar.notes.filter().parentFolderIdEqualTo(folderId).deleteAllSync());
+   await isar.writeTxnSync(() => isar.folders.filter().parentEqualTo(folderId).deleteAllSync(),);
+   print("delete folder is done");
      }
 
   Future<void> saveNote(Note newNote) async {

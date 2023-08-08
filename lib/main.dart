@@ -2,22 +2,30 @@ import 'dart:io';
 
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import '../isarCURD.dart';
+import 'package:note_files/provider/ListViewProvider.dart';
+import 'package:provider/provider.dart';
 
+import '../isarCURD.dart';
+import 'functions/isRtlTextDirection.dart';
 import 'screens/FolderPage.dart';
 import 'screens/editNote.dart';
 import 'translations/translations.dart';
 
 late final isar;
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  isar =  IsarService();
+  isar = IsarService();
   await isar.openDB();
 
-  runApp(MyApp());
-
+runApp(
+  MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => ListViewProvider(db: isar)),
+    ],
+    child:  MyApp(),
+    ));
+  print("the app is opend");
 }
 
 class MyApp extends StatelessWidget {
@@ -32,6 +40,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("My app building");
     Map<String, String> locale;
     String lang = "${Platform.localeName[0]}${Platform.localeName[1]}";
     if (Translations.supportedLocales.contains(lang)) {
@@ -45,20 +54,17 @@ class MyApp extends StatelessWidget {
       isRtl = false;
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
       return MaterialApp(
-         //themeMode: ThemeMode.dark,
+        //themeMode: ThemeMode.dark,
         debugShowCheckedModeBanner: false,
 
         /*Debug only un commit the above line and delete this line TODO*/
         debugShowMaterialGrid: false,
         theme: ThemeData(
-          iconButtonTheme: IconButtonThemeData(
-            style: ButtonStyle(
-              iconColor: MaterialStatePropertyAll(
-                lightColorScheme?.onPrimary ??
-                    _defaultLightColorScheme.onPrimary,
-              )
-            )
-          ),
+            iconButtonTheme: IconButtonThemeData(
+                style: ButtonStyle(
+                    iconColor: MaterialStatePropertyAll(
+              lightColorScheme?.onPrimary ?? _defaultLightColorScheme.onPrimary,
+            ))),
             dialogBackgroundColor: Colors.white,
             scaffoldBackgroundColor: Colors.white,
             dividerTheme: DividerThemeData(color: Colors.black),
@@ -95,11 +101,8 @@ class MyApp extends StatelessWidget {
           iconButtonTheme: IconButtonThemeData(
               style: ButtonStyle(
                   iconColor: MaterialStatePropertyAll(
-                    darkColorScheme?.onPrimary ??
-                        _defaultDarkColorScheme.onPrimary,
-                  )
-              )
-          ),
+            darkColorScheme?.onPrimary ?? _defaultDarkColorScheme.onPrimary,
+          ))),
           inputDecorationTheme: InputDecorationTheme(
               fillColor: Colors.white10,
               hintStyle: TextStyle(color: Colors.white70)),
@@ -132,51 +135,23 @@ class MyApp extends StatelessWidget {
           ),
         ),
         home: Directionality(
-            textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
-            child:FolderPage(locale: locale, isRtl: isRtl, db: isar)),
+            textDirection: isRtlTextDirection(isRtl),
+            child: FolderPage(
+              modalRoute: true,
+              locale: locale,
+              isRtl: isRtl,
+              db: isar,
+            )),
         routes: {
           EditNote.routeName: (_) => Directionality(
-              textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
-              child: EditNote(locale: locale, db: isar , isRtl: isRtl)),
+              textDirection: isRtlTextDirection(isRtl),
+              child: EditNote(locale: locale, db: isar, isRtl: isRtl)),
+          FolderPage.routeName: (_) => Directionality(
+              textDirection: isRtlTextDirection(isRtl),
+              child: FolderPage(locale: locale, db: isar, isRtl: isRtl,)),
+
         },
       );
     });
-  }
-}
-class MyScreen extends StatefulWidget {
-  @override
-  _MyScreenState createState() => _MyScreenState();
-}
-
-class _MyScreenState extends State<MyScreen> {
-  Future<String> fetchData() async {
-    // Simulating an asynchronous operation
-    await Future.delayed(Duration(seconds: 2));
-    return 'Data loaded';
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Loading Example')),
-      body: FutureBuilder<String>(
-        future: fetchData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(), // Show loading icon
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
-          } else {
-            return Center(
-              child: Text('Data: ${snapshot.data}'),
-            );
-          }
-        },
-      ),
-    );
   }
 }

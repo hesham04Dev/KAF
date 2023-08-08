@@ -1,32 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:note_files/provider/ListViewProvider.dart';
+import 'package:note_files/requiredData.dart';
 import 'package:provider/provider.dart';
+import '../collection/Folder.dart';
 import '../models/FolderOrNoteButton.dart';
 import '../models/MultiLineText.dart';
 import '../screens/FolderPage.dart';
-
 import '../isarCURD.dart';
-import 'EditOrDileteFolder.dart';
+import 'EditOrDeleteFolder.dart';
 
 class FolderButton extends StatelessWidget {
-  final Map<String, String> locale;
+ final Map<String, String> locale = requiredData.locale;
   final Widget child;
-  final bool isRtl;
-  final IsarService db;
+  final bool isRtl = requiredData.isRtl;
+  final IsarService db = requiredData.db;
   final int? parentFolderId;
   final int id;
-  //final Function onDone;
-  //final ListViewProvider provider;
   final String folderName;
 
   FolderButton(
-      {//required this.provider,
+      {
       required this.parentFolderId,
       super.key,
-      required this.db,
       required this.child,
-      required this.locale,
-      required this.isRtl,
       required this.id,
       required this.folderName});
 
@@ -51,16 +47,25 @@ class FolderButton extends StatelessWidget {
                 parentFolderId: parentFolderId,
                 isRtl: isRtl,
                 onDelete: () async {
-                  final existingFolder = await db.getFolder(id);
-                  await db.deleteFolder(existingFolder!.id);
-                 await context.read<ListViewProvider>().deleteFolder(existingFolder);
+                  final Folder? existingFolder = await db.getFolder(id);
+                  existingFolder ?? print("we dont get the folder");
+                  print("the folder id $id");
+                  print("we get the folder");
+
+                  await context.read<ListViewProvider>().deleteFolder(existingFolder!);
+                  print(context.read<ListViewProvider>().listFolders.length);
+                  await db.deleteFolder(existingFolder.id);
+                  print("we delete the folder");
+
+                 print("we apdate the screenshot");
                 },
                 onSubmitNewName: (newName) async {
-                  
+
                   final existingFolder = await db.getFolder(id);
                   existingFolder!.name = newName;
                   await db.updateFolder(existingFolder);
-                  await context.read<ListViewProvider>().updateFolders(id);
+
+                  await context.read<ListViewProvider>().updateFolders(existingFolder);
 
                 },
                 locale: locale,
@@ -68,20 +73,18 @@ class FolderButton extends StatelessWidget {
               );
             });
       },
-      onPressed: () {
+      onPressed: () async{
         print("pushing parent is $id");
-        context.read<ListViewProvider>().getFoldersAndNotes(id);
+        await context.read<ListViewProvider>().getFoldersAndNotes(id);
         Navigator.pushNamed(
             context,
             FolderPage.routeName,
             arguments: {
-              "parentFolderId": id,
+              "folderId": id,
+              "parentFolderId": parentFolderId,
               "folderName": folderName,
             });
-            /*MaterialPageRoute(
-              builder: (context) =>
-                  FolderPage(locale: locale, isRtl: isRtl, db: db,parentFolderId: id,folderName: folderName,),
-            ));*/
+
 
       },
     );

@@ -1,10 +1,9 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:note_files/provider/ListViewProvider.dart';
+import 'package:note_files/requiredData.dart';
 import 'package:provider/provider.dart';
 
-
-import '../screens/FolderPage.dart';
 
 import '../collection/Note.dart';
 import '../functions/boolFn.dart';
@@ -14,13 +13,9 @@ import '../models/MyWarningDialog.dart';
 import '../translations/translations.dart';
 
 class EditNote extends StatelessWidget {
-  final Map<String, String> locale;
-  final IsarService db;
-  final bool isRtl;
-
-  EditNote(
-      {super.key, required this.locale, required this.db, required this.isRtl});
-
+  final Map<String, String> locale = requiredData.locale;
+  final IsarService db = requiredData.db;
+  final bool isRtl = requiredData.isRtl;
   static const String routeName = "EditNote";
 
   final titleController = TextEditingController();
@@ -85,7 +80,7 @@ class EditNote extends StatelessWidget {
                         ..content = noteTextController.text
                         ..isContentRtl = isRTL(titleController.text[0],isRtl)
                         ..parentFolderId =
-                            parentFolderId != null ? parentFolderId : null;
+                        parentFolderId != null ? parentFolderId : null;
 
                       db.saveNote(newNote);
                       provider.addNote(newNote);
@@ -95,7 +90,7 @@ class EditNote extends StatelessWidget {
                       oldNote.date = DateTime.now();
                       oldNote.content = noteTextController.text;
                       db.updateNote(oldNote);
-                      provider.updateNotes();
+                      provider.updateNote(oldNote);
                     }
 
                     Navigator.pop(context);
@@ -112,7 +107,6 @@ class EditNote extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Container(
           decoration: BoxDecoration(
-
             color: isDark == true ? Colors.white10 : Theme.of(context).primaryColor.withOpacity(0.1),
               borderRadius: BorderRadius.circular(10)),
           child: Padding(

@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:note_files/provider/ListViewProvider.dart';
+import 'package:note_files/requiredData.dart';
+import 'package:note_files/homePageData.dart';
 import 'package:provider/provider.dart';
 
 import '../isarCURD.dart';
@@ -11,21 +13,22 @@ import 'screens/FolderPage.dart';
 import 'screens/editNote.dart';
 import 'translations/translations.dart';
 
-late final isar;
+//late final isar;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  isar = IsarService();
-  await isar.openDB();
 
+  await requiredData.db.openDB();
+  homePageFolders = await requiredData.db.getFolders(null);
+  homePageNotes = await requiredData.db.getNotes(null);
 runApp(
   MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (_) => ListViewProvider(db: isar)),
+      ChangeNotifierProvider(create: (_) => ListViewProvider()),
     ],
     child:  MyApp(),
     ));
-  print("the app is opend");
+  print("the app is opened");
 }
 
 class MyApp extends StatelessWidget {
@@ -36,22 +39,22 @@ class MyApp extends StatelessWidget {
 
   static final _defaultDarkColorScheme = ColorScheme.fromSwatch(
       primarySwatch: Colors.green, brightness: Brightness.dark);
-  bool isRtl = false;
+  //bool isRtl = false;
 
   @override
   Widget build(BuildContext context) {
     print("My app building");
-    Map<String, String> locale;
+    //Map<String, String> locale;
     String lang = "${Platform.localeName[0]}${Platform.localeName[1]}";
     if (Translations.supportedLocales.contains(lang)) {
-      locale = Translations.mapLocales[lang]!;
+      requiredData.set_locale = Translations.mapLocales[lang]!;
     } else {
-      locale = Translations.mapLocales["en"]!;
+      requiredData.set_locale = Translations.mapLocales["en"]!;
     }
     if (lang == "ar")
-      isRtl = true;
+      requiredData.set_isRtl = true;
     else
-      isRtl = false;
+      requiredData.set_isRtl = false;
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
       return MaterialApp(
         //themeMode: ThemeMode.dark,
@@ -135,20 +138,17 @@ class MyApp extends StatelessWidget {
           ),
         ),
         home: Directionality(
-            textDirection: isRtlTextDirection(isRtl),
+            textDirection: isRtlTextDirection(requiredData.isRtl!),
             child: FolderPage(
               modalRoute: true,
-              locale: locale,
-              isRtl: isRtl,
-              db: isar,
             )),
         routes: {
           EditNote.routeName: (_) => Directionality(
-              textDirection: isRtlTextDirection(isRtl),
-              child: EditNote(locale: locale, db: isar, isRtl: isRtl)),
+              textDirection: isRtlTextDirection(requiredData.isRtl!),
+              child: EditNote()),
           FolderPage.routeName: (_) => Directionality(
-              textDirection: isRtlTextDirection(isRtl),
-              child: FolderPage(locale: locale, db: isar, isRtl: isRtl,)),
+              textDirection: isRtlTextDirection(requiredData.isRtl!),
+              child: FolderPage()),
 
         },
       );

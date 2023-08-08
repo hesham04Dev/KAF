@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_files/requiredData.dart';
 import 'package:provider/provider.dart';
 
 import '../collection/Folder.dart';
@@ -8,13 +9,12 @@ import '../screens/editNote.dart';
 import 'FolderNameDialog.dart';
 
 class FloatingNewFolderNote extends StatefulWidget {
-   final IsarService db;
-   final bool isRtl;
+   final IsarService db = requiredData.db;
+   final bool isRtl = requiredData.isRtl;
    final bool isDark;
-   final Map<String,String> locale;
+   final Map<String,String> locale = requiredData.locale;
    final int? parentFolderId;
-  const FloatingNewFolderNote({super.key,required this.db, required this.isRtl
-  ,required this.isDark, required this.locale,required this.parentFolderId });
+   FloatingNewFolderNote({super.key,required this.isDark,required this.parentFolderId });
 
   @override
   State<FloatingNewFolderNote> createState() => _FloatingNewFolderNoteState();
@@ -37,7 +37,6 @@ class _FloatingNewFolderNoteState extends State<FloatingNewFolderNote> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: FloatingActionButton(
-                  //shape: const CircleBorder(),
                   mini: true,
                   onPressed: () {
                     showDialog(
@@ -52,7 +51,7 @@ class _FloatingNewFolderNoteState extends State<FloatingNewFolderNote> {
                                   ..name = text
                                   ..parent = widget.parentFolderId;
                                 widget.db.saveFolder(newFolder);
-                                context.read<ListViewProvider>().addFolder(newFolder);
+                               context.read<ListViewProvider>().addFolder(newFolder);
                               },
                               locale: widget.locale,
                             ));
@@ -64,7 +63,6 @@ class _FloatingNewFolderNoteState extends State<FloatingNewFolderNote> {
                 padding: const EdgeInsets.all(8.0),
                 child: FloatingActionButton(
                   heroTag: null,
-                  //shape: const CircleBorder(),
                   mini: true,
                   onPressed: () {
                     Navigator.pushNamed(context, EditNote.routeName,
@@ -83,19 +81,15 @@ class _FloatingNewFolderNoteState extends State<FloatingNewFolderNote> {
           ),
         FloatingActionButton(
             heroTag: null,
-            //shape: const CircleBorder(),
             onPressed: () {
               if (actionButtonPressed == false) {
                 actionButtonPressed = true;
-
                 setState(() {
 
                 });
               } else {
                 actionButtonPressed = false;
-
                 setState(() {
-
                 });
               }
             },

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/styles.dart';
 
 import '../isarCURD.dart';
 import '../models/MyWarningDialog.dart';
+import '../provider/ListViewProvider.dart';
 import '../translations/translations.dart';
 import 'editNote.dart';
 
@@ -55,6 +57,8 @@ class NotePage extends StatelessWidget {
                   TranslationsWarningButton: locale[TranslationsKeys.delete]!,
                   onWarningPressed: () {
                     db.deleteNote(id);
+                    
+                    context.read<ListViewProvider>().deleteNote(id);
                     Navigator.pop(context);
                     Navigator.pop(context);
                   },

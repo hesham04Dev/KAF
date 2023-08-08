@@ -1,8 +1,12 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:note_files/provider/ListViewProvider.dart';
 import 'package:provider/provider.dart';
 
+import '../homePageData.dart';
 import '../isarCURD.dart';
+import '../requiredData.dart';
 import '../translations/translations.dart';
 import 'FolderNameDialog.dart';
 import 'styles.dart';
@@ -37,16 +41,18 @@ class EditOrDeleteFolder extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: TextButton(
               onPressed: () {
-                Navigator.pop(context);
+               // Navigator.pop(context);
                 showDialog(
-                    context: context,
+                    context: context /*scaffoldKey.currentContext!*/,
                     builder: (context) => FolderNameDialog(
                           db: db,
                           parentFolderId:parentFolderId ,
                           locale: locale,
                           isRtl: isRtl,
-                          onSubmit: (newName) {
-                          onSubmitNewName(newName);
+                          onSubmit: (newName) async{
+                          await onSubmitNewName(newName);
+                         // await requiredData.db.updateFolder();
+                          Navigator.pop(context);
 
                           },
                         ));

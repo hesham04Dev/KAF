@@ -1,6 +1,5 @@
 import 'package:isar/isar.dart';
 
-import 'Folder.dart';
 
 part 'Note.g.dart';
 

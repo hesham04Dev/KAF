@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../translations/translations.dart';
 import 'styles.dart';
 
 class MyWarningDialog extends StatelessWidget {
@@ -22,7 +21,7 @@ class MyWarningDialog extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.all(8.0),
-            child: Text(TranslationsTitle!,
+            child: Text(TranslationsTitle,
                 style: MediumText()),
           ),
           const SizedBox(

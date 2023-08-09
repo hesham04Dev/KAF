@@ -7,7 +7,6 @@ import 'package:note_files/requiredData.dart';
 import 'package:note_files/homePageData.dart';
 import 'package:provider/provider.dart';
 
-import '../isarCURD.dart';
 import 'functions/isRtlTextDirection.dart';
 import 'screens/FolderPage.dart';
 import 'screens/editNote.dart';

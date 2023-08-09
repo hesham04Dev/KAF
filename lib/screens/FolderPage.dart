@@ -6,15 +6,12 @@ import 'package:provider/provider.dart';
 
 import '../screens/About.dart';
 import '../translations/translations.dart';
-
-import '../collection/Folder.dart';
-import '../collection/Note.dart';
 import '../functions/boolFn.dart';
 import '../isarCURD.dart';
 
 
 import '../models/ListViewBody.dart';
-import '../homePageData.dart';
+
 
 class FolderPage extends StatelessWidget {
   static const String routeName= "FolderPage";
@@ -23,15 +20,10 @@ class FolderPage extends StatelessWidget {
   final IsarService db = requiredData.db;
 
   final bool modalRoute;
- /* final int? parentFolderId;
-  final String? folderName;*/
+
 
   FolderPage({this.modalRoute = false  });
 
-  //bool actionButtonPressed = false;
-
-    //List<Folder> oldListFolders =[];
-    //List<Note> oldListNotes =[];
 
 
 
@@ -39,7 +31,7 @@ class FolderPage extends StatelessWidget {
   Widget build(BuildContext context) {
     print("building folder page");
     final routeArgs =  modalRoute? null:  ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    //ListViewProvider provider = Provider.of<ListViewProvider>(context);
+
     final int? parentFolderId = modalRoute ? null:routeArgs!["parentFolderId"];
     final int? folderId = modalRoute ? null:routeArgs!["folderId"];
 
@@ -50,26 +42,7 @@ class FolderPage extends StatelessWidget {
         .title]! : folderName!;
     print('$folderId  folder id');
     bool isDark = isDarkMode(context);
-    //context.read<ListViewProvider>().getFoldersAndNotes(folderId);
-   // print(provider.state);
-    /*if(provider.state == listScreenState.initial && provider!.listFolders!.isEmpty){
-      //print("listFolders :${provider.listFolders}");
-      print("first if");
-      //provider.getFoldersAndNotes(parentFolderId);
 
-
-      return Container(
-        child: Center(child: SizedBox(child: CircularProgressIndicator(), width: 30, height: 30,))
-      );
-    }*//*else*///{
-     // oldListFolders = provider.listFolders ?? [];
-      //oldListNotes = provider.listNotes ?? [];
-     // if (oldListFolders.length == 0) print("failed");
-      //else print("success");
-    //  if(provider.listFolders!.length  > oldListFolders.length  && oldListFolders.length > 0) provider.updateFolders();
-      //if(provider.listFolders!.isNotEmpty && oldListFolders.isNotEmpty){
-     // if(provider.listNotes!.length  > oldListNotes.length && oldListNotes.length >0) provider.updateNotes();//}
-      //print("listFolders :${provider.listFolders}");
       return Scaffold(
           //key: scaffoldKey,
       appBar: AppBar(

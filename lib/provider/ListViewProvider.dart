@@ -32,7 +32,7 @@ class ListViewProvider with ChangeNotifier {
   }
 
   addFolder(Folder folder) async {
-    //_listFolders = await db.getAllHomePageFolders();
+
 
 
     _parentId == null ? homePageFolders.add(folder) :_listFolders.add(folder);

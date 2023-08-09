@@ -43,7 +43,7 @@ class IsarService {
     //oldFolder!.parent = updatedFolder.parent;
     /*the above is not nesscary since the user cant move the folder right now*/
     oldFolder!.name = updatedFolder.name;
-    isar.writeTxn(() =>  isar.folders.put(oldFolder!));
+    isar.writeTxn(() =>  isar.folders.put(oldFolder));
 
   }
 
@@ -85,8 +85,8 @@ class IsarService {
     final isar = await db;
     final oldNote = await isar.notes.get(updatedNote.id);
     oldNote!.title = updatedNote.title;
-    oldNote!.content = updatedNote.content;
-    isar.writeTxn(() =>  isar.notes.put(oldNote!));
+    oldNote.content = updatedNote.content;
+    isar.writeTxn(() =>  isar.notes.put(oldNote));
   }
 
 

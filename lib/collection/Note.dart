@@ -14,4 +14,5 @@ class Note {
   late String? content;
   late bool? isContentRtl;
   late int?  parentFolderId;
+  late int?  priority;
 }

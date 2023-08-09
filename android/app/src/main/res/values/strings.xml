@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">PresenceQr</string>
+
+    <string-array name="State">
+        <item>State</item>
+        <item>Apply For Annual Leave</item>
+        <item>Apply For Sick Leave</item>
+        <item>Apply For Unpaid Leave</item>
+        <item>Apply For Bereavement Leave</item>
+        <item>Apply For Compensatory Leave</item>
+        <item>Apply For  Salary ِِِAdvances</item>
+        <item>Other</item>
+    </string-array>
+</resources>

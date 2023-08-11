@@ -72,6 +72,13 @@ class IsarService {
         .parentFolderIdEqualTo(parentFolderId)
         .findAll();
   }
+  Future<List<Note>> getNotesByPriority(int priority) async {
+    final isar = await db;
+    return await isar.notes
+        .filter()
+        .priorityEqualTo(priority)
+        .findAll();
+  }
   Future<Note?> getNote(int NoteId) async {
     final isar = await db;
     return await isar.notes.filter().idEqualTo(NoteId).findFirst();
@@ -97,8 +104,9 @@ class IsarService {
       return await Isar.open(
         [FolderSchema, NoteSchema],
         directory: dir.path,
-        inspector: true, /*TODO make it false after end*/
+        inspector: false, /*TODO make it false after end*/
       );
+
     }
 
     return Future.value(Isar.getInstance());

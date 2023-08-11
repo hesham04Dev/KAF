@@ -3,6 +3,7 @@ import 'package:note_files/provider/ListViewProvider.dart';
 import 'package:note_files/requiredData.dart';
 import 'package:provider/provider.dart';
 import '../collection/Folder.dart';
+import '../functions/isRtlTextDirection.dart';
 import '../models/FolderOrNoteButton.dart';
 import '../models/MultiLineText.dart';
 import '../screens/FolderPage.dart';
@@ -30,9 +31,9 @@ class FolderButton extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return FolderOrNoteButton(
-      isRtl: isRtl,
-      child: MultiLineText(margin: 138,
-      text:folderName,maxLines: 1,bold: true,fontSize: 18,textDirection: isRtl? TextDirection.rtl : TextDirection.ltr, ),
+
+      child: MultiLineText(margin: 148,
+      text:folderName,maxLines: 1,bold: true,fontSize: 18,textDirection: isRtlTextDirection(isRtl), ),
       icon: Icon(
 
         Icons.folder_rounded,

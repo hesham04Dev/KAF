@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:note_files/homePageData.dart';
 import 'package:note_files/provider/ListViewProvider.dart';
 import 'package:note_files/requiredData.dart';
-import 'package:note_files/homePageData.dart';
 import 'package:provider/provider.dart';
 
 import 'functions/isRtlTextDirection.dart';
@@ -12,7 +12,6 @@ import 'screens/FolderPage.dart';
 import 'screens/editNote.dart';
 import 'translations/translations.dart';
 
-//late final isar;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,13 +19,10 @@ void main() async {
   await requiredData.db.openDB();
   homePageFolders = await requiredData.db.getFolders(null);
   homePageNotes = await requiredData.db.getNotes(null);
-runApp(
-  MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (_) => ListViewProvider()),
-    ],
-    child:  MyApp(),
-    ));
+  runApp(ChangeNotifierProvider(
+    create: (_) => ListViewProvider(),
+    child: MyApp(),
+  ));
   print("the app is opened");
 }
 
@@ -38,12 +34,11 @@ class MyApp extends StatelessWidget {
 
   static final _defaultDarkColorScheme = ColorScheme.fromSwatch(
       primarySwatch: Colors.green, brightness: Brightness.dark);
-  //bool isRtl = false;
+
 
   @override
   Widget build(BuildContext context) {
     print("My app building");
-    //Map<String, String> locale;
     String lang = "${Platform.localeName[0]}${Platform.localeName[1]}";
     if (Translations.supportedLocales.contains(lang)) {
       requiredData.set_locale = Translations.mapLocales[lang]!;
@@ -58,8 +53,6 @@ class MyApp extends StatelessWidget {
       return MaterialApp(
         //themeMode: ThemeMode.dark,
         debugShowCheckedModeBanner: false,
-
-        /*Debug only un commit the above line and delete this line TODO*/
         debugShowMaterialGrid: false,
         theme: ThemeData(
             iconButtonTheme: IconButtonThemeData(
@@ -148,7 +141,6 @@ class MyApp extends StatelessWidget {
           FolderPage.routeName: (_) => Directionality(
               textDirection: isRtlTextDirection(requiredData.isRtl!),
               child: FolderPage()),
-
         },
       );
     });

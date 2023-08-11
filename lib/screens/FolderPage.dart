@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:note_files/models/FloatingNewFolderNote.dart';
 import 'package:note_files/provider/ListViewProvider.dart';
 import 'package:note_files/requiredData.dart';
+import 'package:note_files/screens/priority.dart';
 import 'package:provider/provider.dart';
 
 import '../screens/About.dart';
@@ -36,109 +37,126 @@ class FolderPage extends StatelessWidget {
     final int? folderId = modalRoute ? null:routeArgs!["folderId"];
 
     final String? folderName = modalRoute ? null :routeArgs!["folderName"];
-    //if(provider == null) print("Please provide a provider");
+
 
     final String title = folderId == null ? locale[TranslationsKeys
         .title]! : folderName!;
     print('$folderId  folder id');
     bool isDark = isDarkMode(context);
+    Future<bool> _onWillPop() async {
+      if (parentFolderId != null){
+      await context.read<ListViewProvider>().getFoldersAndNotes(parentFolderId);
+      Navigator.pop(context);}
 
-      return Scaffold(
-          //key: scaffoldKey,
-      appBar: AppBar(
-        leading: folderId == null ? null : IconButton(onPressed: () async{
-          print("parint folder id :$parentFolderId");
-          await context.read<ListViewProvider>().getFoldersAndNotes(parentFolderId);
-          Navigator.pop(context);
-        }, icon: Icon(Icons.arrow_back)),
-        title: Text(
-          title,
+      return false;
+    }
+      return WillPopScope(
+        onWillPop: _onWillPop ,
+        child: Scaffold(
+            //key: scaffoldKey,
+        appBar: AppBar(
+          leading: folderId == null ? null : IconButton(onPressed: () async{
+            print("parint folder id :$parentFolderId");
+            await context.read<ListViewProvider>().getFoldersAndNotes(parentFolderId);
+            Navigator.pop(context);
+          }, icon: Icon(Icons.arrow_back)),
+          title: Text(
+            title,
+          ),
+          actions: folderId == null ? null : [Builder(
+              builder: (context) =>
+                  IconButton(
+                    icon: const Icon(
+                      Icons.menu_rounded,
+                    ),
+                    onPressed: () {
+                      return Scaffold.of(context).openDrawer();
+                    },
+                  ))
+          ],
+
         ),
-        actions: folderId == null ? null : [Builder(
-            builder: (context) =>
-                IconButton(
-                  icon: const Icon(
-                    Icons.menu_rounded,
+        drawer: NavigationDrawer(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(
+                          Icons.close_rounded,
+                          color: Colors.red,
+                        )),
                   ),
-                  onPressed: () {
-                    return Scaffold.of(context).openDrawer();
-                  },
-                ))
-        ],
+                  const Divider(),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  /*
+                  TextButton(
+                      onPressed: () {},
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          locale[TranslationsKeys.backup]!,
 
-      ),
-      drawer: NavigationDrawer(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: IconButton(
+                        ),
+                      )),
+                  const SizedBox(
+                    height: 10,
+                  ),*/
+                  TextButton(
                       onPressed: () {
                         Navigator.pop(context);
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) =>
+                              priorityScreen(),));
                       },
-                      icon: const Icon(
-                        Icons.close_rounded,
-                        color: Colors.red,
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          locale[TranslationsKeys.priorityNotes]!,
+
+                        ),
                       )),
-                ),
-                const Divider(),
-                const SizedBox(
-                  height: 30,
-                ),
-                TextButton(
-                    onPressed: () {},
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        locale[TranslationsKeys.settings]!,
-                      ),
-                    )),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextButton(
-                    onPressed: () {},
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        locale[TranslationsKeys.backup]!,
-
-                      ),
-                    )),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextButton(
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) =>
-                            AboutPage(locale: locale, isRtl: isRtl),));
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        locale[TranslationsKeys.about]!,
-                      ),
-                    )),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) =>
+                              AboutPage(),));
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          locale[TranslationsKeys.about]!,
+                        ),
+                      )),
 
 
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-      body:ListViewBody(parentId: folderId, ),
+          ],
+        ),
+        body:ListViewBody(parentId: folderId, ),
 
 
-      floatingActionButton: FloatingNewFolderNote(parentFolderId: folderId,isDark: isDark),
-    );
+        floatingActionButton: FloatingNewFolderNote(parentFolderId: folderId,isDark: isDark),
+    ),
+      );
 
 
     }
+
   }
 //}
 /*
@@ -148,10 +166,10 @@ make the app work db
 make delete work
 make edit work
 add about page
-TODO late make import and export and merge work  make the page of backup
+
 # dynamic colors android 13
 # arabic lang
-TODO late icon of the application that also supports dynamic colors
+late icon of the application that also supports dynamic colors
  seying avedio about that
 # improve the default theme
 create my own way to the localization

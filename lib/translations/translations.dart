@@ -89,6 +89,9 @@ abstract class TranslationsKeys{
   static const folderName = 'folderName';
   static const aboutContent = 'aboutContent';
   static const about= 'about';
+  static const permanentDelete= 'permanentDelete';
+  static const priorityNotes = 'priorityNotes';
+  static const priority = 'priority';
 }
 
 class Translations {
@@ -109,7 +112,10 @@ static const Map<String,String> ar = {
   "done": "تم",
   "folderName": "اسم المجلد",
   "about": "عن التطبيق",
-  "aboutContent": "مرحبًا بك في رف الملاحظات، رفيقك الموثوق لاتخاذ الملاحظات بكفاءة، وتنظيم سلس، وتصنيف بدون متاعب. يتيح هذا التطبيق منصة خالية من الفوضى وسهلة الاستخدام لتسجيل أفكارك، وملاحظاتك والمعلومات المهمة."
+  "aboutContent": "مرحبًا بك في رف الملاحظات، رفيقك الموثوق لاتخاذ الملاحظات بكفاءة، وتنظيم سلس، وتصنيف بدون متاعب. يتيح هذا التطبيق منصة خالية من الفوضى وسهلة الاستخدام لتسجيل أفكارك، وملاحظاتك والمعلومات المهمة.",
+  "permanentDelete":"حذف بشكل دائم",
+  'priorityNotes': "مذكرات مهمة",
+  'priority': "درجة الاهمية"
 };
 static const Map<String,String> en = {
   "title": "Note Shelf",
@@ -127,7 +133,10 @@ static const Map<String,String> en = {
   "done": "Done",
   "folderName": "Folder Name",
   "about": "About",
-  "aboutContent": "Welcome to Note Shelf, your reliable companion for efficient note-taking, seamless organization, and hassle-free categorization. This app is committed to empowering you with a clutter-free and intuitive platform to capture your thoughts, ideas, and important information"
+  "aboutContent": "Welcome to Note Shelf, your reliable companion for efficient note-taking, seamless organization, and hassle-free categorization. This app is committed to empowering you with a clutter-free and intuitive platform to capture your thoughts, ideas, and important information",
+  "permanentDelete":"Permanently delete",
+  'priorityNotes' : "Priority Notes",
+  'priority': "Priority",
 };
 static const Map<String, Map<String,String>> mapLocales = {"ar": ar, "en": en};
 }

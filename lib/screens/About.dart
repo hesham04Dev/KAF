@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:note_files/requiredData.dart';
 import '../functions/isRtlTextDirection.dart';
 import '../models/MultiLineText.dart';
 
 import '../translations/translations.dart';
 
 class AboutPage extends StatelessWidget {
-  final Map<String, String> locale;
-  final bool isRtl;
+  final Map<String, String> locale = requiredData.locale;
+  final bool isRtl = requiredData.isRtl;
 
-  const AboutPage({super.key, required this.locale, required this.isRtl});
+   AboutPage({super.key,});
 
   @override
   Widget build(BuildContext context) {

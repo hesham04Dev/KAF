@@ -72,7 +72,7 @@ class ListViewBody extends StatelessWidget {
               (index) => Column(
                     children: [
                       NoteButton(
-                          isRtl: isRtl,
+                          priority: oldListNotes[index].priority,
                           contentDirection:
                           oldListNotes[index].isContentRtl ?? isRtl
                                   ? TextDirection.rtl
@@ -80,9 +80,9 @@ class ListViewBody extends StatelessWidget {
                           titleDirection: oldListNotes[index].isTitleRtl ?? isRtl
                               ? TextDirection.rtl
                               : TextDirection.ltr,
-                          locale: locale,
+
                           parentFolderId:oldListNotes[index].parentFolderId,
-                          db: db,
+
                           noteContent: oldListNotes[index].content!,
                           noteId: oldListNotes[index].id,
                           noteTitle: oldListNotes[index].title!,

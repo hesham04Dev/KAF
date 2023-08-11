@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:note_files/requiredData.dart';
 
 import '../functions/isRtlTextDirection.dart';
 
 class FolderOrNoteButton extends StatelessWidget {
-  final bool isRtl;
+  final bool isRtl = requiredData.isRtl;
   final Function onLongPressed;
   final Function onPressed;
   final Widget child;
   final Icon? icon;
   final bool withBackground;
 
-  const FolderOrNoteButton(
+   FolderOrNoteButton(
       {super.key,
-      required this.isRtl,
+
       required this.onLongPressed,
       required this.onPressed,
       required this.child,

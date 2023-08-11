@@ -15,10 +15,11 @@ TFolders and Categorized Notes:** Stay organized with the ability to create fold
 
 🌎 **Multi Language Support:** now it supports Arabic and English languages
 
+🔥 **Priority Notes Page:** you can find your important notes quickly
 
 **Future Features**:
 🔍 **Quick Search:** Locate specific notes or folders in an instant with our efficient search feature. No more sifting through endless pages – find what you need effortlessly.
-
+ 
 
 Your feedback and contributions are invaluable in shaping the future of the app.
 

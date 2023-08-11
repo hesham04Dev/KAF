@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_files/requiredData.dart';
 import 'package:provider/provider.dart';
 import '../models/styles.dart';
 
@@ -9,22 +10,23 @@ import '../translations/translations.dart';
 import 'editNote.dart';
 
 class NotePage extends StatelessWidget {
-  final Map<String, String> locale;
+  final Map<String, String> locale =requiredData.locale;
   final String date;
   final String title;
   final String content;
-  final IsarService db;
+  final IsarService db =requiredData.db;
   final int id;
   final int? parentFolderId;
   final TextDirection titleDirection;
   final TextDirection contentDirection;
+  final int? priority;
 
-  const NotePage({
+   NotePage({
     super.key,
-    required this.locale,
+    required this.priority,
     required this.date,
     required this.title,
-    required this.db,
+
     required this.id,
     required this.content,
     required this.parentFolderId,
@@ -42,7 +44,7 @@ class NotePage extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
                 Navigator.pushNamed(context, EditNote.routeName, arguments: {
-                  //"isDark": isDark,
+
                   "parentFolderId": parentFolderId,
                   "title": title,
                   "content": content,
@@ -62,8 +64,7 @@ class NotePage extends StatelessWidget {
                     Navigator.pop(context);
                     Navigator.pop(context);
                   },
-                  TranslationsTitle: "permenntaly delete",
-                  /*TODO add this to the locales*/
+                  TranslationsTitle: locale[TranslationsKeys.permanentDelete]!,
                   TranslationsCancelButton: locale[TranslationsKeys.cancel]!,
                 ),);
               },
@@ -87,6 +88,17 @@ class NotePage extends StatelessWidget {
             children: [
               SizedBox(
                 height: 15,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+
+                child: Center(
+                  child: Text(
+                    textDirection: titleDirection,
+                    " ${TranslationsKeys.priority}: $priority ",
+                    style: MediumText(),
+                  ),
+                ),
               ),
               SizedBox(
                   width: double.infinity,

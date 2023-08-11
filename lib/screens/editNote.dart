@@ -10,8 +10,9 @@ import '../functions/boolFn.dart';
 import '../isarCURD.dart';
 import '../models/AutoDirectionTextFormField.dart';
 import '../models/MyWarningDialog.dart';
+import '../models/priorityMenu.dart';
 import '../translations/translations.dart';
-
+int priority =1;
 class EditNote extends StatelessWidget {
   final Map<String, String> locale = requiredData.locale;
   final IsarService db = requiredData.db;
@@ -77,6 +78,7 @@ class EditNote extends StatelessWidget {
                         ..title = titleController.text
                         ..isTitleRtl= isRTL(titleController.text[0],isRtl)
                         ..date = DateTime.now()
+                        ..priority = priority
                         ..content = noteTextController.text
                         ..isContentRtl = isRTL(titleController.text[0],isRtl)
                         ..parentFolderId =
@@ -115,6 +117,7 @@ class EditNote extends StatelessWidget {
               key: _formKey,
               child: ListView(
                 children: [
+                  Center(child:PriorityMenu()),
                   Padding(
                       padding: const EdgeInsets.all(8.0),
                       child:  AutoDirectionTextFormField(

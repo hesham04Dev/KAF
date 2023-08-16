@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:note_files/models/styles.dart';
 import 'package:note_files/requiredData.dart';
 import '../models/FolderOrNoteButton.dart';
 import '../prioityColors.dart';
@@ -22,7 +21,8 @@ class NoteButton extends StatelessWidget {
   final TextDirection contentDirection;
   final int? parentFolderId;
   final int? priority;
-   NoteButton({super.key,required this.priority, required this.noteTitle,required this.noteTime,required this.noteContent,required this.noteId,this.parentFolderId,required this.titleDirection,required this.contentDirection,});
+  final bool? isPriorityPageOpened;
+   NoteButton({super.key,required this.priority,this.isPriorityPageOpened, required this.noteTitle,required this.noteTime,required this.noteContent,required this.noteId,this.parentFolderId,required this.titleDirection,required this.contentDirection,});
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +30,7 @@ class NoteButton extends StatelessWidget {
         withBackground: true,
         onLongPressed: (){},
         onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => NotePage(
+          isPriorityPageOpened: isPriorityPageOpened ?? false,
           titleDirection: titleDirection,
           contentDirection: contentDirection,
           priority: priority,
@@ -46,9 +47,9 @@ class NoteButton extends StatelessWidget {
                 children: [
                   Text(noteTime,overflow: TextOverflow.ellipsis),
 
-                 priority==null ? SizedBox() : Container(
-                   padding: EdgeInsets.symmetric(horizontal: 15,vertical: 0),
-                   margin: EdgeInsets.symmetric(horizontal: 10),
+                 priority==null ? const SizedBox() : Container(
+                   padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 0),
+                   margin: const EdgeInsets.symmetric(horizontal: 10),
                    decoration: BoxDecoration(
                        color: priorityColors[priority! -1],
                      borderRadius: BorderRadius.circular(15)

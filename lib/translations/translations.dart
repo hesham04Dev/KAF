@@ -97,7 +97,7 @@ abstract class TranslationsKeys{
 class Translations {
 static const List<String> supportedLocales=["ar","en"];
 static const Map<String,String> ar = {
-  "title": "رف المذكرات",
+  "title": "مجلدات و ملاحظات",
   "settings": "الإعدادات",
   "backup": "النسخ الاحتياطي",
   "titleError": "رجائا ادخل العنوان",
@@ -112,13 +112,13 @@ static const Map<String,String> ar = {
   "done": "تم",
   "folderName": "اسم المجلد",
   "about": "عن التطبيق",
-  "aboutContent": "مرحبًا بك في رف الملاحظات، رفيقك الموثوق لاتخاذ الملاحظات بكفاءة، وتنظيم سلس، وتصنيف بدون متاعب. يتيح هذا التطبيق منصة خالية من الفوضى وسهلة الاستخدام لتسجيل أفكارك، وملاحظاتك والمعلومات المهمة.",
+  "aboutContent": "مرحبًا بك في مجلدات و ملاحظات، رفيقك الموثوق لاتخاذ الملاحظات بكفاءة، وتنظيم سلس، وتصنيف بدون متاعب. يتيح هذا التطبيق منصة خالية من الفوضى وسهلة الاستخدام لتسجيل أفكارك، وملاحظاتك والمعلومات المهمة.",
   "permanentDelete":"حذف بشكل دائم",
   'priorityNotes': "مذكرات مهمة",
   'priority': "درجة الاهمية"
 };
 static const Map<String,String> en = {
-  "title": "Note Shelf",
+  "title": "Folders and Notes",
   "settings": "Settings",
   "backup": "Backup",
   "titleError": "Please enter your title",
@@ -133,7 +133,7 @@ static const Map<String,String> en = {
   "done": "Done",
   "folderName": "Folder Name",
   "about": "About",
-  "aboutContent": "Welcome to Note Shelf, your reliable companion for efficient note-taking, seamless organization, and hassle-free categorization. This app is committed to empowering you with a clutter-free and intuitive platform to capture your thoughts, ideas, and important information",
+  "aboutContent": "Welcome to Folders and Notes, your reliable companion for efficient note-taking, seamless organization, and hassle-free categorization. This app is committed to empowering you with a clutter-free and intuitive platform to capture your thoughts, ideas, and important information",
   "permanentDelete":"Permanently delete",
   'priorityNotes' : "Priority Notes",
   'priority': "Priority",

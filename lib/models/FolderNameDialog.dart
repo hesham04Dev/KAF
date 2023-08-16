@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../functions/boolFn.dart';
+import '../functions/isRtlTextDirection.dart';
 import '../isarCURD.dart';
 import '../translations/translations.dart';
 
@@ -16,15 +18,17 @@ class FolderNameDialog extends StatelessWidget {
       required this.onSubmit,
       required this.isRtl,
       required this.db,
-      required this.parentFolderId});
+      required this.parentFolderId,
+      });
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    final bool isDark = isDarkMode(context);
     var folderNameController = TextEditingController();
     return Directionality(
-      textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
+      textDirection: isRtlTextDirection(isRtl),
       child: Dialog(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -56,6 +60,7 @@ class FolderNameDialog extends StatelessWidget {
                           hintText: locale[TranslationsKeys.folderName]!,
                           border: const UnderlineInputBorder(),
                           filled: true,
+                          fillColor: isDark ? Colors.black12: Colors.white10
                         ),
                       ),
                     ),
@@ -72,7 +77,7 @@ class FolderNameDialog extends StatelessWidget {
                     },
                     child: Text(
                       locale[TranslationsKeys.done]!,
-                      style: TextStyle(fontSize: 15),
+                      style: const TextStyle(fontSize: 15),
                     ),
                   ),
                   const SizedBox(

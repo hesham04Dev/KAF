@@ -9,7 +9,7 @@ class AutoDirectionTextFormField extends StatefulWidget {
   final String errMessage;
   final String hintText;
   final bool isUnderLinedBorder;
-  final maxLines;
+  final int? maxLines;
 
   const AutoDirectionTextFormField(
       {super.key,

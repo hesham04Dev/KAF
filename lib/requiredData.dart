@@ -1,7 +1,7 @@
 import 'package:note_files/isarCURD.dart';
 
 class RequiredData{
-  IsarService _db =IsarService();
+  final IsarService _db =IsarService();
   bool _isRtl =false;
   Map<String, String> _locale = {};
 

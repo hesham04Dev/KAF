@@ -5,16 +5,15 @@ import 'package:provider/provider.dart';
 import '../collection/Folder.dart';
 import '../isarCURD.dart';
 import '../provider/ListViewProvider.dart';
-import '../screens/editNote.dart';
+import '../screens/EditNotePage.dart';
 import 'FolderNameDialog.dart';
 
 class FloatingNewFolderNote extends StatefulWidget {
    final IsarService db = requiredData.db;
    final bool isRtl = requiredData.isRtl;
-   final bool isDark;
    final Map<String,String> locale = requiredData.locale;
    final int? parentFolderId;
-   FloatingNewFolderNote({super.key,required this.isDark,required this.parentFolderId });
+   FloatingNewFolderNote({super.key,required this.parentFolderId });
 
   @override
   State<FloatingNewFolderNote> createState() => _FloatingNewFolderNoteState();
@@ -44,6 +43,7 @@ class _FloatingNewFolderNoteState extends State<FloatingNewFolderNote> {
                         builder: (context) =>
                             FolderNameDialog(
                               db: widget.db,
+
                               parentFolderId: null,
                               isRtl: widget.isRtl,
                               onSubmit: (text) {
@@ -67,7 +67,7 @@ class _FloatingNewFolderNoteState extends State<FloatingNewFolderNote> {
                   onPressed: () {
                     Navigator.pushNamed(context, EditNote.routeName,
                         arguments: {
-                          "isDark": widget.isDark,
+
                           "parentFolderId": widget.parentFolderId
                         });
                   },

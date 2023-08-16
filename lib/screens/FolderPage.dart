@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:note_files/models/FloatingNewFolderNote.dart';
 import 'package:note_files/provider/ListViewProvider.dart';
 import 'package:note_files/requiredData.dart';
-import 'package:note_files/screens/priority.dart';
+import 'package:note_files/screens/PriorityPage.dart';
 import 'package:provider/provider.dart';
 
-import '../screens/About.dart';
+import '../provider/PriorityProvider.dart';
+import '../screens/AboutPage.dart';
 import '../translations/translations.dart';
-import '../functions/boolFn.dart';
 import '../isarCURD.dart';
 
 
@@ -23,14 +23,14 @@ class FolderPage extends StatelessWidget {
   final bool modalRoute;
 
 
-  FolderPage({this.modalRoute = false  });
+  FolderPage({super.key, this.modalRoute = false  });
 
 
 
 
   @override
   Widget build(BuildContext context) {
-    print("building folder page");
+    //print("building folder page");
     final routeArgs =  modalRoute? null:  ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
 
     final int? parentFolderId = modalRoute ? null:routeArgs!["parentFolderId"];
@@ -41,9 +41,8 @@ class FolderPage extends StatelessWidget {
 
     final String title = folderId == null ? locale[TranslationsKeys
         .title]! : folderName!;
-    print('$folderId  folder id');
-    bool isDark = isDarkMode(context);
-    Future<bool> _onWillPop() async {
+    //print('$folderId  folder id');
+    Future<bool> onWillPop() async {
       if (parentFolderId != null){
       await context.read<ListViewProvider>().getFoldersAndNotes(parentFolderId);
       Navigator.pop(context);}
@@ -51,15 +50,14 @@ class FolderPage extends StatelessWidget {
       return false;
     }
       return WillPopScope(
-        onWillPop: _onWillPop ,
+        onWillPop: onWillPop ,
         child: Scaffold(
-            //key: scaffoldKey,
         appBar: AppBar(
           leading: folderId == null ? null : IconButton(onPressed: () async{
-            print("parint folder id :$parentFolderId");
+            //print("parint folder id :$parentFolderId");
             await context.read<ListViewProvider>().getFoldersAndNotes(parentFolderId);
             Navigator.pop(context);
-          }, icon: Icon(Icons.arrow_back)),
+          }, icon: const Icon(Icons.arrow_back)),
           title: Text(
             title,
           ),
@@ -116,10 +114,10 @@ class FolderPage extends StatelessWidget {
                         Navigator.pop(context);
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) =>
-                              priorityScreen(),));
+                              const priorityScreen(),));
                       },
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Text(
                           locale[TranslationsKeys.priorityNotes]!,
 
@@ -135,7 +133,7 @@ class FolderPage extends StatelessWidget {
                               AboutPage(),));
                       },
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Text(
                           locale[TranslationsKeys.about]!,
                         ),
@@ -150,7 +148,7 @@ class FolderPage extends StatelessWidget {
         body:ListViewBody(parentId: folderId, ),
 
 
-        floatingActionButton: FloatingNewFolderNote(parentFolderId: folderId,isDark: isDark),
+        floatingActionButton: FloatingNewFolderNote(parentFolderId: folderId),
     ),
       );
 

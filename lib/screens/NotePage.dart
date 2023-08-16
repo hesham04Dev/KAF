@@ -6,8 +6,9 @@ import '../models/styles.dart';
 import '../isarCURD.dart';
 import '../models/MyWarningDialog.dart';
 import '../provider/ListViewProvider.dart';
+import '../provider/PriorityProvider.dart';
 import '../translations/translations.dart';
-import 'editNote.dart';
+import 'EditNotePage.dart';
 
 class NotePage extends StatelessWidget {
   final Map<String, String> locale =requiredData.locale;
@@ -20,13 +21,14 @@ class NotePage extends StatelessWidget {
   final TextDirection titleDirection;
   final TextDirection contentDirection;
   final int? priority;
+  final bool isPriorityPageOpened;
 
    NotePage({
     super.key,
     required this.priority,
     required this.date,
     required this.title,
-
+    required this.isPriorityPageOpened,
     required this.id,
     required this.content,
     required this.parentFolderId,
@@ -48,27 +50,30 @@ class NotePage extends StatelessWidget {
                   "parentFolderId": parentFolderId,
                   "title": title,
                   "content": content,
-                  "id": id
+                  "id": id,
+                  "priority": priority,
+                  "isPriorityPageOpened": isPriorityPageOpened
                 });
               },
-              icon: Icon(Icons.mode_edit_outline_rounded)),
+              icon: const Icon(Icons.mode_edit_outline_rounded)),
           IconButton(
               onPressed: () {
                 showDialog(context: context, builder: (context) =>
                 MyWarningDialog(
-                  TranslationsWarningButton: locale[TranslationsKeys.delete]!,
+                  translationsWarningButton: locale[TranslationsKeys.delete]!,
                   onWarningPressed: () {
                     db.deleteNote(id);
                     
                     context.read<ListViewProvider>().deleteNote(id);
+                    isPriorityPageOpened ?context.read<PriorityProvider>().deleteNote(id): null;
                     Navigator.pop(context);
                     Navigator.pop(context);
                   },
-                  TranslationsTitle: locale[TranslationsKeys.permanentDelete]!,
-                  TranslationsCancelButton: locale[TranslationsKeys.cancel]!,
+                  translationsTitle: locale[TranslationsKeys.permanentDelete]!,
+                  translationsCancelButton: locale[TranslationsKeys.cancel]!,
                 ),);
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.delete_forever_rounded,
                 color: Colors.red,
               ))
@@ -80,13 +85,12 @@ class NotePage extends StatelessWidget {
         ),
         child: Container(
           decoration: BoxDecoration(
-              //color: isDark == true ? Colors.white10 : Colors.black12,
               color: Theme.of(context).primaryColor.withOpacity(0.1),
               borderRadius: BorderRadius.circular(10)),
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: ListView(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Padding(
@@ -96,7 +100,7 @@ class NotePage extends StatelessWidget {
                   child: Text(
                     textDirection: titleDirection,
                     " ${TranslationsKeys.priority}: $priority ",
-                    style: MediumText(),
+                    style: const MediumText(),
                   ),
                 ),
               ),
@@ -105,17 +109,17 @@ class NotePage extends StatelessWidget {
                   child: Text(
                     textDirection: titleDirection,
                     title,
-                    style: BigText(),
+                    style: const BigText(),
                   )),
-              Divider(),
+              const Divider(),
               SizedBox(
                   width: double.infinity,
                   child: Text(
                     textDirection: contentDirection,
                     content,
-                    style: MediumText(),
+                    style: const MediumText(),
                   )),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
             ],

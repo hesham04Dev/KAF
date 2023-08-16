@@ -11,6 +11,7 @@ import '../isarCURD.dart';
 import '../models/AutoDirectionTextFormField.dart';
 import '../models/MyWarningDialog.dart';
 import '../models/priorityMenu.dart';
+import '../provider/PriorityProvider.dart';
 import '../translations/translations.dart';
 int priority =1;
 class EditNote extends StatelessWidget {
@@ -23,12 +24,14 @@ class EditNote extends StatelessWidget {
   final noteTextController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+  EditNote({super.key});
+
   @override
   Widget build(BuildContext context) {
     ListViewProvider provider = Provider.of<ListViewProvider>(context,listen:false);
     final routeArgs =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    bool isDark = routeArgs["isDark"] ?? isDarkMode(context);
+    bool isDark =  isDarkMode(context);
 
     final int? parentFolderId = routeArgs['parentFolderId'];
 
@@ -36,6 +39,8 @@ class EditNote extends StatelessWidget {
     final String? oldTitle = routeArgs['title'];
     final String? oldContent = routeArgs['content'];
     final int? idOfNote = routeArgs['id'];
+    routeArgs['priority'] != null ? priority = routeArgs['priority'] : null;
+    final bool? isPriorityPageOpened =routeArgs['isPriorityPageOpened'];
 
     /// oldTitle and oldContent are the text written in the note
     oldTitle == null ? null : titleController.text = oldTitle;
@@ -50,13 +55,13 @@ class EditNote extends StatelessWidget {
               context: context,
               builder: (context) {
                 return MyWarningDialog(
-                  TranslationsWarningButton: locale[TranslationsKeys.discard]!,
+                  translationsWarningButton: locale[TranslationsKeys.discard]!,
                   onWarningPressed: (){
                     Navigator.pop(context);
                     Navigator.pop(context);
                   },
-                  TranslationsTitle: locale[TranslationsKeys.discardYourNote]!,
-                  TranslationsCancelButton: locale[TranslationsKeys.cancel]!,
+                  translationsTitle: locale[TranslationsKeys.discardYourNote]!,
+                  translationsCancelButton: locale[TranslationsKeys.cancel]!,
                 );
               },
             );
@@ -82,7 +87,7 @@ class EditNote extends StatelessWidget {
                         ..content = noteTextController.text
                         ..isContentRtl = isRTL(titleController.text[0],isRtl)
                         ..parentFolderId =
-                        parentFolderId != null ? parentFolderId : null;
+                        parentFolderId;
 
                       db.saveNote(newNote);
                       provider.addNote(newNote);
@@ -91,8 +96,10 @@ class EditNote extends StatelessWidget {
                       oldNote!.title = titleController.text;
                       oldNote.date = DateTime.now();
                       oldNote.content = noteTextController.text;
+                      oldNote.priority = priority;
                       db.updateNote(oldNote);
                       provider.updateNote(oldNote);
+                      isPriorityPageOpened == true ?  context.read<PriorityProvider>().updateNote(oldNote): null;
                     }
 
                     Navigator.pop(context);
@@ -109,7 +116,7 @@ class EditNote extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Container(
           decoration: BoxDecoration(
-            color: isDark == true ? Colors.white10 : Theme.of(context).primaryColor.withOpacity(0.1),
+            color: isDark == true ? Colors.white10 : Theme.of(context).primaryColor.withOpacity(0.2),
               borderRadius: BorderRadius.circular(10)),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -117,7 +124,7 @@ class EditNote extends StatelessWidget {
               key: _formKey,
               child: ListView(
                 children: [
-                  Center(child:PriorityMenu()),
+                  const Center(child:PriorityMenu()),
                   Padding(
                       padding: const EdgeInsets.all(8.0),
                       child:  AutoDirectionTextFormField(

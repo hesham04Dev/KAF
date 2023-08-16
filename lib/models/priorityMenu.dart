@@ -3,10 +3,10 @@ import 'package:note_files/models/styles.dart';
 
 
 import '../translations/translations.dart';
-import '../screens/editNote.dart';
+import '../screens/EditNotePage.dart';
 class PriorityMenu extends StatefulWidget {
 
-  PriorityMenu({super.key});
+  const PriorityMenu({super.key});
 
   @override
   State<PriorityMenu> createState() => _PriorityMenuState();
@@ -20,12 +20,12 @@ class _PriorityMenuState extends State<PriorityMenu> {
 
     return PopupMenuButton(
 
-      child: Text("priority: $priority",style: MediumText(),),
+      child: Text("priority: $priority",style: const MediumText(),),
       onSelected: (value) {
-        print(value);
+        //print(value);
         priority = value;
         setState(() {});
-        print(value);
+        //print(value);
       },
       itemBuilder: (BuildContext context) => List.generate(
         10,

@@ -6,14 +6,14 @@ import 'package:note_files/homePageData.dart';
 import '../collection/Folder.dart';
 import '../collection/Note.dart';
 
-enum listScreenState { initial, loaded,updated, updatedFolders, updatedNotes, addFolder, removeFolder, addNote,removeNote }
+enum ListScreenState { initial, loaded,updated, updatedFolders, updatedNotes, addFolder, removeFolder, addNote,removeNote }
 
 class ListViewProvider with ChangeNotifier {
   final IsarService db = requiredData.db;
 
 
 
-  listScreenState state = listScreenState.initial;
+  ListScreenState state = ListScreenState.initial;
   List<Folder> _listFolders = homePageFolders;
   List<Note> _listNotes = homePageNotes;
 
@@ -23,12 +23,12 @@ class ListViewProvider with ChangeNotifier {
   int? _parentId;
   getFoldersAndNotes(int? parentId) async {
     _parentId = parentId;
-    print(state);
+    //print(state);
     _listFolders = parentId == null? homePageFolders: await db.getFolders(parentId);
     _listNotes = parentId == null? homePageNotes: await db.getNotes(parentId);
-    state =parentId == null? listScreenState.loaded  :listScreenState.updated;
+    state =parentId == null? ListScreenState.loaded  :ListScreenState.updated;
     notifyListeners();
-    print(state);
+    //print(state);
   }
 
   addFolder(Folder folder) async {
@@ -36,14 +36,14 @@ class ListViewProvider with ChangeNotifier {
 
 
     _parentId == null ? homePageFolders.add(folder) :_listFolders.add(folder);
-    state = listScreenState.addFolder;
+    state = ListScreenState.addFolder;
     notifyListeners();
   }
 
   deleteFolder(Folder folder) async {
-    _parentId == null ? homePageFolders.removeWhere((Folder) => Folder.id == folder.id) :_listFolders.removeWhere((Folder) => Folder.id == folder.id);
-    state = listScreenState.removeFolder;
-    print("deleteFolder called");
+    _parentId == null ? homePageFolders.removeWhere((getedFolder) => getedFolder.id == folder.id) :_listFolders.removeWhere((getedFolder) => getedFolder.id == folder.id);
+    state = ListScreenState.removeFolder;
+    //print("deleteFolder called");
     notifyListeners();
   }
   updateFolders(Folder folder) async {
@@ -52,25 +52,25 @@ class ListViewProvider with ChangeNotifier {
 
     homePageFolders =  await db.getFolders(null);
     _listFolders = await db.getFolders(null);
-    state = listScreenState.updatedFolders;
+    state = ListScreenState.updatedFolders;
     notifyListeners();
   }
 
   addNote(Note note) async {
     _parentId ==null ? homePageNotes.add(note): _listNotes.add(note);
-    state = listScreenState.addNote;
+    state = ListScreenState.addNote;
     notifyListeners();
   }
 
   deleteNote(int noteId) async {
-    _parentId == null ? homePageNotes.removeWhere((Note) => Note.id == noteId):_listNotes.removeWhere((Note) => Note.id == noteId);
-    print("note removed");
-    state = listScreenState.removeNote;
+    _parentId == null ? homePageNotes.removeWhere((getedNote) => getedNote.id == noteId):_listNotes.removeWhere((getedNote) => getedNote.id == noteId);
+    //print("note removed");
+    state = ListScreenState.removeNote;
     notifyListeners();
   }
-  updateNote(Note note) async {
-    _parentId == null ? homePageNotes[homePageNotes.indexWhere((Note) => Note.id == note.id)] = note:_listNotes[_listNotes.indexWhere((Note) => Note.id == note.id)] = note;
-    state = listScreenState.updatedNotes;
+  updateNote(Note note)  {
+    _parentId == null ? homePageNotes[homePageNotes.indexWhere((getedNote) => getedNote.id == note.id)] = note:_listNotes[_listNotes.indexWhere((getedNote) => getedNote.id == note.id)] = note;
+    state = ListScreenState.updatedNotes;
     notifyListeners();
   }
 

@@ -28,9 +28,9 @@ class IsarService {
     final isar = await db;
     return await isar.folders.filter().parentEqualTo(parentId).findAll();
   }
-  Future<Folder?> getFolder(int FolderId) async {
+  Future<Folder?> getFolder(int folderId) async {
     final isar = await db;
-    return await isar.folders.filter().idEqualTo(FolderId).findFirst();
+    return await isar.folders.filter().idEqualTo(folderId).findFirst();
   }
   Stream<List<Folder>> listenToFolders() async* {
     final isar = await db;
@@ -50,9 +50,9 @@ class IsarService {
   Future<void> deleteFolder(int folderId) async {
     final isar = await db;
     await isar.writeTxn(() =>  isar.folders.delete(folderId));
-    await isar.writeTxnSync(()  =>  isar.notes.filter().parentFolderIdEqualTo(folderId).deleteAllSync());
-   await isar.writeTxnSync(() => isar.folders.filter().parentEqualTo(folderId).deleteAllSync(),);
-   print("delete folder is done");
+    isar.writeTxnSync(()  =>  isar.notes.filter().parentFolderIdEqualTo(folderId).deleteAllSync());
+   isar.writeTxnSync(() => isar.folders.filter().parentEqualTo(folderId).deleteAllSync(),);
+   //print("delete folder is done");
      }
 
   Future<void> saveNote(Note newNote) async {
@@ -79,13 +79,13 @@ class IsarService {
         .priorityEqualTo(priority)
         .findAll();
   }
-  Future<Note?> getNote(int NoteId) async {
+  Future<Note?> getNote(int noteId) async {
     final isar = await db;
-    return await isar.notes.filter().idEqualTo(NoteId).findFirst();
+    return await isar.notes.filter().idEqualTo(noteId).findFirst();
   }
   Future<void> deleteNote(int noteId) async {
     final isar = await db;
-    isar.writeTxn<bool>(() =>isar.notes.delete(noteId));
+    await isar.writeTxn<bool>(() => isar.notes.delete(noteId));
   }
 
   Future<void> updateNote(Note updatedNote) async {
@@ -93,6 +93,7 @@ class IsarService {
     final oldNote = await isar.notes.get(updatedNote.id);
     oldNote!.title = updatedNote.title;
     oldNote.content = updatedNote.content;
+    oldNote.priority = updatedNote.priority;
     isar.writeTxn(() =>  isar.notes.put(oldNote));
   }
 
@@ -104,7 +105,7 @@ class IsarService {
       return await Isar.open(
         [FolderSchema, NoteSchema],
         directory: dir.path,
-        inspector: false, /*TODO make it false after end*/
+        inspector: false,
       );
 
     }

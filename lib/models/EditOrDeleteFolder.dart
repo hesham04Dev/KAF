@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 
 
+
 import '../isarCURD.dart';
 
 import '../translations/translations.dart';
@@ -50,7 +51,6 @@ class EditOrDeleteFolder extends StatelessWidget {
                           isRtl: isRtl,
                           onSubmit: (newName) async{
                           await onSubmitNewName(newName);
-                         // await requiredData.db.updateFolder();
                           Navigator.pop(context);
 
                           },

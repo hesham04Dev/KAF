@@ -32,9 +32,7 @@ class FolderButton extends StatelessWidget {
 
     return FolderOrNoteButton(
 
-      child: MultiLineText(margin: 148,
-      text:folderName,maxLines: 1,bold: true,fontSize: 18,textDirection: isRtlTextDirection(isRtl), ),
-      icon: Icon(
+      icon:const  Icon(
 
         Icons.folder_rounded,
 
@@ -49,25 +47,15 @@ class FolderButton extends StatelessWidget {
                 isRtl: isRtl,
                 onDelete: () async {
                   final Folder? existingFolder = await db.getFolder(id);
-                  existingFolder ?? print("we dont get the folder");
-                  print("the folder id $id");
-                  print("we get the folder");
-
                   await context.read<ListViewProvider>().deleteFolder(existingFolder!);
-                  print(context.read<ListViewProvider>().listFolders.length);
                   await db.deleteFolder(existingFolder.id);
-                  print("we delete the folder");
-
-                 print("we apdate the screenshot");
                 },
                 onSubmitNewName: (newName) async {
 
                   final existingFolder = await db.getFolder(id);
                   existingFolder!.name = newName;
                   await db.updateFolder(existingFolder);
-
                   await context.read<ListViewProvider>().updateFolders(existingFolder);
-
                 },
                 locale: locale,
                 db: db,
@@ -75,9 +63,9 @@ class FolderButton extends StatelessWidget {
             });
       },
       onPressed: () async{
-        print("pushing parent is $id");
+        //print("pushing parent is $id");
         await context.read<ListViewProvider>().getFoldersAndNotes(id);
-        Navigator.pushNamed(
+         Navigator.pushNamed(
             context,
             FolderPage.routeName,
             arguments: {
@@ -88,6 +76,9 @@ class FolderButton extends StatelessWidget {
 
 
       },
+
+      child: MultiLineText(margin: 148,
+      text:folderName,maxLines: 1,bold: true,fontSize: 18,textDirection: isRtlTextDirection(isRtl), ),
     );
   }
 }

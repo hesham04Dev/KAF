@@ -17,7 +17,7 @@ class ListViewBody extends StatelessWidget {
   final Map<String, String> locale = requiredData.locale;
 
   final int? parentId;
-  ListViewBody({
+  ListViewBody({super.key,
     required this.parentId,
   });
 
@@ -25,14 +25,14 @@ class ListViewBody extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Note> oldListNotes = homePageNotes;
     List<Folder> oldListFolders = homePageFolders;
-    print("building listview");
+    //print("building listview");
     oldListFolders = context.watch<ListViewProvider>().listFolders;
     oldListNotes = context.watch<ListViewProvider>().listNotes;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: ListView(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           ...List<Widget>.generate(
@@ -48,7 +48,7 @@ class ListViewBody extends StatelessWidget {
                                 horizontal: 5, vertical: 15),
                             child: Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.folder_rounded,
                                   size: 50,
                                 ),
@@ -58,13 +58,13 @@ class ListViewBody extends StatelessWidget {
                                 FittedBox(
                                   child: Text(
                                     oldListFolders[index].name as String,
-                                    style: TextStyle(fontSize: 20),
+                                    style: const TextStyle(fontSize: 20),
                                   ),
                                 ),
                               ],
                             ),
                           )),
-                      Divider(color: Colors.white54),
+                      const Divider(color: Colors.white54),
                     ],
                   )),
           ...List<Widget>.generate(
@@ -88,7 +88,7 @@ class ListViewBody extends StatelessWidget {
                           noteTitle: oldListNotes[index].title!,
                           noteTime: formatDate(oldListNotes[index].date!,
                               [yy, "/", mm, "/", dd, "   ", hh, ":", nn])),
-                      Divider(color: Colors.white54),
+                      const Divider(color: Colors.white54),
                     ],
                   ))
         ],

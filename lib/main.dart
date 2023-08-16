@@ -4,12 +4,13 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:note_files/homePageData.dart';
 import 'package:note_files/provider/ListViewProvider.dart';
+import 'package:note_files/provider/PriorityProvider.dart';
 import 'package:note_files/requiredData.dart';
 import 'package:provider/provider.dart';
 
 import 'functions/isRtlTextDirection.dart';
 import 'screens/FolderPage.dart';
-import 'screens/editNote.dart';
+import 'screens/EditNotePage.dart';
 import 'translations/translations.dart';
 
 
@@ -19,15 +20,18 @@ void main() async {
   await requiredData.db.openDB();
   homePageFolders = await requiredData.db.getFolders(null);
   homePageNotes = await requiredData.db.getNotes(null);
-  runApp(ChangeNotifierProvider(
-    create: (_) => ListViewProvider(),
-    child: MyApp(),
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => ListViewProvider()),
+      ChangeNotifierProvider(create: (_) => PriorityProvider()),
+    ],
+    child: const MyApp(),
   ));
-  print("the app is opened");
+  //print("the app is opened");
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
   static final _defaultLightColorScheme = ColorScheme.fromSwatch(
       primarySwatch: Colors.green, brightness: Brightness.light);
@@ -38,7 +42,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("My app building");
+    //print("My app building");
     String lang = "${Platform.localeName[0]}${Platform.localeName[1]}";
     if (Translations.supportedLocales.contains(lang)) {
       requiredData.set_locale = Translations.mapLocales[lang]!;
@@ -46,12 +50,12 @@ class MyApp extends StatelessWidget {
       requiredData.set_locale = Translations.mapLocales["en"]!;
     }
     if (lang == "ar")
-      requiredData.set_isRtl = true;
+      {requiredData.set_isRtl = true;}
     else
-      requiredData.set_isRtl = false;
+      {requiredData.set_isRtl = false;}
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
       return MaterialApp(
-        //themeMode: ThemeMode.dark,
+        themeMode: ThemeMode.dark,
         debugShowCheckedModeBanner: false,
         debugShowMaterialGrid: false,
         theme: ThemeData(
@@ -62,15 +66,15 @@ class MyApp extends StatelessWidget {
             ))),
             dialogBackgroundColor: Colors.white,
             scaffoldBackgroundColor: Colors.white,
-            dividerTheme: DividerThemeData(color: Colors.black),
-            textButtonTheme: TextButtonThemeData(
+            dividerTheme: const DividerThemeData(color: Colors.black),
+            textButtonTheme: const TextButtonThemeData(
                 style: ButtonStyle(
                     textStyle: MaterialStatePropertyAll(TextStyle(
                         color: Colors.black,
                         fontFamily: "Cairo",
                         fontSize: 19)))),
             floatingActionButtonTheme:
-                FloatingActionButtonThemeData(shape: const CircleBorder()),
+                const FloatingActionButtonThemeData(shape: CircleBorder()),
             iconTheme: IconThemeData(
               color:
                   lightColorScheme?.primary ?? _defaultLightColorScheme.primary,
@@ -89,7 +93,7 @@ class MyApp extends StatelessWidget {
               ),
               centerTitle: true,
             ),
-            drawerTheme: DrawerThemeData(
+            drawerTheme: const DrawerThemeData(
               backgroundColor: Colors.white,
             )),
         darkTheme: ThemeData(
@@ -98,7 +102,7 @@ class MyApp extends StatelessWidget {
                   iconColor: MaterialStatePropertyAll(
             darkColorScheme?.onPrimary ?? _defaultDarkColorScheme.onPrimary,
           ))),
-          inputDecorationTheme: InputDecorationTheme(
+          inputDecorationTheme: const InputDecorationTheme(
               fillColor: Colors.white10,
               hintStyle: TextStyle(color: Colors.white70)),
           textButtonTheme: TextButtonThemeData(
@@ -108,9 +112,9 @@ class MyApp extends StatelessWidget {
                           _defaultDarkColorScheme.primary,
                       fontFamily: "Cairo",
                       fontSize: 19)))),
-          scaffoldBackgroundColor: Color.fromARGB(255, 50, 50, 50),
+          scaffoldBackgroundColor: const Color.fromARGB(255, 50, 50, 50),
           floatingActionButtonTheme:
-              FloatingActionButtonThemeData(shape: const CircleBorder()),
+              const FloatingActionButtonThemeData(shape: CircleBorder()),
           iconTheme: IconThemeData(
             color: darkColorScheme?.primary ?? _defaultDarkColorScheme.primary,
           ),

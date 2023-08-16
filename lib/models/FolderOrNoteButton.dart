@@ -39,7 +39,7 @@ class FolderOrNoteButton extends StatelessWidget {
         child: Row(
               textDirection:isRtlTextDirection(isRtl),
                 children: [
-                  icon ?? SizedBox(),
+                  icon ?? const SizedBox(),
                    SizedBox(
                     width: icon == null ? null :10,
                   ),

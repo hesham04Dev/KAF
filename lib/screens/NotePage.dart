@@ -39,7 +39,14 @@ class NotePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: (){
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back_ios_rounded),
+        ),
         title: Text(date.toString()),
         actions: [
           IconButton(
@@ -60,7 +67,7 @@ class NotePage extends StatelessWidget {
               onPressed: () {
                 showDialog(context: context, builder: (context) =>
                 MyWarningDialog(
-                  translationsWarningButton: locale[TranslationsKeys.delete]!,
+                    translationsWarningButton: locale[TranslationsKeys.delete]!,
                   onWarningPressed: () {
                     db.deleteNote(id);
                     

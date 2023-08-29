@@ -55,10 +55,11 @@ class MyApp extends StatelessWidget {
       {requiredData.set_isRtl = false;}
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
       return MaterialApp(
-        themeMode: ThemeMode.dark,
+        //themeMode: ThemeMode.dark,
         debugShowCheckedModeBanner: false,
         debugShowMaterialGrid: false,
         theme: ThemeData(
+
             iconButtonTheme: IconButtonThemeData(
                 style: ButtonStyle(
                     iconColor: MaterialStatePropertyAll(
@@ -83,6 +84,7 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
             fontFamily: "Cairo",
             appBarTheme: AppBarTheme(
+
               backgroundColor:
                   lightColorScheme?.primary ?? _defaultLightColorScheme.primary,
               titleTextStyle: TextStyle(

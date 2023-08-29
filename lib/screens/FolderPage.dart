@@ -57,7 +57,7 @@ class FolderPage extends StatelessWidget {
             //print("parint folder id :$parentFolderId");
             await context.read<ListViewProvider>().getFoldersAndNotes(parentFolderId);
             Navigator.pop(context);
-          }, icon: const Icon(Icons.arrow_back)),
+          }, icon: const Icon(Icons.arrow_back_ios_new_rounded)),
           title: Text(
             title,
           ),

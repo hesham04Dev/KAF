@@ -31,6 +31,12 @@ class _priorityScreenState extends State<priorityScreen> {
     }*/
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: (){
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back_ios_rounded),
+        ),
         title:  PopupMenuButton(
           child: Text("${TranslationsKeys.priority}: $priority"),
           onSelected: (value) {

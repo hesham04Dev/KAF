@@ -17,9 +17,9 @@ class ListViewProvider with ChangeNotifier {
   List<Folder> _listFolders = homePageFolders;
   List<Note> _listNotes = homePageNotes;
 
-  List<Folder> get listFolders => [..._listFolders];
+  List<Folder> get listFolders => _listFolders;
 
-  List<Note> get listNotes => [..._listNotes];
+  List<Note> get listNotes => _listNotes;
   int? _parentId;
   getFoldersAndNotes(int? parentId) async {
     _parentId = parentId;

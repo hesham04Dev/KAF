@@ -27,6 +27,7 @@ class FolderNameDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isDark = isDarkMode(context);
     var folderNameController = TextEditingController();
+    folderNameController.text = locale[TranslationsKeys.newFolder]!;/*TODO add it to the localization*/
     return Directionality(
       textDirection: isRtlTextDirection(isRtl),
       child: Dialog(
@@ -58,7 +59,7 @@ class FolderNameDialog extends StatelessWidget {
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
                           hintText: locale[TranslationsKeys.folderName]!,
-                          border: const UnderlineInputBorder(),
+                          border: const UnderlineInputBorder(),/*TODO try the outline border*/
                           filled: true,
                           fillColor: isDark ? Colors.black12: Colors.white10
                         ),

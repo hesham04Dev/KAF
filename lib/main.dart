@@ -18,6 +18,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await requiredData.db.openDB();
+  //await requiredData.db.backup();
   homePageFolders = await requiredData.db.getFolders(null);
   homePageNotes = await requiredData.db.getNotes(null);
   runApp(MultiProvider(

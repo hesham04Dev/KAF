@@ -90,11 +90,17 @@ class IsarService {
 
   Future<void> updateNote(Note updatedNote) async {
     final isar = await db;
+
     final oldNote = await isar.notes.get(updatedNote.id);
     oldNote!.title = updatedNote.title;
     oldNote.content = updatedNote.content;
     oldNote.priority = updatedNote.priority;
     isar.writeTxn(() =>  isar.notes.put(oldNote));
+  }
+  Future<void> backup() async{
+    final isar = await db;
+    final dir = await getDownloadsDirectory();
+    isar.copyToFile( dir!.path);
   }
 
 
@@ -107,6 +113,7 @@ class IsarService {
         directory: dir.path,
         inspector: false,
       );
+
 
     }
 

@@ -92,6 +92,10 @@ abstract class TranslationsKeys{
   static const permanentDelete= 'permanentDelete';
   static const priorityNotes = 'priorityNotes';
   static const priority = 'priority';
+  static const newFolder = 'newFolder';
+  static const exit = 'exit';
+  static const exitTheApp = 'exitTheApp';
+
 }
 
 class Translations {
@@ -139,7 +143,10 @@ static const Map<String,String> ar = {
 سواء كنت طالبًا، أو محترفًا، أو فكرًا إبداعيًا، أو حتى شخصًا يحب تدوين الأفكار أثناء التنقل، ناف مصمم لتلبية احتياجاتك. اختبر حرية اتخاذ الملاحظات المنظمة بدون فوضى. قم بتنزيل ناف اليوم وانضم إلينا في تحويل طريقة التقاط وإدارة ملاحظاتك''',
   "permanentDelete":"حذف بشكل دائم",
   'priorityNotes': "مذكرات مهمة",
-  'priority': "درجة الاهمية"
+  'priority': "درجة الاهمية",
+  "newFolder": "مجلد جديد",
+  "exit": "الخروج",
+  "exitTheApp": "هل تريد الخروج من التطبيق"
 };
 static const Map<String,String> en = {
   "title": "NAF",
@@ -157,7 +164,7 @@ static const Map<String,String> en = {
   "done": "Done",
   "folderName": "Folder Name",
   "about": "About",
-  "aboutContent": '''WelcoWelcome to NAF, your reliable companion for efficient note-taking,
+  "aboutContent": ''' Welcome to NAF, your reliable companion for efficient note-taking,
 seamless organization, and hassle-free categorization.
 This app is committed to empowering you with a clutter-free
 and intuitive platform to capture your thoughts, ideas, and important information.
@@ -189,6 +196,9 @@ Whether you're a student, professional, creative thinker, or simply someone who 
   "permanentDelete":"Permanently delete",
   'priorityNotes' : "Priority Notes",
   'priority': "Priority",
+  "newFolder": "New Folder",
+  "exit": "Exit",
+  "exitTheApp": "do you want to exit the app"
 };
 static const Map<String, Map<String,String>> mapLocales = {"ar": ar, "en": en};
 }

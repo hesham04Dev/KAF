@@ -1,16 +1,17 @@
+
+
 import 'package:flutter/material.dart';
+import 'package:flutter_exit_app/flutter_exit_app.dart';
 import 'package:note_files/models/FloatingNewFolderNote.dart';
 import 'package:note_files/provider/ListViewProvider.dart';
 import 'package:note_files/requiredData.dart';
 import 'package:note_files/screens/PriorityPage.dart';
 import 'package:provider/provider.dart';
 
-import '../provider/PriorityProvider.dart';
+import '../models/MyWarningDialog.dart';
 import '../screens/AboutPage.dart';
 import '../translations/translations.dart';
 import '../isarCURD.dart';
-
-
 import '../models/ListViewBody.dart';
 
 
@@ -43,12 +44,29 @@ class FolderPage extends StatelessWidget {
         .title]! : folderName!;
     //print('$folderId  folder id');
     Future<bool> onWillPop() async {
-      if (parentFolderId != null){
+      print("poping is ahmaq");
+      if (folderId != null){
       await context.read<ListViewProvider>().getFoldersAndNotes(parentFolderId);
-      Navigator.pop(context);}
+      print("poping ");
+      print("parent folder is : ${parentFolderId}");
+      Navigator.pop(context);}else{
+        showDialog(context: context, builder: (context) =>
+             MyWarningDialog(
+            onWarningPressed: (){
+          Navigator.pop(context);
+          FlutterExitApp.exitApp();
+        },
+      translationsWarningButton: locale[TranslationsKeys.exit]!,
+      translationsTitle: locale[TranslationsKeys.exitTheApp]!,
+      translationsCancelButton: locale[TranslationsKeys.cancel]!,
+      ));
+
+
+      }
 
       return false;
     }
+
       return WillPopScope(
         onWillPop: onWillPop ,
         child: Scaffold(
@@ -186,7 +204,10 @@ state mangement by provider
 TODO in the next version add search for the notes
 TODO in the next version add the backup of the notes
 TODO in the next version add the widget
-TODO add the proiarity in the notes
+
+TODO using flutter quill
+TODO adding google fonts
+TODO adding animations
 adding the direction of the text inside the Note title and content
 
 */

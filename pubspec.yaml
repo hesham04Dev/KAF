@@ -1,6 +1,6 @@
 name: note_files
-title: Folders and Notes
-description: A new Flutter project.
+title: NAF
+description: your organized app to save your notes
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -17,7 +17,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.2+3
+version: 1.0.3+3
 
 environment:
   sdk: '>=3.0.6 <4.0.0'
@@ -37,7 +37,7 @@ dependencies:
   isar: ^3.1.0+1
   dynamic_color: ^1.6.6
   provider: ^6.0.5
-
+  flutter_exit_app: ^1.1.2
 
   
 
@@ -54,22 +54,10 @@ dev_dependencies:
 
 
 flutter_launcher_icons:
-  android: "launcher_icon"
-  ios: true
-  image_path: "assets/icon/mobile_icon.png"
-  min_sdk_android: 21 # android min sdk min:16, default 21
-  web:
-    generate: true
-    image_path: "assets/icon/win_icon.png"
-    background_color: "#hexcode"
-    theme_color: "#hexcode"
   windows:
     generate: true
     image_path: "assets/icon/win_icon.png"
     icon_size: 48 # min:48, max:256, default: 48
-  macos:
-    generate: true
-    image_path: "assets/icon/win_icon.png"
 
 
 

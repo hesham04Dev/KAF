@@ -20,7 +20,7 @@ class FloatingNewFolderNote extends StatefulWidget {
 }
 
 class _FloatingNewFolderNoteState extends State<FloatingNewFolderNote> {
-  bool actionButtonPressed =false;
+  bool actionButtonPressed =true;
   @override
   Widget build(BuildContext context) {
 

@@ -47,105 +47,121 @@ class EditNote extends StatelessWidget {
     oldContent == null ? null : noteTextController.text = oldContent;
 
     /// by doing that we put the old text in the TextFormField
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return MyWarningDialog(
-                  translationsWarningButton: locale[TranslationsKeys.discard]!,
-                  onWarningPressed: (){
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                  },
-                  translationsTitle: locale[TranslationsKeys.discardYourNote]!,
-                  translationsCancelButton: locale[TranslationsKeys.cancel]!,
-                );
+    Future<bool> onPop() async{
+      if(titleController.text.isEmpty && noteTextController.text.isEmpty ) {
+        print("poping edit text");
+        Navigator.pop(context);
+        return false;
+      }
+      else{
+
+        showDialog(
+          context: context,
+          builder: (context) {
+
+            return MyWarningDialog(
+              onWarningPressed: (){
+                Navigator.pop(context);
+                Navigator.pop(context);
               },
+              translationsWarningButton: locale[TranslationsKeys.discard]!,
+              translationsTitle: locale[TranslationsKeys.discardYourNote]!,
+              translationsCancelButton: locale[TranslationsKeys.cancel]!,
             );
           },
-          icon: const Icon(Icons.arrow_back_ios_new_rounded),
-        ),
-        title: Text(
-          formatDate(DateTime.now(), [yy, "/", mm, "/", dd, "   ", hh, ":", nn])
-              .toString(),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: IconButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    if (idOfNote == null) {
-                      var newNote = Note()
-                        ..title = titleController.text
-                        ..isTitleRtl= isRTL(titleController.text[0],isRtl)
-                        ..date = DateTime.now()
-                        ..priority = priority
-                        ..content = noteTextController.text
-                        ..isContentRtl = isRTL(titleController.text[0],isRtl)
-                        ..parentFolderId =
-                        parentFolderId;
+        );
+      return true;
+      }
+    }
+    return WillPopScope(
 
-                      db.saveNote(newNote);
-                      provider.addNote(newNote);
-                    } else {
-                      var oldNote = await db.getNote(idOfNote);
-                      oldNote!.title = titleController.text;
-                      oldNote.date = DateTime.now();
-                      oldNote.content = noteTextController.text;
-                      oldNote.priority = priority;
-                      db.updateNote(oldNote);
-                      provider.updateNote(oldNote);
-                      isPriorityPageOpened == true ?  context.read<PriorityProvider>().updateNote(oldNote): null;
+      onWillPop: onPop,
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: onPop,
+
+            icon: const Icon(Icons.arrow_back_ios_new_rounded),
+          ),
+          title: Text(
+            formatDate(DateTime.now(), [yy, "/", mm, "/", dd, "   ", hh, ":", nn])
+                .toString(),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      if (idOfNote == null) {
+                        var newNote = Note()
+                          ..title = titleController.text
+                          ..isTitleRtl= isRTL(titleController.text[0],isRtl)
+                          ..date = DateTime.now()
+                          ..priority = priority
+                          ..content = noteTextController.text
+                          ..isContentRtl = isRTL(titleController.text[0],isRtl)
+                          ..parentFolderId =
+                          parentFolderId;
+
+                        db.saveNote(newNote);
+                        provider.addNote(newNote);
+                      } else {
+                        var oldNote = await db.getNote(idOfNote);
+                        oldNote!.title = titleController.text;
+                        oldNote.date = DateTime.now();
+                        oldNote.content = noteTextController.text;
+                        oldNote.priority = priority;
+                        db.updateNote(oldNote);
+                        provider.updateNote(oldNote);
+                        isPriorityPageOpened == true ?  context.read<PriorityProvider>().updateNote(oldNote): null;
+                      }
+
+                      Navigator.pop(context);
+
+
+
                     }
-
-                    Navigator.pop(context);
-
-
-
-                  }
-                },
-                icon: const Icon(Icons.save_rounded)),
-          )
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          decoration: BoxDecoration(
-            color: isDark == true ? Colors.white10 : Theme.of(context).primaryColor.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(10)),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Form(
-              key: _formKey,
-              child: ListView(
-                children: [
-                  const Center(child:PriorityMenu()),
-                  Padding(
+                  },
+                  icon: const Icon(Icons.save_rounded)),
+            )
+          ],
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: isDark == true ? Colors.white10 : Theme.of(context).primaryColor.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(10)),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Form(
+                key: _formKey,
+                child: ListView(
+                  children: [
+                    const Center(child:PriorityMenu()),
+                    Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child:  AutoDirectionTextFormField(
+                          controller: titleController,
+                          locale: locale,
+                          errMessage: TranslationsKeys.titleError,
+                          hintText: TranslationsKeys.yourTitle,
+                        )),
+                    Padding(
                       padding: const EdgeInsets.all(8.0),
                       child:  AutoDirectionTextFormField(
-                        controller: titleController,
+                        controller: noteTextController,
                         locale: locale,
-                        errMessage: TranslationsKeys.titleError,
-                        hintText: TranslationsKeys.yourTitle,
-                      )),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child:  AutoDirectionTextFormField(
-                      controller: noteTextController,
-                      locale: locale,
-                      errMessage: TranslationsKeys.noteError,
-                      hintText: TranslationsKeys.yourNote,
-                      maxLines: null,
-                      isUnderLinedBorder: false,
+                        errMessage: TranslationsKeys.noteError,
+                        hintText: TranslationsKeys.yourNote,
+                        maxLines: null,
+                        isUnderLinedBorder: false,
 
+                      )
                     )
-                  )
-                ],
+                  ],
+                ),
               ),
             ),
           ),

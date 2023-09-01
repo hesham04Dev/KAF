@@ -59,9 +59,9 @@ class FolderNameDialog extends StatelessWidget {
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
                           hintText: locale[TranslationsKeys.folderName]!,
-                          border: const UnderlineInputBorder(),/*TODO try the outline border*/
+                          border: UnderlineInputBorder(),
                           filled: true,
-                          fillColor: isDark ? Colors.black12: Colors.white10
+                          fillColor: isDark ?Colors.white12: Theme.of(context).primaryColor.withOpacity(0.15)
                         ),
                       ),
                     ),

@@ -20,7 +20,7 @@ class priorityScreen extends StatefulWidget {
 class _priorityScreenState extends State<priorityScreen> {
   bool isRtl = requiredData.isRtl;
   late List<Note> _listNotes;
-
+  Map<String,String> locale = requiredData.locale;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class _priorityScreenState extends State<priorityScreen> {
           icon: Icon(Icons.arrow_back_ios_rounded),
         ),
         title:  PopupMenuButton(
-          child: Text("${TranslationsKeys.priority}: $priority"),
+          child: Text("${locale[TranslationsKeys.priority]}: $priority"),
           onSelected: (value) {
             //print(value);
             priority = value;
@@ -49,10 +49,10 @@ class _priorityScreenState extends State<priorityScreen> {
             10,
                 (index) => PopupMenuItem(
               value: index + 1,
-              child: Text("${TranslationsKeys.priority} ${index + 1}"),
+              child: Text("${locale[TranslationsKeys.priority]} ${index + 1}"),
             ),
           ),
-        ),
+        ),/*TODO move it to models and use it in edit note page*/
       ),
       body: FutureBuilder(
         future: context.read<PriorityProvider>().getNotesByPriority(priority),//_getPriorityData(),

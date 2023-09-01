@@ -1,14 +1,17 @@
+import 'dart:io';
 
 
 import 'package:flutter/material.dart';
-import 'package:flutter_exit_app/flutter_exit_app.dart';
+
 import 'package:note_files/models/FloatingNewFolderNote.dart';
 import 'package:note_files/provider/ListViewProvider.dart';
 import 'package:note_files/requiredData.dart';
 import 'package:note_files/screens/PriorityPage.dart';
 import 'package:provider/provider.dart';
 
+import '../functions/isRtlTextDirection.dart';
 import '../models/MyWarningDialog.dart';
+import '../models/isRtlBackIcon.dart';
 import '../screens/AboutPage.dart';
 import '../translations/translations.dart';
 import '../isarCURD.dart';
@@ -54,7 +57,7 @@ class FolderPage extends StatelessWidget {
              MyWarningDialog(
             onWarningPressed: (){
           Navigator.pop(context);
-          FlutterExitApp.exitApp();
+          exit(0);
         },
       translationsWarningButton: locale[TranslationsKeys.exit]!,
       translationsTitle: locale[TranslationsKeys.exitTheApp]!,
@@ -75,7 +78,7 @@ class FolderPage extends StatelessWidget {
             //print("parint folder id :$parentFolderId");
             await context.read<ListViewProvider>().getFoldersAndNotes(parentFolderId);
             Navigator.pop(context);
-          }, icon: const Icon(Icons.arrow_back_ios_new_rounded)),
+          }, icon: IsRtlBackIcon(isRtl: isRtl),),
           title: Text(
             title,
           ),

@@ -10,6 +10,7 @@ import '../functions/boolFn.dart';
 import '../isarCURD.dart';
 import '../models/AutoDirectionTextFormField.dart';
 import '../models/MyWarningDialog.dart';
+import '../models/isRtlBackIcon.dart';
 import '../models/priorityMenu.dart';
 import '../provider/PriorityProvider.dart';
 import '../translations/translations.dart';
@@ -78,10 +79,11 @@ class EditNote extends StatelessWidget {
       onWillPop: onPop,
       child: Scaffold(
         appBar: AppBar(
+
           leading: IconButton(
             onPressed: onPop,
 
-            icon: const Icon(Icons.arrow_back_ios_new_rounded),
+            icon: IsRtlBackIcon(isRtl: isRtl),
           ),
           title: Text(
             formatDate(DateTime.now(), [yy, "/", mm, "/", dd, "   ", hh, ":", nn])

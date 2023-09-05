@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../collection/Note.dart';
 import '../functions/boolFn.dart';
 import '../isarCURD.dart';
+import '../models/AutoDirectionTextField.dart';
 import '../models/AutoDirectionTextFormField.dart';
 import '../models/MyWarningDialog.dart';
 import '../models/isRtlBackIcon.dart';
@@ -94,17 +95,16 @@ class EditNote extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: IconButton(
                   onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
+                    if (titleController.text.isNotEmpty || noteTextController.text.isNotEmpty) {
                       if (idOfNote == null) {
                         var newNote = Note()
                           ..title = titleController.text
-                          ..isTitleRtl= isRTL(titleController.text[0],isRtl)
+                          ..isTitleRtl= isRTL(titleController.text.isEmpty ? "" :titleController.text[0] ,isRtl)
                           ..date = DateTime.now()
                           ..priority = priority
                           ..content = noteTextController.text
-                          ..isContentRtl = isRTL(titleController.text[0],isRtl)
-                          ..parentFolderId =
-                          parentFolderId;
+                          ..isContentRtl = isRTL(noteTextController.text.isEmpty ? "": noteTextController.text[0],isRtl)
+                          ..parentFolderId = parentFolderId;
 
                         db.saveNote(newNote);
                         provider.addNote(newNote);
@@ -123,7 +123,11 @@ class EditNote extends StatelessWidget {
 
 
 
+                    }else{
+                    onPop();
+
                     }
+
                   },
                   icon: const Icon(Icons.save_rounded)),
             )
@@ -137,33 +141,30 @@ class EditNote extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10)),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Form(
-                key: _formKey,
-                child: ListView(
-                  children: [
-                    const Center(child:PriorityMenu()),
-                    Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child:  AutoDirectionTextFormField(
-                          controller: titleController,
-                          locale: locale,
-                          errMessage: TranslationsKeys.titleError,
-                          hintText: TranslationsKeys.yourTitle,
-                        )),
-                    Padding(
+              child: ListView(
+                children: [
+                  const Center(child:PriorityMenu()),
+                  Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child:  AutoDirectionTextFormField(
-                        controller: noteTextController,
+                      child:  AutoDirectionTextField(
+                        controller: titleController,
                         locale: locale,
-                        errMessage: TranslationsKeys.noteError,
-                        hintText: TranslationsKeys.yourNote,
-                        maxLines: null,
-                        isUnderLinedBorder: false,
 
-                      )
+                        hintText: TranslationsKeys.yourTitle,
+                      )),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child:  AutoDirectionTextField(
+                      controller: noteTextController,
+                      locale: locale,
+
+                      hintText: TranslationsKeys.yourNote,
+                      maxLines: null,
+                      isUnderLinedBorder: false,
+
                     )
-                  ],
-                ),
+                  )
+                ],
               ),
             ),
           ),

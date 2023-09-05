@@ -27,7 +27,7 @@ class FolderNameDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isDark = isDarkMode(context);
     var folderNameController = TextEditingController();
-    folderNameController.text = locale[TranslationsKeys.newFolder]!;/*TODO add it to the localization*/
+
     return Directionality(
       textDirection: isRtlTextDirection(isRtl),
       child: Dialog(
@@ -35,57 +35,51 @@ class FolderNameDialog extends StatelessWidget {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: 200,
-                      child: TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return locale[TranslationsKeys.folderName]!;
-                          }
-                          return null;
-                        },
-                        controller: folderNameController,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          hintText: locale[TranslationsKeys.folderName]!,
-                          border: UnderlineInputBorder(),
-                          filled: true,
-                          fillColor: isDark ?Colors.white12: Theme.of(context).primaryColor.withOpacity(0.15)
-                        ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 200,
+                    child: TextField(
+                      controller: folderNameController,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        hintText: locale[TranslationsKeys.folderName]!,
+                        border: UnderlineInputBorder(),
+                        filled: true,
+                        fillColor: isDark ?Colors.white12: Theme.of(context).primaryColor.withOpacity(0.15)
                       ),
                     ),
                   ),
-                  const SizedBox(height: 5),
-                  TextButton(
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        onSubmit(folderNameController.text);
+                ),
+                const SizedBox(height: 5),
+                TextButton(
+                  onPressed: () async {
+                    if (folderNameController.text.isNotEmpty) {
+                      onSubmit(folderNameController.text);
+                      Navigator.pop(context);
 
-                        Navigator.pop(context);
+                    }else{
+                      onSubmit(locale[TranslationsKeys.newFolder]!);
+                      Navigator.pop(context);
 
-                      }
-                    },
-                    child: Text(
-                      locale[TranslationsKeys.done]!,
-                      style: const TextStyle(fontSize: 15),
-                    ),
+                    }
+                  },
+                  child: Text(
+                    locale[TranslationsKeys.done]!,
+                    style: const TextStyle(fontSize: 15),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  )
-                ],
-              ),
+                ),
+                const SizedBox(
+                  height: 10,
+                )
+              ],
             ),
           )),
     );

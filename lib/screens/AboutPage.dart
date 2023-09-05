@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:note_files/requiredData.dart';
 import '../functions/isRtlTextDirection.dart';
 import '../models/MultiLineText.dart';
 
 import '../translations/translations.dart';
-
+const String githubSource = "https://github.com/hesham04Dev/note_files";
 class AboutPage extends StatelessWidget {
   final Map<String, String> locale = requiredData.locale;
   final bool isRtl = requiredData.isRtl;
@@ -32,9 +33,17 @@ class AboutPage extends StatelessWidget {
             MultiLineText(
                 margin: 40,
                 fontSize: 18,
-                maxLines: 1000,
+                maxLines: 150,
                 text: locale[TranslationsKeys.aboutContent]!,
                 textDirection: isRtlTextDirection(isRtl)),
+            TextButton(
+              onPressed: (){
+                Clipboard.setData(ClipboardData(text:githubSource ));
+              },
+                child:Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(githubSource),
+                ))
           ],
         ),
       ),

@@ -38,27 +38,26 @@ class NoteButton extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Column(
-
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(noteTime,overflow: TextOverflow.ellipsis),
+              Center(
+                child: Row(
+                  children: [
+                    Text(noteTime,overflow: TextOverflow.ellipsis),
 
-                 priority==null ? const SizedBox() : Container(
-                   padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 0),
-                   margin: const EdgeInsets.symmetric(horizontal: 10),
-                   decoration: BoxDecoration(
-                       color: priorityColors[priority! -1],
-                     borderRadius: BorderRadius.circular(15)
-                   ),
-                   child: Text("$priority",),
-                 )
-                ],
+                   priority==null ? const SizedBox() : Container(
+                     padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 0),
+                     margin: const EdgeInsets.symmetric(horizontal: 10),
+                     decoration: BoxDecoration(
+                         color: priorityColors[priority! -1],
+                       borderRadius: BorderRadius.circular(15)
+                     ),
+                     child: Text("$priority",),
+                   )
+                  ],
+                ),
               ),
-              MultiLineText(margin: 92,maxLines: 1,text: noteTitle, bold:true,textDirection: titleDirection),
+              MultiLineText(margin: 92,maxLines: 1,text: noteTitle, bold:true,textDirection: titleDirection,fontSize: 19),
 
               const SizedBox(height: 5,),
               MultiLineText(margin:92,maxLines: 3,text: noteContent,textDirection: contentDirection,),

@@ -32,7 +32,7 @@ class _PriorityMenuState extends State<PriorityMenu> {
         10,
         (index) => PopupMenuItem(
           value: index + 1,
-          child: Text("${locale[TranslationsKeys.priority]} ${index + 1}"),
+          child: Center(child: Text("${locale[TranslationsKeys.priority]} ${index + 1}",)),
         ),
       ),
     );

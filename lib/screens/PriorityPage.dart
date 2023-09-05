@@ -49,7 +49,7 @@ class _priorityScreenState extends State<priorityScreen> {
             10,
                 (index) => PopupMenuItem(
               value: index + 1,
-              child: Text("${locale[TranslationsKeys.priority]} ${index + 1}"),
+              child: Center(child: Text("${locale[TranslationsKeys.priority]} ${index + 1}")),
             ),
           ),
         ),/*TODO move it to models and use it in edit note page*/
@@ -59,26 +59,29 @@ class _priorityScreenState extends State<priorityScreen> {
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasData) {
           _listNotes = context.watch<PriorityProvider>().listNotes;
-            return ListView.builder(
-              itemBuilder: (context, index) => Column(
-                children: [
-                  NoteButton(
-                      isPriorityPageOpened: true,
-                      priority: priority,
-                      contentDirection: isRtlTextDirection(_listNotes[index].isContentRtl!/*snapshot.data[index].isContentRtl ?? isRtl*/),
-                      titleDirection:   isRtlTextDirection(/*_listNotes[index].isTitleRtl*/ snapshot.data[index].isTitleRtl ?? isRtl),
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListView.builder(
+                itemBuilder: (context, index) => Column(
+                  children: [
+                    NoteButton(
+                        isPriorityPageOpened: true,
+                        priority: priority,
+                        contentDirection: isRtlTextDirection(_listNotes[index].isContentRtl!/*snapshot.data[index].isContentRtl ?? isRtl*/),
+                        titleDirection:   isRtlTextDirection(/*_listNotes[index].isTitleRtl*/ snapshot.data[index].isTitleRtl ?? isRtl),
 
-                      parentFolderId:/*_listNotes[index].parentFolderId*/snapshot.data[index].parentFolderId,
+                        parentFolderId:/*_listNotes[index].parentFolderId*/snapshot.data[index].parentFolderId,
 
-                      noteContent:  _listNotes[index].content! /*snapshot.data[index].content*/,
-                      noteId: /*_listNotes[index].id*/snapshot.data[index].id,
-                      noteTitle: _listNotes[index].title!/*snapshot.data[index].title,*/,
-                      noteTime: formatDate(/*_listNotes[index].date!*/snapshot.data[index].date,
-                          [yy, "/", mm, "/", dd, "   ", hh, ":", nn])),
-                  const Divider(color: Colors.white54),
-                ],
+                        noteContent:  _listNotes[index].content! /*snapshot.data[index].content*/,
+                        noteId: /*_listNotes[index].id*/snapshot.data[index].id,
+                        noteTitle: _listNotes[index].title!/*snapshot.data[index].title,*/,
+                        noteTime: formatDate(/*_listNotes[index].date!*/snapshot.data[index].date,
+                            [yy, "/", mm, "/", dd, "   ", hh, ":", nn])),
+                    const Divider(color: Colors.white54),
+                  ],
+                ),
+                itemCount: /*_listNotes.length*/snapshot.data.length,
               ),
-              itemCount: /*_listNotes.length*/snapshot.data.length,
             );
           } else {
             return const Center(child: CircularProgressIndicator());

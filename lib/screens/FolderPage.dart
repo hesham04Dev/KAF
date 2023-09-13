@@ -7,10 +7,12 @@ import 'package:note_files/models/FloatingNewFolderNote.dart';
 import 'package:note_files/provider/ListViewProvider.dart';
 import 'package:note_files/requiredData.dart';
 import 'package:note_files/screens/PriorityPage.dart';
+import 'package:note_files/screens/randomNotes.dart';
 import 'package:provider/provider.dart';
 
 import '../functions/isRtlTextDirection.dart';
 import '../models/MyWarningDialog.dart';
+import '../models/drawerItem.dart';
 import '../models/isRtlBackIcon.dart';
 import '../screens/AboutPage.dart';
 import '../translations/translations.dart';
@@ -130,35 +132,11 @@ class FolderPage extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),*/
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) =>
-                              const priorityScreen(),));
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          locale[TranslationsKeys.priorityNotes]!,
 
-                        ),
-                      )),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) =>
-                              AboutPage(),));
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          locale[TranslationsKeys.about]!,
-                        ),
-                      )),
+                  DrawerItem(page: priorityScreen(), text: locale[TranslationsKeys.priorityNotes]!),
+                  DrawerItem(page: RandomNotes(), text: locale[TranslationsKeys.randomNotes]!),
+                  DrawerItem(page: AboutPage(), text: locale[TranslationsKeys.about]!),
+
 
 
                 ],
@@ -179,29 +157,6 @@ class FolderPage extends StatelessWidget {
   }
 //}
 /*
-the open page
-the show note page
-make the app work db
-make delete work
-make edit work
-add about page
-
-# dynamic colors android 13
-# arabic lang
-late icon of the application that also supports dynamic colors
- seying avedio about that
-# improve the default theme
-create my own way to the localization
-
-
-
-
-
-open note page adding edit in the top re calling the edit note with  title and content argument and put the old text in the note
-open folder page reclling the homepage with defferent parentFolderId
-  and on the top calling the name of the folder note add argument for the name of the folder
-delete all folders inside the deleted folder
-state mangement by provider
 
 
 TODO in the next version add search for the notes
@@ -210,7 +165,20 @@ TODO in the next version add the widget
 
 TODO using flutter quill
 TODO adding google fonts
+TODO or adding this fonts rubic cario amiri but i preffer to add google fonts all
+
 TODO adding animations
-adding the direction of the text inside the Note title and content
+
+TODO use lelezar in the images in google play
+
+
+
+
 
 */
+/// rode adding animations to the open page and to the font changing and to the backup also to the Floating action button
+/// backup localy and cloudly using google drive
+/// adding google font and save the font name in the db to use it when he reopen the app
+/// i prefer to change the main font to rubic font
+/// see flutter quill and the ability of using it in this application
+/// flutter quill allows the user to underline some word or bold some text like the word app

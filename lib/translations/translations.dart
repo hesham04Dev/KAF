@@ -95,6 +95,7 @@ abstract class TranslationsKeys{
   static const newFolder = 'newFolder';
   static const exit = 'exit';
   static const exitTheApp = 'exitTheApp';
+  static const randomNotes = 'randomNotes';
 
 }
 
@@ -146,7 +147,8 @@ static const Map<String,String> ar = {
   'priority': "درجة الاهمية",
   "newFolder": "مجلد جديد",
   "exit": "الخروج",
-  "exitTheApp": "هل تريد الخروج من التطبيق"
+  "exitTheApp": "هل تريد الخروج من التطبيق",
+  "randomNotes": "ملاحظات عشوائية"
 };
 static const Map<String,String> en = {
   "title": "NAF",
@@ -198,7 +200,8 @@ Whether you're a student, professional, creative thinker, or simply someone who 
   'priority': "Priority",
   "newFolder": "New Folder",
   "exit": "Exit",
-  "exitTheApp": "do you want to exit the app"
+  "exitTheApp": "do you want to exit the app",
+  "randomNotes": "Random Notes",
 };
 static const Map<String, Map<String,String>> mapLocales = {"ar": ar, "en": en};
 }

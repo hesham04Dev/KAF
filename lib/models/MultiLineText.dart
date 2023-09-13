@@ -19,6 +19,8 @@ class MultiLineText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool unlimited = maxLines == 0? true : false;
+
     return Row(children: [
       SizedBox(
           width: MediaQuery.sizeOf(context).width - margin,
@@ -26,7 +28,7 @@ class MultiLineText extends StatelessWidget {
             text,
             textDirection: textDirection,
             overflow: TextOverflow.ellipsis,
-            maxLines: maxLines,
+            maxLines: unlimited ? null : maxLines,
             style: TextStyle(
                 fontWeight: bold ? FontWeight.w600 : null, fontSize: fontSize),
           ))

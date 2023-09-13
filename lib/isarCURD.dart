@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
@@ -96,6 +97,10 @@ class IsarService {
     oldNote.content = updatedNote.content;
     oldNote.priority = updatedNote.priority;
     isar.writeTxn(() =>  isar.notes.put(oldNote));
+  }
+  Future<Note?> randomNote() async {
+    final isar = await db;
+    return await isar.notes.where().findAll().then((value) => value[Random().nextInt(value.length)] );
   }
   Future<void> backup() async{
     final isar = await db;

@@ -12,21 +12,21 @@ class FolderNameDialog extends StatelessWidget {
   final IsarService db;
   final int? parentFolderId;
 
-  FolderNameDialog(
-      {super.key,
-      required this.locale,
-      required this.onSubmit,
-      required this.isRtl,
-      required this.db,
-      required this.parentFolderId,
-      });
+  FolderNameDialog({
+    super.key,
+    required this.locale,
+    required this.onSubmit,
+    required this.isRtl,
+    required this.db,
+    required this.parentFolderId,
+  });
 
-  final _formKey = GlobalKey<FormState>();
 
+  var folderNameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final bool isDark = isDarkMode(context);
-    var folderNameController = TextEditingController();
+
 
     return Directionality(
       textDirection: isRtlTextDirection(isRtl),
@@ -50,11 +50,14 @@ class FolderNameDialog extends StatelessWidget {
                       controller: folderNameController,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
-                        hintText: locale[TranslationsKeys.folderName]!,
-                        border: UnderlineInputBorder(),
-                        filled: true,
-                        fillColor: isDark ?Colors.white12: Theme.of(context).primaryColor.withOpacity(0.15)
-                      ),
+                          hintText: locale[TranslationsKeys.folderName]!,
+                          border: UnderlineInputBorder(),
+                          filled: true,
+                          fillColor: isDark
+                              ? Colors.white12
+                              : Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.15)),
                     ),
                   ),
                 ),
@@ -64,11 +67,9 @@ class FolderNameDialog extends StatelessWidget {
                     if (folderNameController.text.isNotEmpty) {
                       onSubmit(folderNameController.text);
                       Navigator.pop(context);
-
-                    }else{
+                    } else {
                       onSubmit(locale[TranslationsKeys.newFolder]!);
                       Navigator.pop(context);
-
                     }
                   },
                   child: Text(
@@ -83,5 +84,10 @@ class FolderNameDialog extends StatelessWidget {
             ),
           )),
     );
+  }
+
+  @override
+  void dispose(){
+    folderNameController.dispose;
   }
 }

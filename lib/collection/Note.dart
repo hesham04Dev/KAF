@@ -1,9 +1,6 @@
 import 'package:isar/isar.dart';
 
-
 part 'Note.g.dart';
-
-
 
 @collection
 class Note {
@@ -13,7 +10,7 @@ class Note {
   late bool? isTitleRtl;
   late String? content;
   late bool? isContentRtl;
-  late int?  parentFolderId;
+  late int? parentFolderId;
   @Index()
-  late int?  priority;
+  late int? priority;
 }

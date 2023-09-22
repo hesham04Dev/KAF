@@ -9,21 +9,20 @@ import '../screens/EditNotePage.dart';
 import 'FolderNameDialog.dart';
 
 class FloatingNewFolderNote extends StatefulWidget {
-   final IsarService db = requiredData.db;
-   final bool isRtl = requiredData.isRtl;
-   final Map<String,String> locale = requiredData.locale;
-   final int? parentFolderId;
-   FloatingNewFolderNote({super.key,required this.parentFolderId });
+  final IsarService db = requiredData.db;
+  final bool isRtl = requiredData.isRtl;
+  final Map<String, String> locale = requiredData.locale;
+  final int? parentFolderId;
+  FloatingNewFolderNote({super.key, required this.parentFolderId});
 
   @override
   State<FloatingNewFolderNote> createState() => _FloatingNewFolderNoteState();
 }
 
 class _FloatingNewFolderNoteState extends State<FloatingNewFolderNote> {
-  bool actionButtonPressed =true;
+  bool actionButtonPressed = true;
   @override
   Widget build(BuildContext context) {
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       mainAxisSize: MainAxisSize.min,
@@ -40,10 +39,8 @@ class _FloatingNewFolderNoteState extends State<FloatingNewFolderNote> {
                   onPressed: () {
                     showDialog(
                         context: context,
-                        builder: (context) =>
-                            FolderNameDialog(
+                        builder: (context) => FolderNameDialog(
                               db: widget.db,
-
                               parentFolderId: null,
                               isRtl: widget.isRtl,
                               onSubmit: (text) {
@@ -51,7 +48,9 @@ class _FloatingNewFolderNoteState extends State<FloatingNewFolderNote> {
                                   ..name = text
                                   ..parent = widget.parentFolderId;
                                 widget.db.saveFolder(newFolder);
-                               context.read<ListViewProvider>().addFolder(newFolder);
+                                context
+                                    .read<ListViewProvider>()
+                                    .addFolder(newFolder);
                               },
                               locale: widget.locale,
                             ));
@@ -65,11 +64,16 @@ class _FloatingNewFolderNoteState extends State<FloatingNewFolderNote> {
                   heroTag: null,
                   mini: true,
                   onPressed: () {
-                    Navigator.pushNamed(context, EditNote.routeName,
-                        arguments: {
-
-                          "parentFolderId": widget.parentFolderId
-                        });
+                    Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (_, __, ___) =>
+                              EditNote(parentFolderId: widget.parentFolderId),
+                          transitionDuration: Duration(),
+                          transitionsBuilder: (_, a, __, c) =>
+                              FadeTransition(opacity: a, child: c),
+                        ));
+                    //
                   },
                   child: const Icon(Icons.note_add),
                 ),
@@ -84,13 +88,10 @@ class _FloatingNewFolderNoteState extends State<FloatingNewFolderNote> {
             onPressed: () {
               if (actionButtonPressed == false) {
                 actionButtonPressed = true;
-                setState(() {
-
-                });
+                setState(() {});
               } else {
                 actionButtonPressed = false;
-                setState(() {
-                });
+                setState(() {});
               }
             },
             child: Transform.rotate(

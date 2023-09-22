@@ -1,9 +1,4 @@
-
-
 import 'package:flutter/material.dart';
-
-
-
 
 import '../isarCURD.dart';
 
@@ -25,8 +20,7 @@ class EditOrDeleteFolder extends StatelessWidget {
       required this.onDelete,
       required this.isRtl,
       required this.db,
-      required this.parentFolderId
-      });
+      required this.parentFolderId});
 
   @override
   Widget build(BuildContext context) {
@@ -41,22 +35,21 @@ class EditOrDeleteFolder extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: TextButton(
               onPressed: () {
-               // Navigator.pop(context);
+                // Navigator.pop(context);
                 showDialog(
-                    context: context ,
+                    context: context,
                     builder: (context) => FolderNameDialog(
                           db: db,
-                          parentFolderId:parentFolderId ,
+                          parentFolderId: parentFolderId,
                           locale: locale,
                           isRtl: isRtl,
-                          onSubmit: (newName) async{
-                          await onSubmitNewName(newName);
-                          Navigator.pop(context);
-
+                          onSubmit: (newName) async {
+                            await onSubmitNewName(newName);
+                            Navigator.pop(context);
                           },
                         ));
               },
-              child:  SizedBox(
+              child: SizedBox(
                   width: double.infinity,
                   child: Center(
                       child: Text(
@@ -75,7 +68,7 @@ class EditOrDeleteFolder extends StatelessWidget {
 
                 Navigator.pop(context);
               },
-              child:  SizedBox(
+              child: SizedBox(
                   width: double.infinity,
                   child: Center(
                     child: Text(

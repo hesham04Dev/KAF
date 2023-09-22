@@ -11,7 +11,7 @@ class MultiLineText extends StatelessWidget {
   const MultiLineText(
       {super.key,
       required this.margin,
-      this.maxLines =1,
+      this.maxLines = 1,
       required this.text,
       this.bold = false,
       this.fontSize,
@@ -19,7 +19,7 @@ class MultiLineText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool unlimited = maxLines == 0? true : false;
+    bool unlimited = maxLines == 0 ? true : false;
 
     return Row(children: [
       SizedBox(

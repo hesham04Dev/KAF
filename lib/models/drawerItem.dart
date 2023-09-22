@@ -12,16 +12,19 @@ class DrawerItem extends StatelessWidget {
         TextButton(
             onPressed: () {
               Navigator.pop(context);
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) =>
-                 page,));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => page,
+                  ));
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(
-                text ),
+              child: Text(text),
             )),
-        SizedBox(height: 10,)
+        SizedBox(
+          height: 10,
+        )
       ],
     );
   }

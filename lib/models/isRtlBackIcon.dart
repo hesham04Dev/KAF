@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 class IsRtlBackIcon extends StatelessWidget {
@@ -11,6 +9,8 @@ class IsRtlBackIcon extends StatelessWidget {
     return Transform.rotate(
         origin: Offset.zero,
         angle: isRtl ? 3.14 : 0,
-        child: const Icon(Icons.arrow_back_ios_new_rounded,));
+        child: const Icon(
+          Icons.arrow_back_ios_new_rounded,
+        ));
   }
 }

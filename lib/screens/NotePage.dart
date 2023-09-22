@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:note_files/models/downToUpRoute.dart';
 import 'package:note_files/requiredData.dart';
 import 'package:provider/provider.dart';
-import '../models/styles.dart';
 
 import '../isarCURD.dart';
 import '../models/MyWarningDialog.dart';
+import '../models/styles.dart';
 import '../provider/ListViewProvider.dart';
 import '../provider/PriorityProvider.dart';
 import '../translations/translations.dart';
 import 'EditNotePage.dart';
 
 class NotePage extends StatelessWidget {
-  final Map<String, String> locale =requiredData.locale;
+  final Map<String, String> locale = requiredData.locale;
   final String date;
   final String title;
   final String content;
-  final IsarService db =requiredData.db;
+  final IsarService db = requiredData.db;
   final int id;
   final int? parentFolderId;
   final TextDirection titleDirection;
@@ -23,7 +24,7 @@ class NotePage extends StatelessWidget {
   final int? priority;
   final bool isPriorityPageOpened;
 
-   NotePage({
+  NotePage({
     super.key,
     required this.priority,
     required this.date,
@@ -39,10 +40,9 @@ class NotePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         leading: IconButton(
-          onPressed: (){
+          onPressed: () {
             Navigator.pop(context);
           },
           icon: Icon(Icons.arrow_back_ios_rounded),
@@ -52,33 +52,42 @@ class NotePage extends StatelessWidget {
           IconButton(
               onPressed: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, EditNote.routeName, arguments: {
-
-                  "parentFolderId": parentFolderId,
-                  "title": title,
-                  "content": content,
-                  "id": id,
-                  "priority": priority,
-                  "isPriorityPageOpened": isPriorityPageOpened
-                });
+                Navigator.push(
+                  context,
+                  DownToUpRoute(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        EditNote(
+                            parentFolderId: parentFolderId,
+                            oldTitle: title,
+                            oldContent: content,
+                            idOfNote: id,
+                            priority: priority,
+                            isPriorityPageOpened: isPriorityPageOpened),
+                  ),
+                );
               },
               icon: const Icon(Icons.mode_edit_outline_rounded)),
           IconButton(
               onPressed: () {
-                showDialog(context: context, builder: (context) =>
-                MyWarningDialog(
+                showDialog(
+                  context: context,
+                  builder: (context) => MyWarningDialog(
                     translationsWarningButton: locale[TranslationsKeys.delete]!,
-                  onWarningPressed: () {
-                    db.deleteNote(id);
-                    
-                    context.read<ListViewProvider>().deleteNote(id);
-                    isPriorityPageOpened ?context.read<PriorityProvider>().deleteNote(id): null;
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                  },
-                  translationsTitle: locale[TranslationsKeys.permanentDelete]!,
-                  translationsCancelButton: locale[TranslationsKeys.cancel]!,
-                ),);
+                    onWarningPressed: () {
+                      db.deleteNote(id);
+
+                      context.read<ListViewProvider>().deleteNote(id);
+                      isPriorityPageOpened
+                          ? context.read<PriorityProvider>().deleteNote(id)
+                          : null;
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+                    translationsTitle:
+                        locale[TranslationsKeys.permanentDelete]!,
+                    translationsCancelButton: locale[TranslationsKeys.cancel]!,
+                  ),
+                );
               },
               icon: const Icon(
                 Icons.delete_forever_rounded,
@@ -102,7 +111,6 @@ class NotePage extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-
                 child: Center(
                   child: Text(
                     textDirection: titleDirection,

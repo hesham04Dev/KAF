@@ -12,14 +12,14 @@ import '../models/NoteButton.dart';
 import '../requiredData.dart';
 import '../translations/translations.dart';
 
-
 class ListViewBody extends StatelessWidget {
   final IsarService db = requiredData.db;
   final bool isRtl = requiredData.isRtl;
   final Map<String, String> locale = requiredData.locale;
 
   final int? parentId;
-  ListViewBody({super.key,
+  ListViewBody({
+    super.key,
     required this.parentId,
   });
 
@@ -30,76 +30,74 @@ class ListViewBody extends StatelessWidget {
     //print("building listview");
     oldListFolders = context.watch<ListViewProvider>().listFolders;
     oldListNotes = context.watch<ListViewProvider>().listNotes;
-    if(oldListFolders.isEmpty && oldListNotes.isEmpty){
-      return Center(child:Text(locale[TranslationsKeys.noNotes]!));
-    }
-    else{
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: ListView(
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          ...List<Widget>.generate(
-              oldListFolders.length,
-              (index) => Column(
-                    children: [
-                      FolderButton(
-                          parentFolderId: oldListFolders[index].parent,
-                          id: oldListFolders[index].id,
-                          folderName: oldListFolders[index].name as String,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 5, vertical: 15),
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  Icons.folder_rounded,
-                                  size: 50,
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                FittedBox(
-                                  child: Text(
-                                    oldListFolders[index].name as String,
-                                    style: const TextStyle(fontSize: 20),
+    if (oldListFolders.isEmpty && oldListNotes.isEmpty) {
+      return Center(child: Text(locale[TranslationsKeys.noNotes]!));
+    } else {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: ListView(
+          children: [
+            const SizedBox(
+              height: 10,
+            ),
+            ...List<Widget>.generate(
+                oldListFolders.length,
+                (index) => Column(
+                      children: [
+                        FolderButton(
+                            parentFolderId: oldListFolders[index].parent,
+                            id: oldListFolders[index].id,
+                            folderName: oldListFolders[index].name as String,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 5, vertical: 15),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.folder_rounded,
+                                    size: 50,
                                   ),
-                                ),
-                              ],
-                            ),
-                          )),
-                      const Divider(color: Colors.white54),
-                    ],
-                  )),
-          ...List<Widget>.generate(
-              oldListNotes.length,
-              (index) => Column(
-                    children: [
-                      NoteButton(
-                          priority: oldListNotes[index].priority,
-                          contentDirection:
-                          oldListNotes[index].isContentRtl ?? isRtl
-                                  ? TextDirection.rtl
-                                  : TextDirection.ltr,
-                          titleDirection: oldListNotes[index].isTitleRtl ?? isRtl
-                              ? TextDirection.rtl
-                              : TextDirection.ltr,
-
-                          parentFolderId:oldListNotes[index].parentFolderId,
-
-                          noteContent: oldListNotes[index].content!,
-                          noteId: oldListNotes[index].id,
-                          noteTitle: oldListNotes[index].title!,
-                          noteTime: formatDate(oldListNotes[index].date!,
-                              [yy, "/", mm, "/", dd, "   ", hh, ":", nn])),
-                      const Divider(color: Colors.white54),
-                    ],
-                  ))
-        ],
-      ),
-    );}
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  FittedBox(
+                                    child: Text(
+                                      oldListFolders[index].name as String,
+                                      style: const TextStyle(fontSize: 20),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                        const Divider(color: Colors.white54),
+                      ],
+                    )),
+            ...List<Widget>.generate(
+                oldListNotes.length,
+                (index) => Column(
+                      children: [
+                        NoteButton(
+                            priority: oldListNotes[index].priority,
+                            contentDirection:
+                                oldListNotes[index].isContentRtl ?? isRtl
+                                    ? TextDirection.rtl
+                                    : TextDirection.ltr,
+                            titleDirection:
+                                oldListNotes[index].isTitleRtl ?? isRtl
+                                    ? TextDirection.rtl
+                                    : TextDirection.ltr,
+                            parentFolderId: oldListNotes[index].parentFolderId,
+                            noteContent: oldListNotes[index].content!,
+                            noteId: oldListNotes[index].id,
+                            noteTitle: oldListNotes[index].title!,
+                            noteTime: formatDate(oldListNotes[index].date!,
+                                [yy, "/", mm, "/", dd, "   ", hh, ":", nn])),
+                        const Divider(color: Colors.white54),
+                      ],
+                    ))
+          ],
+        ),
+      );
+    }
   }
 }
-

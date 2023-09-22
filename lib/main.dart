@@ -10,9 +10,7 @@ import 'package:provider/provider.dart';
 
 import 'functions/isRtlTextDirection.dart';
 import 'screens/FolderPage.dart';
-import 'screens/EditNotePage.dart';
 import 'translations/translations.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,7 +38,6 @@ class MyApp extends StatelessWidget {
   static final _defaultDarkColorScheme = ColorScheme.fromSwatch(
       primarySwatch: Colors.green, brightness: Brightness.dark);
 
-
   @override
   Widget build(BuildContext context) {
     //print("My app building");
@@ -50,17 +47,17 @@ class MyApp extends StatelessWidget {
     } else {
       requiredData.set_locale = Translations.mapLocales["en"]!;
     }
-    if (lang == "ar")
-      {requiredData.set_isRtl = true;}
-    else
-      {requiredData.set_isRtl = false;}
+    if (lang == "ar") {
+      requiredData.set_isRtl = true;
+    } else {
+      requiredData.set_isRtl = false;
+    }
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
       return MaterialApp(
         //themeMode: ThemeMode.dark,
         debugShowCheckedModeBanner: false,
         debugShowMaterialGrid: false,
         theme: ThemeData(
-
             iconButtonTheme: IconButtonThemeData(
                 style: ButtonStyle(
                     iconColor: MaterialStatePropertyAll(
@@ -85,7 +82,6 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
             fontFamily: "Cairo",
             appBarTheme: AppBarTheme(
-
               backgroundColor:
                   lightColorScheme?.primary ?? _defaultLightColorScheme.primary,
               titleTextStyle: TextStyle(
@@ -140,17 +136,11 @@ class MyApp extends StatelessWidget {
         ),
         home: Directionality(
             textDirection: isRtlTextDirection(requiredData.isRtl!),
-            child: FolderPage(
-              modalRoute: true,
-            )),
-        routes: {
-          EditNote.routeName: (_) => Directionality(
-              textDirection: isRtlTextDirection(requiredData.isRtl!),child: EditNote()),
-          FolderPage.routeName: (_) => Directionality(
-              textDirection: isRtlTextDirection(requiredData.isRtl!),
-              child: FolderPage(),),
-        },
-
+            child: FolderPage()),
+        /* routes: {
+          EditNote.routeName: (_) => EditNote(),
+          FolderPage.routeName: (_) => FolderPage(),
+        },*/
       );
     });
   }

@@ -13,20 +13,19 @@ class AutoDirectionTextField extends StatefulWidget {
 
   const AutoDirectionTextField(
       {super.key,
-        required this.controller,
-        required this.locale,
-        required this.hintText,
-        this.isUnderLinedBorder = true,
-        this.maxLines = 1,
-        this.style});
+      required this.controller,
+      required this.locale,
+      required this.hintText,
+      this.isUnderLinedBorder = true,
+      this.maxLines = 1,
+      this.style});
 
   @override
   State<AutoDirectionTextField> createState() =>
       _AutoDirectionTextFormFieldState();
 }
 
-class _AutoDirectionTextFormFieldState
-    extends State<AutoDirectionTextField> {
+class _AutoDirectionTextFormFieldState extends State<AutoDirectionTextField> {
   @override
   Widget build(BuildContext context) {
     return AutoDirection(

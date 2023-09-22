@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'styles.dart';
 
 class MyWarningDialog extends StatelessWidget {
-
   final String translationsTitle;
   final String translationsWarningButton;
   final Function onWarningPressed;
   final String translationsCancelButton;
-  const MyWarningDialog({super.key,required this.translationsWarningButton,required this.onWarningPressed,required this.translationsTitle,required this.translationsCancelButton});
+  const MyWarningDialog(
+      {super.key,
+      required this.translationsWarningButton,
+      required this.onWarningPressed,
+      required this.translationsTitle,
+      required this.translationsCancelButton});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +25,7 @@ class MyWarningDialog extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(translationsTitle,
-                style: const MediumText()),
+            child: Text(translationsTitle, style: const MediumText()),
           ),
           const SizedBox(
             height: 10,
@@ -34,7 +37,7 @@ class MyWarningDialog extends StatelessWidget {
               children: [
                 TextButton(
                     onPressed: () {
-                    onWarningPressed();
+                      onWarningPressed();
                     },
                     child: Text(
                       translationsWarningButton,
@@ -46,7 +49,6 @@ class MyWarningDialog extends StatelessWidget {
                     },
                     child: Text(
                       translationsCancelButton,
-
                     ))
               ],
             ),

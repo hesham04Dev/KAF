@@ -7,7 +7,6 @@ import 'package:path_provider/path_provider.dart';
 import 'collection/Folder.dart';
 import 'collection/Note.dart';
 
-
 class IsarService {
   late Future<Isar> db;
 
@@ -29,10 +28,12 @@ class IsarService {
     final isar = await db;
     return await isar.folders.filter().parentEqualTo(parentId).findAll();
   }
+
   Future<Folder?> getFolder(int folderId) async {
     final isar = await db;
     return await isar.folders.filter().idEqualTo(folderId).findFirst();
   }
+
   Stream<List<Folder>> listenToFolders() async* {
     final isar = await db;
     yield* isar.folders.where().watch();
@@ -44,17 +45,19 @@ class IsarService {
     //oldFolder!.parent = updatedFolder.parent;
     /*the above is not nesscary since the user cant move the folder right now*/
     oldFolder!.name = updatedFolder.name;
-    isar.writeTxn(() =>  isar.folders.put(oldFolder));
-
+    isar.writeTxn(() => isar.folders.put(oldFolder));
   }
 
   Future<void> deleteFolder(int folderId) async {
     final isar = await db;
-    await isar.writeTxn(() =>  isar.folders.delete(folderId));
-    isar.writeTxnSync(()  =>  isar.notes.filter().parentFolderIdEqualTo(folderId).deleteAllSync());
-   isar.writeTxnSync(() => isar.folders.filter().parentEqualTo(folderId).deleteAllSync(),);
-   //print("delete folder is done");
-     }
+    await isar.writeTxn(() => isar.folders.delete(folderId));
+    isar.writeTxnSync(() =>
+        isar.notes.filter().parentFolderIdEqualTo(folderId).deleteAllSync());
+    isar.writeTxnSync(
+      () => isar.folders.filter().parentEqualTo(folderId).deleteAllSync(),
+    );
+    //print("delete folder is done");
+  }
 
   Future<void> saveNote(Note newNote) async {
     final isar = await db;
@@ -73,17 +76,17 @@ class IsarService {
         .parentFolderIdEqualTo(parentFolderId)
         .findAll();
   }
+
   Future<List<Note>> getNotesByPriority(int priority) async {
     final isar = await db;
-    return await isar.notes
-        .filter()
-        .priorityEqualTo(priority)
-        .findAll();
+    return await isar.notes.filter().priorityEqualTo(priority).findAll();
   }
+
   Future<Note?> getNote(int noteId) async {
     final isar = await db;
     return await isar.notes.filter().idEqualTo(noteId).findFirst();
   }
+
   Future<void> deleteNote(int noteId) async {
     final isar = await db;
     await isar.writeTxn<bool>(() => isar.notes.delete(noteId));
@@ -96,25 +99,28 @@ class IsarService {
     oldNote!.title = updatedNote.title;
     oldNote.content = updatedNote.content;
     oldNote.priority = updatedNote.priority;
-    isar.writeTxn(() =>  isar.notes.put(oldNote));
+    isar.writeTxn(() => isar.notes.put(oldNote));
   }
+
   Future<Note?> randomNote() async {
     final isar = await db;
 
     Note? note = await isar.notes.where().findFirst();
-    if( note != null )
-   {
-     return await isar.notes.where().findAll().then((value) => value[Random().nextInt(value.length)] );}
-    else {
-      return null;}
+    if (note != null) {
+      return await isar.notes
+          .where()
+          .findAll()
+          .then((value) => value[Random().nextInt(value.length)]);
+    } else {
+      return null;
+    }
   }
-  Future<void> backup() async{
+
+  Future<void> backup() async {
     final isar = await db;
     final dir = await getDownloadsDirectory();
-    isar.copyToFile( dir!.path);
+    isar.copyToFile(dir!.path);
   }
-
-
 
   Future<Isar> openDB() async {
     if (Isar.instanceNames.isEmpty) {
@@ -124,8 +130,6 @@ class IsarService {
         directory: dir.path,
         inspector: false,
       );
-
-
     }
 
     return Future.value(Isar.getInstance());

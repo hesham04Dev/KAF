@@ -5,19 +5,23 @@ import '../functions/isRtlTextDirection.dart';
 import '../models/MultiLineText.dart';
 
 import '../translations/translations.dart';
+
 const String githubSource = "https://github.com/hesham04Dev/note_files";
+
 class AboutPage extends StatelessWidget {
   final Map<String, String> locale = requiredData.locale;
   final bool isRtl = requiredData.isRtl;
 
-   AboutPage({super.key,});
+  AboutPage({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
           leading: IconButton(
-            onPressed: (){
+            onPressed: () {
               Navigator.pop(context);
             },
             icon: Icon(Icons.arrow_back_ios_rounded),
@@ -37,10 +41,10 @@ class AboutPage extends StatelessWidget {
                 text: locale[TranslationsKeys.aboutContent]!,
                 textDirection: isRtlTextDirection(isRtl)),
             TextButton(
-              onPressed: (){
-                Clipboard.setData(ClipboardData(text:githubSource ));
-              },
-                child:Padding(
+                onPressed: () {
+                  Clipboard.setData(ClipboardData(text: githubSource));
+                },
+                child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(githubSource),
                 ))

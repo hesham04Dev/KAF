@@ -1,6 +1,5 @@
 import 'dart:io';
 
-
 import 'package:flutter/material.dart';
 
 import 'package:note_files/models/FloatingNewFolderNote.dart';
@@ -19,141 +18,139 @@ import '../translations/translations.dart';
 import '../isarCURD.dart';
 import './homePageBody.dart';
 
-
 class FolderPage extends StatelessWidget {
-  static const String routeName= "FolderPage";
   final Map<String, String> locale = requiredData.locale;
   final bool isRtl = requiredData.isRtl;
   final IsarService db = requiredData.db;
+  final int? parentFolderId;
+  final int? folderId;
+  final String? folderName;
 
-  final bool modalRoute;
-
-
-  FolderPage({super.key, this.modalRoute = false  });
-
-
-
+  FolderPage({super.key, this.folderName, this.parentFolderId, this.folderId});
 
   @override
   Widget build(BuildContext context) {
-    //print("building folder page");
-    final routeArgs =  modalRoute? null:  ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final String title =
+        folderId == null ? locale[TranslationsKeys.title]! : folderName!;
 
-    final int? parentFolderId = modalRoute ? null:routeArgs!["parentFolderId"];
-    final int? folderId = modalRoute ? null:routeArgs!["folderId"];
-
-    final String? folderName = modalRoute ? null :routeArgs!["folderName"];
-
-
-    final String title = folderId == null ? locale[TranslationsKeys
-        .title]! : folderName!;
-    //print('$folderId  folder id');
     Future<bool> onWillPop() async {
-
-      if (folderId != null){
-      await context.read<ListViewProvider>().getFoldersAndNotes(parentFolderId);
-      print("parent folder is : ${parentFolderId}");
-      Navigator.pop(context);}else{
-        showDialog(context: context, builder: (context) =>
-             MyWarningDialog(
-            onWarningPressed: (){
-          Navigator.pop(context);
-          exit(0);
-        },
-      translationsWarningButton: locale[TranslationsKeys.exit]!,
-      translationsTitle: locale[TranslationsKeys.exitTheApp]!,
-      translationsCancelButton: locale[TranslationsKeys.cancel]!,
-      ));
-
-
+      if (folderId != null) {
+        await context
+            .read<ListViewProvider>()
+            .getFoldersAndNotes(parentFolderId);
+        print("parent folder is : ${parentFolderId}");
+        Navigator.pop(context);
+      } else {
+        showDialog(
+            context: context,
+            builder: (context) => MyWarningDialog(
+                  onWarningPressed: () {
+                    Navigator.pop(context);
+                    exit(0);
+                  },
+                  translationsWarningButton: locale[TranslationsKeys.exit]!,
+                  translationsTitle: locale[TranslationsKeys.exitTheApp]!,
+                  translationsCancelButton: locale[TranslationsKeys.cancel]!,
+                ));
       }
 
       return false;
     }
 
-      return WillPopScope(
-        onWillPop: onWillPop ,
+    return WillPopScope(
+      onWillPop: onWillPop,
+      child: Directionality(
+        textDirection: isRtlTextDirection(requiredData.isRtl!),
         child: Scaffold(
-        appBar: AppBar(
-          leading: folderId == null ? null : IconButton(onPressed: () async{
-            //print("parint folder id :$parentFolderId");
-            await context.read<ListViewProvider>().getFoldersAndNotes(parentFolderId);
-            Navigator.pop(context);
-          }, icon: IsRtlBackIcon(isRtl: isRtl),),
-          title: Text(
-            title,
-          ),
-          actions: folderId == null ? null : [Builder(
-              builder: (context) =>
-                  IconButton(
-                    icon: const Icon(
-                      Icons.menu_rounded,
-                    ),
-                    onPressed: () {
-                      return Scaffold.of(context).openDrawer();
+          appBar: AppBar(
+            leading: folderId == null
+                ? null
+                : IconButton(
+                    onPressed: () async {
+                      //print("parint folder id :$parentFolderId");
+                      await context
+                          .read<ListViewProvider>()
+                          .getFoldersAndNotes(parentFolderId);
+                      Navigator.pop(context);
                     },
-                  ))
-          ],
-
-        ),
-        drawer: NavigationDrawer(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(
-                          Icons.close_rounded,
-                          color: Colors.red,
-                        )),
+                    icon: IsRtlBackIcon(isRtl: isRtl),
                   ),
-                  const Divider(),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  /*
-                  TextButton(
-                      onPressed: () {},
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          locale[TranslationsKeys.backup]!,
-
-                        ),
-                      )),
-                  const SizedBox(
-                    height: 10,
-                  ),*/
-
-                  DrawerItem(page: priorityScreen(), text: locale[TranslationsKeys.priorityNotes]!),
-                  DrawerItem(page: RandomNotes(), text: locale[TranslationsKeys.randomNotes]!),
-                  DrawerItem(page: AboutPage(), text: locale[TranslationsKeys.about]!),
-
-
-
-                ],
-              ),
+            title: Text(
+              title,
             ),
-          ],
+            actions: folderId == null
+                ? null
+                : [
+                    Builder(
+                        builder: (context) => IconButton(
+                              icon: const Icon(
+                                Icons.menu_rounded,
+                              ),
+                              onPressed: () {
+                                return Scaffold.of(context).openDrawer();
+                              },
+                            ))
+                  ],
+          ),
+          drawer: NavigationDrawer(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(
+                            Icons.close_rounded,
+                            color: Colors.red,
+                          )),
+                    ),
+                    const Divider(),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    /*
+                    TextButton(
+                        onPressed: () {},
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            locale[TranslationsKeys.backup]!,
+
+                          ),
+                        )),
+                    const SizedBox(
+                      height: 10,
+                    ),*/
+
+                    DrawerItem(
+                        page: priorityScreen(),
+                        text: locale[TranslationsKeys.priorityNotes]!),
+                    DrawerItem(
+                        page: RandomNotes(),
+                        text: locale[TranslationsKeys.randomNotes]!),
+                    DrawerItem(
+                        page: AboutPage(),
+                        text: locale[TranslationsKeys.about]!),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          body: ListViewBody(
+            parentId: folderId,
+          ),
+          floatingActionButton: FloatingNewFolderNote(parentFolderId: folderId),
         ),
-        body:ListViewBody(parentId: folderId, ),
-
-
-        floatingActionButton: FloatingNewFolderNote(parentFolderId: folderId),
-    ),
-      );
-
-
-    }
-
+      ),
+    );
   }
+}
 //}
 /*
 
@@ -169,7 +166,8 @@ TODO or adding this fonts rubic cario amiri but i preffer to add google fonts al
 TODO adding animations
 
 TODO use lelezar in the images in google play
-
+TODO re use the easy localization
+TODO use different way to route with animations
 
 
 

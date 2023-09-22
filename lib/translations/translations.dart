@@ -72,7 +72,7 @@ class Language {
   "ar": AR,
   "en": EN,
 } ;*/
-abstract class TranslationsKeys{
+abstract class TranslationsKeys {
   static const title = 'title';
   static const settings = 'settings';
   static const backup = 'backup';
@@ -88,8 +88,8 @@ abstract class TranslationsKeys{
   static const done = 'done';
   static const folderName = 'folderName';
   static const aboutContent = 'aboutContent';
-  static const about= 'about';
-  static const permanentDelete= 'permanentDelete';
+  static const about = 'about';
+  static const permanentDelete = 'permanentDelete';
   static const priorityNotes = 'priorityNotes';
   static const priority = 'priority';
   static const newFolder = 'newFolder';
@@ -98,28 +98,27 @@ abstract class TranslationsKeys{
   static const randomNotes = 'randomNotes';
   static const noRandomNotes = 'noRandomNotes';
   static const noNotes = 'noNotes';
-
 }
 
 class Translations {
-static const List<String> supportedLocales=["ar","en"];
-static const Map<String,String> ar = {
-  "title": "ناف",
-  "settings": "الإعدادات",
-  "backup": "النسخ الاحتياطي",
-  "titleError": "رجائا ادخل العنوان",
-  "noteError": "رجائا ادخل المذكرة",
-  "yourTitle": " العنوان",
-  "yourNote": " ادخل مذكرتك",
-  "discardYourNote": "هل تريد تجاهل مذكرتك",
-  "discard": "تجاهل",
-  "cancel": "إلغاء",
-  "edit": "تعديل",
-  "delete": "حذف",
-  "done": "تم",
-  "folderName": "اسم المجلد",
-  "about": "عن التطبيق",
-  "aboutContent": '''حول تطبيق ناف
+  static const List<String> supportedLocales = ["ar", "en"];
+  static const Map<String, String> ar = {
+    "title": "ناف",
+    "settings": "الإعدادات",
+    "backup": "النسخ الاحتياطي",
+    "titleError": "رجائا ادخل العنوان",
+    "noteError": "رجائا ادخل المذكرة",
+    "yourTitle": " العنوان",
+    "yourNote": " ادخل مذكرتك",
+    "discardYourNote": "هل تريد تجاهل مذكرتك",
+    "discard": "تجاهل",
+    "cancel": "إلغاء",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "done": "تم",
+    "folderName": "اسم المجلد",
+    "about": "عن التطبيق",
+    "aboutContent": '''حول تطبيق ناف
 
 مرحبًا بك في ناف، رفيقك الموثوق لتسجيل الملاحظات بكفاءة، وتنظيم سلس، وتصنيف بدون متاعب. يتيح هذا التطبيق منصة خالية من الفوضى وسهلة الاستخدام لتسجيل أفكارك، وملاحظاتك والمعلومات المهمة.
 
@@ -144,33 +143,35 @@ static const Map<String,String> ar = {
 
 
 سواء كنت طالبًا، أو محترفًا، أو فكرًا إبداعيًا، أو حتى شخصًا يحب تدوين الأفكار أثناء التنقل، ناف مصمم لتلبية احتياجاتك. اختبر حرية اتخاذ الملاحظات المنظمة بدون فوضى. قم بتنزيل ناف اليوم وانضم إلينا في تحويل طريقة التقاط وإدارة ملاحظاتك''',
-  "permanentDelete":"حذف بشكل دائم",
-  'priorityNotes': "مذكرات مهمة",
-  'priority': "درجة الاهمية",
-  "newFolder": "مجلد جديد",
-  "exit": "الخروج",
-  "exitTheApp": "هل تريد الخروج من التطبيق",
-  "randomNotes": "ملاحظات عشوائية",
-  "noRandomNotes": "لا توجد أي ملاحظات في الوقت الحالي.",
-  "noNotes": "لا توجد أي ملاحظات في الوقت الحالي. لماذا لا تبدأ رحلتك بملاحظة جديدة؟"
-};
-static const Map<String,String> en = {
-  "title": "NAF",
-  "settings": "Settings",
-  "backup": "Backup",
-  "titleError": "Please enter your title",
-  "noteError": "Please enter your note",
-  "yourTitle": " Your Title",
-  "yourNote": "Your Note",
-  "discardYourNote": "Discard your note",
-  "discard": "Discard",
-  "cancel": "Cancel",
-  "edit": "Edit",
-  "delete": "Delete",
-  "done": "Done",
-  "folderName": "Folder Name",
-  "about": "About",
-  "aboutContent": ''' Welcome to NAF, your reliable companion for efficient note-taking,
+    "permanentDelete": "حذف بشكل دائم",
+    'priorityNotes': "مذكرات مهمة",
+    'priority': "درجة الاهمية",
+    "newFolder": "مجلد جديد",
+    "exit": "الخروج",
+    "exitTheApp": "هل تريد الخروج من التطبيق",
+    "randomNotes": "ملاحظات عشوائية",
+    "noRandomNotes": "لا توجد أي ملاحظات في الوقت الحالي.",
+    "noNotes":
+        "لا توجد أي ملاحظات في الوقت الحالي. لماذا لا تبدأ رحلتك بملاحظة جديدة؟"
+  };
+  static const Map<String, String> en = {
+    "title": "NAF",
+    "settings": "Settings",
+    "backup": "Backup",
+    "titleError": "Please enter your title",
+    "noteError": "Please enter your note",
+    "yourTitle": " Your Title",
+    "yourNote": "Your Note",
+    "discardYourNote": "Discard your note",
+    "discard": "Discard",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "done": "Done",
+    "folderName": "Folder Name",
+    "about": "About",
+    "aboutContent":
+        ''' Welcome to NAF, your reliable companion for efficient note-taking,
 seamless organization, and hassle-free categorization.
 This app is committed to empowering you with a clutter-free
 and intuitive platform to capture your thoughts, ideas, and important information.
@@ -199,15 +200,19 @@ We believe in transparency and providing a seamless user experience. That's why 
 
 
 Whether you're a student, professional, creative thinker, or simply someone who loves to jot down ideas on the go, NAF is designed to meet your needs. Experience the freedom of organized note-taking without the clutter. Download NAF today and join us in revolutionizing the way you capture and manage your notes.''',
-  "permanentDelete":"Permanently delete",
-  'priorityNotes' : "Priority Notes",
-  'priority': "Priority",
-  "newFolder": "New Folder",
-  "exit": "Exit",
-  "exitTheApp": "do you want to exit the app",
-  "randomNotes": "Random Notes",
-  "noRandomNotes": "No notes to be found at the moment.",
-  "noNotes": "No notes to be found at the moment. Why not begin your journey with a fresh note?"
-};
-static const Map<String, Map<String,String>> mapLocales = {"ar": ar, "en": en};
+    "permanentDelete": "Permanently delete",
+    'priorityNotes': "Priority Notes",
+    'priority': "Priority",
+    "newFolder": "New Folder",
+    "exit": "Exit",
+    "exitTheApp": "do you want to exit the app",
+    "randomNotes": "Random Notes",
+    "noRandomNotes": "No notes to be found at the moment.",
+    "noNotes":
+        "No notes to be found at the moment. Why not begin your journey with a fresh note?"
+  };
+  static const Map<String, Map<String, String>> mapLocales = {
+    "ar": ar,
+    "en": en
+  };
 }

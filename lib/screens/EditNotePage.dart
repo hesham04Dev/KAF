@@ -4,9 +4,9 @@ import 'package:note_files/provider/ListViewProvider.dart';
 import 'package:note_files/requiredData.dart';
 import 'package:provider/provider.dart';
 
-
 import '../collection/Note.dart';
 import '../functions/boolFn.dart';
+import '../functions/isRtlTextDirection.dart';
 import '../isarCURD.dart';
 import '../models/AutoDirectionTextField.dart';
 import '../models/AutoDirectionTextFormField.dart';
@@ -15,54 +15,59 @@ import '../models/isRtlBackIcon.dart';
 import '../models/priorityMenu.dart';
 import '../provider/PriorityProvider.dart';
 import '../translations/translations.dart';
-int priority =1;
+
+int priority = 1;
+
 class EditNote extends StatelessWidget {
   final Map<String, String> locale = requiredData.locale;
   final IsarService db = requiredData.db;
   final bool isRtl = requiredData.isRtl;
-  static const String routeName = "EditNote";
 
   final titleController = TextEditingController();
   final noteTextController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  final int? parentFolderId;
 
-  EditNote({super.key});
+  /// these arguments fore using this page to edit the note
+  final String? oldTitle;
+  final String? oldContent;
+  final int? idOfNote;
+  final priority;
+
+  final bool? isPriorityPageOpened;
+
+  /// when true this means that the application calls editNote from priority page this for the provider
+  EditNote(
+      {super.key,
+      this.priority,
+      this.isPriorityPageOpened,
+      this.idOfNote,
+      this.oldTitle,
+      this.oldContent,
+      this.parentFolderId});
 
   @override
   Widget build(BuildContext context) {
-    ListViewProvider provider = Provider.of<ListViewProvider>(context,listen:false);
-    final routeArgs =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    bool isDark =  isDarkMode(context);
+    ListViewProvider provider =
+        Provider.of<ListViewProvider>(context, listen: false);
 
-    final int? parentFolderId = routeArgs['parentFolderId'];
-
-    /// these arguments fore using this page to edit the note
-    final String? oldTitle = routeArgs['title'];
-    final String? oldContent = routeArgs['content'];
-    final int? idOfNote = routeArgs['id'];
-    routeArgs['priority'] != null ? priority = routeArgs['priority'] : null;
-    final bool? isPriorityPageOpened =routeArgs['isPriorityPageOpened'];
+    bool isDark = isDarkMode(context);
 
     /// oldTitle and oldContent are the text written in the note
-    oldTitle == null ? null : titleController.text = oldTitle;
-    oldContent == null ? null : noteTextController.text = oldContent;
+    oldTitle == null ? null : titleController.text = oldTitle!;
+    oldContent == null ? null : noteTextController.text = oldContent!;
 
     /// by doing that we put the old text in the TextFormField
-    Future<bool> onPop() async{
-      if(titleController.text.isEmpty && noteTextController.text.isEmpty ) {
+    Future<bool> onPop() async {
+      if (titleController.text.isEmpty && noteTextController.text.isEmpty) {
         print("poping edit text");
         Navigator.pop(context);
         return false;
-      }
-      else{
-
+      } else {
         showDialog(
           context: context,
           builder: (context) {
-
             return MyWarningDialog(
-              onWarningPressed: (){
+              onWarningPressed: () {
                 Navigator.pop(context);
                 Navigator.pop(context);
               },
@@ -72,104 +77,118 @@ class EditNote extends StatelessWidget {
             );
           },
         );
-      return true;
+        return true;
       }
     }
+
     return WillPopScope(
-
       onWillPop: onPop,
-      child: Scaffold(
-        appBar: AppBar(
+      child: Directionality(
+        textDirection: isRtlTextDirection(requiredData.isRtl!),
+        child: Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              onPressed: onPop,
+              icon: IsRtlBackIcon(isRtl: isRtl),
+            ),
+            title: Text(
+              formatDate(DateTime.now(),
+                  [yy, "/", mm, "/", dd, "   ", hh, ":", nn]).toString(),
+            ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                    onPressed: () async {
+                      if (titleController.text.isNotEmpty ||
+                          noteTextController.text.isNotEmpty) {
+                        if (idOfNote == null) {
+                          var newNote = Note()
+                            ..title = titleController.text
+                            ..isTitleRtl = isRTL(
+                                titleController.text.isEmpty
+                                    ? ""
+                                    : titleController.text[0],
+                                isRtl)
+                            ..date = DateTime.now()
+                            ..priority = priority
+                            ..content = noteTextController.text
+                            ..isContentRtl = isRTL(
+                                noteTextController.text.isEmpty
+                                    ? ""
+                                    : noteTextController.text[0],
+                                isRtl)
+                            ..parentFolderId = parentFolderId;
 
-          leading: IconButton(
-            onPressed: onPop,
+                          db.saveNote(newNote);
+                          provider.addNote(newNote);
+                        } else {
+                          var oldNote = await db.getNote(idOfNote!);
+                          oldNote!.title = titleController.text;
+                          oldNote.date = DateTime.now();
+                          oldNote.content = noteTextController.text;
+                          oldNote.priority = priority;
+                          db.updateNote(oldNote);
+                          provider.updateNote(oldNote);
+                          isPriorityPageOpened == true
+                              ? context
+                                  .read<PriorityProvider>()
+                                  .updateNote(oldNote)
+                              : null;
+                        }
 
-            icon: IsRtlBackIcon(isRtl: isRtl),
-          ),
-          title: Text(
-            formatDate(DateTime.now(), [yy, "/", mm, "/", dd, "   ", hh, ":", nn])
-                .toString(),
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: IconButton(
-                  onPressed: () async {
-                    if (titleController.text.isNotEmpty || noteTextController.text.isNotEmpty) {
-                      if (idOfNote == null) {
-                        var newNote = Note()
-                          ..title = titleController.text
-                          ..isTitleRtl= isRTL(titleController.text.isEmpty ? "" :titleController.text[0] ,isRtl)
-                          ..date = DateTime.now()
-                          ..priority = priority
-                          ..content = noteTextController.text
-                          ..isContentRtl = isRTL(noteTextController.text.isEmpty ? "": noteTextController.text[0],isRtl)
-                          ..parentFolderId = parentFolderId;
-
-                        db.saveNote(newNote);
-                        provider.addNote(newNote);
+                        Navigator.pop(context);
                       } else {
-                        var oldNote = await db.getNote(idOfNote);
-                        oldNote!.title = titleController.text;
-                        oldNote.date = DateTime.now();
-                        oldNote.content = noteTextController.text;
-                        oldNote.priority = priority;
-                        db.updateNote(oldNote);
-                        provider.updateNote(oldNote);
-                        isPriorityPageOpened == true ?  context.read<PriorityProvider>().updateNote(oldNote): null;
+                        onPop();
                       }
-
-                      Navigator.pop(context);
-
-
-
-                    }else{
-                    onPop();
-
-                    }
-
-                  },
-                  icon: const Icon(Icons.save_rounded)),
-            )
-          ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            decoration: BoxDecoration(
-              color: isDark == true ? Colors.white10 : Theme.of(context).primaryColor.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(10)),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView(
-                children: [
-                  const Center(child:PriorityMenu()),
-                  Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child:  AutoDirectionTextField(
-                        controller: titleController,
-                        locale: locale,
-
-                        hintText: TranslationsKeys.yourTitle,
-                      )),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child:  AutoDirectionTextField(
-                      controller: noteTextController,
-                      locale: locale,
-
-                      hintText: TranslationsKeys.yourNote,
-                      maxLines: null,
-                      isUnderLinedBorder: false,
-
-                    )
-                  )
-                ],
+                    },
+                    icon: const Icon(Icons.save_rounded)),
+              )
+            ],
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: isDark == true
+                      ? Colors.white10
+                      : Theme.of(context).primaryColor.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(10)),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView(
+                  children: [
+                    const Center(child: PriorityMenu()),
+                    Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: AutoDirectionTextField(
+                          controller: titleController,
+                          locale: locale,
+                          hintText: TranslationsKeys.yourTitle,
+                        )),
+                    Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: AutoDirectionTextField(
+                          controller: noteTextController,
+                          locale: locale,
+                          hintText: TranslationsKeys.yourNote,
+                          maxLines: null,
+                          isUnderLinedBorder: false,
+                        ))
+                  ],
+                ),
               ),
             ),
           ),
         ),
       ),
     );
+
+
+  }
+  @override
+  void dispose() {
+    titleController.dispose();
+    noteTextController.dispose();
   }
 }

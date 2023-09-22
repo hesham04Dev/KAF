@@ -7,9 +7,11 @@ import 'package:provider/provider.dart';
 import '../collection/Folder.dart';
 import '../collection/Note.dart';
 import '../isarCURD.dart';
+import '../models/FolderButton.dart';
 import '../models/NoteButton.dart';
 import '../requiredData.dart';
-import 'FolderButton.dart';
+import '../translations/translations.dart';
+
 
 class ListViewBody extends StatelessWidget {
   final IsarService db = requiredData.db;
@@ -28,6 +30,10 @@ class ListViewBody extends StatelessWidget {
     //print("building listview");
     oldListFolders = context.watch<ListViewProvider>().listFolders;
     oldListNotes = context.watch<ListViewProvider>().listNotes;
+    if(oldListFolders.isEmpty && oldListNotes.isEmpty){
+      return Center(child:Text(locale[TranslationsKeys.noNotes]!));
+    }
+    else{
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: ListView(
@@ -93,6 +99,7 @@ class ListViewBody extends StatelessWidget {
                   ))
         ],
       ),
-    );
+    );}
   }
 }
+

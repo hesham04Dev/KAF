@@ -66,7 +66,9 @@ class FolderButton extends StatelessWidget {
         //print("pushing parent is $id");
         await context.read<ListViewProvider>().getFoldersAndNotes(id);
          Navigator.pushNamed(
+
             context,
+
             FolderPage.routeName,
             arguments: {
               "folderId": id,

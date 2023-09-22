@@ -90,6 +90,7 @@ class MyApp extends StatelessWidget {
                   lightColorScheme?.primary ?? _defaultLightColorScheme.primary,
               titleTextStyle: TextStyle(
                 fontWeight: FontWeight.w600,
+                fontFamily: "Cairo",
                 fontSize: 20,
                 color: lightColorScheme?.onPrimary ??
                     _defaultLightColorScheme.onPrimary,
@@ -129,6 +130,7 @@ class MyApp extends StatelessWidget {
                 darkColorScheme?.primary ?? _defaultDarkColorScheme.primary,
             titleTextStyle: TextStyle(
               fontWeight: FontWeight.w600,
+              fontFamily: "Cairo",
               fontSize: 20,
               color: darkColorScheme?.onPrimary ??
                   _defaultDarkColorScheme.onPrimary,
@@ -143,12 +145,12 @@ class MyApp extends StatelessWidget {
             )),
         routes: {
           EditNote.routeName: (_) => Directionality(
-              textDirection: isRtlTextDirection(requiredData.isRtl!),
-              child: EditNote()),
+              textDirection: isRtlTextDirection(requiredData.isRtl!),child: EditNote()),
           FolderPage.routeName: (_) => Directionality(
               textDirection: isRtlTextDirection(requiredData.isRtl!),
-              child: FolderPage()),
+              child: FolderPage(),),
         },
+
       );
     });
   }

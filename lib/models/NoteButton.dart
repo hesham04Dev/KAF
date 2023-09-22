@@ -57,9 +57,9 @@ class NoteButton extends StatelessWidget {
                   ],
                 ),
               ),
-              noteTitle== null ? SizedBox(): MultiLineText(margin: 92,maxLines: 1,text: noteTitle, bold:true,textDirection: titleDirection,fontSize: 19),
-              SizedBox(height:noteTitle == null ?0: 5,),
-              noteContent== null ? SizedBox(): MultiLineText(margin:92,maxLines: 3,text: noteContent,textDirection: contentDirection,),
+              noteTitle.isEmpty ? SizedBox(): MultiLineText(margin: 92,maxLines: 1,text: noteTitle, bold:true,textDirection: titleDirection,fontSize: 19),
+              SizedBox(height:noteTitle.isEmpty ?0: 5,),
+              noteContent.isEmpty ? SizedBox(): MultiLineText(margin:92,maxLines: 3,text: noteContent,textDirection: contentDirection,),
 
 
             ],

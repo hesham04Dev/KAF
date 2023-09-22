@@ -21,7 +21,7 @@ class _RandomNotesState extends State<RandomNotes> {
   final Map<String, String> locale = requiredData.locale;
   final db = requiredData.db;
   final bool isRtl = requiredData.isRtl;
-  late Note note;
+  Note? note;
   getRandomNote() async{
     note = await db.randomNote();
     return true;
@@ -41,7 +41,9 @@ class _RandomNotesState extends State<RandomNotes> {
       body: FutureBuilder(
         future: getRandomNote(),
         builder: (context, snapshot) {
-          if(snapshot.hasData){ return Padding(
+          if(snapshot.hasData){
+            if (note != null){
+            return Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
@@ -50,18 +52,18 @@ class _RandomNotesState extends State<RandomNotes> {
                 ),
                // NoteButton(priority: note.priority, noteTitle: note.title?? "", noteTime: note.date??"", noteContent: note.content??"", noteId: note.id, titleDirection: note.isTitleRtl, contentDirection: note.isContentRtl),
                 NoteButton(
-                    priority: note.priority,
+                    priority: note!.priority,
                     contentDirection:
-                    isRtlTextDirection(note.isContentRtl ?? isRtl),
-                    titleDirection: isRtlTextDirection(note.isTitleRtl ?? isRtl),
+                    isRtlTextDirection(note!.isContentRtl ?? isRtl),
+                    titleDirection: isRtlTextDirection(note!.isTitleRtl ?? isRtl),
 
 
-                    parentFolderId:note.parentFolderId,
+                    parentFolderId:note!.parentFolderId,
 
-                    noteContent: note.content??"",
-                    noteId: note.id,
-                    noteTitle: note.title??"",
-                    noteTime: formatDate(note.date!,
+                    noteContent: note!.content??"",
+                    noteId: note!.id,
+                    noteTitle: note!.title??"",
+                    noteTime: formatDate(note!.date!,
                         [yy, "/", mm, "/", dd, "   ", hh, ":", nn])),
                // Expanded(child: SizedBox()),
                 /*TextButton(onPressed: () async{
@@ -73,7 +75,10 @@ class _RandomNotesState extends State<RandomNotes> {
 
               ],
             ),
-          ); }
+          );}
+          else {return Center(
+              child: Text(locale[TranslationsKeys.noRandomNotes]!,),
+            );}}
           else{return const Center(child: CircularProgressIndicator());}
         } ,
 

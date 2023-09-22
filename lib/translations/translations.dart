@@ -96,6 +96,8 @@ abstract class TranslationsKeys{
   static const exit = 'exit';
   static const exitTheApp = 'exitTheApp';
   static const randomNotes = 'randomNotes';
+  static const noRandomNotes = 'noRandomNotes';
+  static const noNotes = 'noNotes';
 
 }
 
@@ -148,7 +150,9 @@ static const Map<String,String> ar = {
   "newFolder": "مجلد جديد",
   "exit": "الخروج",
   "exitTheApp": "هل تريد الخروج من التطبيق",
-  "randomNotes": "ملاحظات عشوائية"
+  "randomNotes": "ملاحظات عشوائية",
+  "noRandomNotes": "لا توجد أي ملاحظات في الوقت الحالي.",
+  "noNotes": "لا توجد أي ملاحظات في الوقت الحالي. لماذا لا تبدأ رحلتك بملاحظة جديدة؟"
 };
 static const Map<String,String> en = {
   "title": "NAF",
@@ -202,6 +206,8 @@ Whether you're a student, professional, creative thinker, or simply someone who 
   "exit": "Exit",
   "exitTheApp": "do you want to exit the app",
   "randomNotes": "Random Notes",
+  "noRandomNotes": "No notes to be found at the moment.",
+  "noNotes": "No notes to be found at the moment. Why not begin your journey with a fresh note?"
 };
 static const Map<String, Map<String,String>> mapLocales = {"ar": ar, "en": en};
 }

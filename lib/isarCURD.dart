@@ -100,7 +100,13 @@ class IsarService {
   }
   Future<Note?> randomNote() async {
     final isar = await db;
-    return await isar.notes.where().findAll().then((value) => value[Random().nextInt(value.length)] );
+
+    Note? note = await isar.notes.where().findFirst();
+    if( note != null )
+   {
+     return await isar.notes.where().findAll().then((value) => value[Random().nextInt(value.length)] );}
+    else {
+      return null;}
   }
   Future<void> backup() async{
     final isar = await db;

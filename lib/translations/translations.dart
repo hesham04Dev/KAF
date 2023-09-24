@@ -103,7 +103,7 @@ abstract class TranslationsKeys {
 class Translations {
   static const List<String> supportedLocales = ["ar", "en"];
   static const Map<String, String> ar = {
-    "title": "ناف",
+    "title": "كاف",
     "settings": "الإعدادات",
     "backup": "النسخ الاحتياطي",
     "titleError": "رجائا ادخل العنوان",

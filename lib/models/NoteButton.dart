@@ -6,7 +6,7 @@ import '../screens/NotePage.dart';
 
 import '../isarCURD.dart';
 import 'MultiLineText.dart';
-import 'downToUpRoute.dart';
+import 'FadeRoute.dart';
 
 class NoteButton extends StatelessWidget {
   final bool isRtl = requiredData.isRtl;
@@ -43,7 +43,7 @@ class NoteButton extends StatelessWidget {
         onPressed: () {
           Navigator.push(
               context,
-              DownToUpRoute(
+              FadeRoute(
                 pageBuilder: (_, __, ___) => NotePage(
                   isPriorityPageOpened: isPriorityPageOpened ?? false,
                   titleDirection: titleDirection,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:note_files/models/downToUpRoute.dart';
+import 'package:note_files/models/FadeRoute.dart';
 import 'package:note_files/provider/ListViewProvider.dart';
 import 'package:note_files/requiredData.dart';
 import 'package:provider/provider.dart';
@@ -67,7 +67,7 @@ class FolderButton extends StatelessWidget {
         await context.read<ListViewProvider>().getFoldersAndNotes(id);
         Navigator.push(
             context,
-            DownToUpRoute(
+            FadeRoute(
               pageBuilder: (_, __, ___) => FolderPage(
                 folderId: id,
                 parentFolderId: parentFolderId,

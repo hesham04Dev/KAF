@@ -31,7 +31,10 @@ class ListViewBody extends StatelessWidget {
     oldListFolders = context.watch<ListViewProvider>().listFolders;
     oldListNotes = context.watch<ListViewProvider>().listNotes;
     if (oldListFolders.isEmpty && oldListNotes.isEmpty) {
-      return Center(child: Text(locale[TranslationsKeys.noNotes]!));
+      return Center(child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Text(locale[TranslationsKeys.noNotes]!),
+      ));
     } else {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),

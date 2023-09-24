@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_files/models/FadeRoute.dart';
 import 'package:note_files/requiredData.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +14,7 @@ class FloatingNewFolderNote extends StatefulWidget {
   final bool isRtl = requiredData.isRtl;
   final Map<String, String> locale = requiredData.locale;
   final int? parentFolderId;
+
   FloatingNewFolderNote({super.key, required this.parentFolderId});
 
   @override
@@ -21,6 +23,7 @@ class FloatingNewFolderNote extends StatefulWidget {
 
 class _FloatingNewFolderNoteState extends State<FloatingNewFolderNote> {
   bool actionButtonPressed = true;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -66,14 +69,10 @@ class _FloatingNewFolderNoteState extends State<FloatingNewFolderNote> {
                   onPressed: () {
                     Navigator.push(
                         context,
-                        PageRouteBuilder(
+                        FadeRoute(
                           pageBuilder: (_, __, ___) =>
                               EditNote(parentFolderId: widget.parentFolderId),
-                          transitionDuration: Duration(),
-                          transitionsBuilder: (_, a, __, c) =>
-                              FadeTransition(opacity: a, child: c),
                         ));
-                    //
                   },
                   child: const Icon(Icons.note_add),
                 ),

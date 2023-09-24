@@ -6,7 +6,7 @@ import '../models/MultiLineText.dart';
 
 import '../translations/translations.dart';
 
-const String githubSource = "https://github.com/hesham04Dev/note_files";
+const String githubSource = "https://github.com/hesham04Dev/NAF";
 
 class AboutPage extends StatelessWidget {
   final Map<String, String> locale = requiredData.locale;

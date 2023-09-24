@@ -9,14 +9,11 @@ import '../functions/boolFn.dart';
 import '../functions/isRtlTextDirection.dart';
 import '../isarCURD.dart';
 import '../models/AutoDirectionTextField.dart';
-import '../models/AutoDirectionTextFormField.dart';
 import '../models/MyWarningDialog.dart';
 import '../models/isRtlBackIcon.dart';
 import '../models/priorityMenu.dart';
 import '../provider/PriorityProvider.dart';
 import '../translations/translations.dart';
-
-int priority = 1;
 
 class EditNote extends StatelessWidget {
   final Map<String, String> locale = requiredData.locale;
@@ -31,7 +28,7 @@ class EditNote extends StatelessWidget {
   final String? oldTitle;
   final String? oldContent;
   final int? idOfNote;
-  final priority;
+  final int? priority;
 
   final bool? isPriorityPageOpened;
 
@@ -45,11 +42,21 @@ class EditNote extends StatelessWidget {
       this.oldContent,
       this.parentFolderId});
 
+  bool isLoaded = false;
+
   @override
   Widget build(BuildContext context) {
+    int get_priority = context.watch<PriorityProvider>().priority;
+
+
+    if (!isLoaded && priority != null) {
+      print("priority is $priority");
+      isLoaded = true;
+      get_priority = priority!;
+    }
+    ;
     ListViewProvider provider =
         Provider.of<ListViewProvider>(context, listen: false);
-
     bool isDark = isDarkMode(context);
 
     /// oldTitle and oldContent are the text written in the note
@@ -81,6 +88,7 @@ class EditNote extends StatelessWidget {
       }
     }
 
+    print("get_Priority = $get_priority");
     return WillPopScope(
       onWillPop: onPop,
       child: Directionality(
@@ -111,7 +119,7 @@ class EditNote extends StatelessWidget {
                                     : titleController.text[0],
                                 isRtl)
                             ..date = DateTime.now()
-                            ..priority = priority
+                            ..priority = get_priority
                             ..content = noteTextController.text
                             ..isContentRtl = isRTL(
                                 noteTextController.text.isEmpty
@@ -127,7 +135,7 @@ class EditNote extends StatelessWidget {
                           oldNote!.title = titleController.text;
                           oldNote.date = DateTime.now();
                           oldNote.content = noteTextController.text;
-                          oldNote.priority = priority;
+                          oldNote.priority = get_priority;
                           db.updateNote(oldNote);
                           provider.updateNote(oldNote);
                           isPriorityPageOpened == true
@@ -158,7 +166,10 @@ class EditNote extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: ListView(
                   children: [
-                    const Center(child: PriorityMenu()),
+                    Center(
+                        child: PriorityMenu(
+                      priority: priority,
+                    )),
                     Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: AutoDirectionTextField(
@@ -183,9 +194,8 @@ class EditNote extends StatelessWidget {
         ),
       ),
     );
-
-
   }
+
   @override
   void dispose() {
     titleController.dispose();

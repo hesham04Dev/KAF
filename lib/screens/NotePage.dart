@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:note_files/models/downToUpRoute.dart';
+import 'package:note_files/models/FadeRoute.dart';
 import 'package:note_files/requiredData.dart';
 import 'package:provider/provider.dart';
 
@@ -54,7 +54,7 @@ class NotePage extends StatelessWidget {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  DownToUpRoute(
+                  FadeRoute(
                     pageBuilder: (context, animation, secondaryAnimation) =>
                         EditNote(
                             parentFolderId: parentFolderId,
@@ -114,7 +114,7 @@ class NotePage extends StatelessWidget {
                 child: Center(
                   child: Text(
                     textDirection: titleDirection,
-                    " ${TranslationsKeys.priority}: $priority ",
+                    " ${locale[TranslationsKeys.priority]}: $priority ",
                     style: const MediumText(),
                   ),
                 ),

@@ -52,6 +52,7 @@ class MyApp extends StatelessWidget {
     } else {
       requiredData.set_isRtl = false;
     }
+    String chosenFont= "Noto"; /*this is the default font*/
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
       return MaterialApp(
         //themeMode: ThemeMode.dark,
@@ -66,11 +67,11 @@ class MyApp extends StatelessWidget {
             dialogBackgroundColor: Colors.white,
             scaffoldBackgroundColor: Colors.white,
             dividerTheme: const DividerThemeData(color: Colors.black),
-            textButtonTheme: const TextButtonThemeData(
+            textButtonTheme:  TextButtonThemeData(
                 style: ButtonStyle(
                     textStyle: MaterialStatePropertyAll(TextStyle(
                         color: Colors.black,
-                        fontFamily: "Cairo",
+                        fontFamily: chosenFont,
                         fontSize: 19)))),
             floatingActionButtonTheme:
                 const FloatingActionButtonThemeData(shape: CircleBorder()),
@@ -80,13 +81,13 @@ class MyApp extends StatelessWidget {
             ),
             colorScheme: lightColorScheme ?? _defaultLightColorScheme,
             useMaterial3: true,
-            fontFamily: "Cairo",
+            fontFamily: chosenFont,
             appBarTheme: AppBarTheme(
               backgroundColor:
                   lightColorScheme?.primary ?? _defaultLightColorScheme.primary,
               titleTextStyle: TextStyle(
                 fontWeight: FontWeight.w600,
-                fontFamily: "Cairo",
+                fontFamily: chosenFont,
                 fontSize: 20,
                 color: lightColorScheme?.onPrimary ??
                     _defaultLightColorScheme.onPrimary,
@@ -110,7 +111,7 @@ class MyApp extends StatelessWidget {
                   textStyle: MaterialStatePropertyAll(TextStyle(
                       color: darkColorScheme?.primary ??
                           _defaultDarkColorScheme.primary,
-                      fontFamily: "Cairo",
+                      fontFamily: chosenFont,
                       fontSize: 19)))),
           scaffoldBackgroundColor: const Color.fromARGB(255, 50, 50, 50),
           floatingActionButtonTheme:
@@ -120,13 +121,13 @@ class MyApp extends StatelessWidget {
           ),
           colorScheme: darkColorScheme ?? _defaultDarkColorScheme,
           useMaterial3: true,
-          fontFamily: "Cairo",
+          fontFamily: chosenFont,
           appBarTheme: AppBarTheme(
             backgroundColor:
                 darkColorScheme?.primary ?? _defaultDarkColorScheme.primary,
             titleTextStyle: TextStyle(
               fontWeight: FontWeight.w600,
-              fontFamily: "Cairo",
+              fontFamily: chosenFont,
               fontSize: 20,
               color: darkColorScheme?.onPrimary ??
                   _defaultDarkColorScheme.onPrimary,

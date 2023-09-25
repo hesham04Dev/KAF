@@ -7,6 +7,7 @@ import 'package:note_files/provider/ListViewProvider.dart';
 import 'package:note_files/requiredData.dart';
 import 'package:note_files/screens/PriorityPage.dart';
 import 'package:note_files/screens/randomNotes.dart';
+import 'package:note_files/screens/settings.dart';
 import 'package:provider/provider.dart';
 
 import '../functions/isRtlTextDirection.dart';
@@ -137,6 +138,9 @@ class FolderPage extends StatelessWidget {
                     DrawerItem(
                         page: AboutPage(),
                         text: locale[TranslationsKeys.about]!),
+                    /*DrawerItem(
+                        page: SettingsPage( ),
+                        text: locale[TranslationsKeys.settings]!),*/
                   ],
                 ),
               ),
@@ -153,6 +157,16 @@ class FolderPage extends StatelessWidget {
 }
 //}
 /*
+
+TODO adding tasks
+  [] change the floating action button
+  [] adding the navigation bar
+  the shape is new task   new note  new folder
+  [] the task shown before the notes
+  [] the task shape is title description and new sub task
+  [] the sub task is shown until done in home page
+  [] when the task completes the all subtasks will disappear and its
+    value becomes complete => this version name is 1.2
 
 
 TODO in the next version add search for the notes

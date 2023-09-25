@@ -98,6 +98,7 @@ abstract class TranslationsKeys {
   static const randomNotes = 'randomNotes';
   static const noRandomNotes = 'noRandomNotes';
   static const noNotes = 'noNotes';
+
 }
 
 class Translations {

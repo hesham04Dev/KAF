@@ -4,7 +4,12 @@ class RequiredData {
   final IsarService _db = IsarService();
   bool _isRtl = false;
   Map<String, String> _locale = {};
-  int _priority = 1;
+  bool _isAmiri = false;/*TODO get it from the db*/
+  get isAmiri => _isAmiri;
+  set set_isAmiri (bool value) {
+    _isAmiri = value;
+    /*TODO store it in the db*/
+  }
   set set_isRtl(bool value) {
     _isRtl = value;
   }

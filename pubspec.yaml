@@ -17,7 +17,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.1.2+7
+version: 1.1.4+9
 
 environment:
   sdk: '>=3.0.6 <4.0.0'
@@ -97,12 +97,15 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Cairo
+    - family: Amiri
       fonts:
-        - asset: assets/fonts/Cairo-Medium.ttf
-        - asset: assets/fonts/Cairo-SemiBold.ttf
-          weight: 600
-
-
+        - asset: assets/fonts/Amiri/Amiri-Regular.ttf
+        - asset: assets/fonts/Amiri/Amiri-Bold.ttf
+          weight: 700
+    - family: Noto
+      fonts:
+        - asset: assets/fonts/Noto/NotoSansArabic-light.ttf
+        - asset: assets/fonts/Noto/NotoSansArabic-SemiBold.ttf
+          weight: 700
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

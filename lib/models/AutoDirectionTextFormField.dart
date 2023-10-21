@@ -46,7 +46,7 @@ class _AutoDirectionTextFormFieldState
           return null;
         },
         decoration: InputDecoration(
-            hintText: widget.locale[widget.hintText]!,
+            hintText: widget.hintText,
             border: widget.isUnderLinedBorder ? null : InputBorder.none),
         style: const MediumText(),
       ),

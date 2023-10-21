@@ -3,6 +3,7 @@ import 'package:note_files/isarCURD.dart';
 class RequiredData {
   final IsarService _db = IsarService();
   bool _isRtl = false;
+  bool restoreDb= false;
   Map<String, String> _locale = {};
   bool _isAmiri = false;/*TODO get it from the db*/
   get isAmiri => _isAmiri;
@@ -25,6 +26,12 @@ class RequiredData {
   set set_locale(Map<String, String> value) {
     _locale = value;
   }
+/*
+  static const searchingList = ["title contains", "content contains","date is"];
+  String _chosenElement = searchingList[0];
+  get chosenElement => _chosenElement;
+  set set_chosenElement (String value) {
+    _chosenElement = value;}/*TODO remove this block*/*/
 }
 
 RequiredData requiredData = RequiredData();

@@ -7,13 +7,16 @@ import 'package:note_files/provider/ListViewProvider.dart';
 import 'package:note_files/requiredData.dart';
 import 'package:note_files/screens/PriorityPage.dart';
 import 'package:note_files/screens/randomNotes.dart';
+import 'package:note_files/screens/searchPage.dart';
 import 'package:note_files/screens/settings.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import '../functions/isRtlTextDirection.dart';
 import '../models/MyWarningDialog.dart';
 import '../models/drawerItem.dart';
 import '../models/isRtlBackIcon.dart';
+import '../provider/searchProvider.dart';
 import '../screens/AboutPage.dart';
 import '../translations/translations.dart';
 import '../isarCURD.dart';
@@ -132,12 +135,21 @@ class FolderPage extends StatelessWidget {
                     DrawerItem(
                         page: priorityScreen(),
                         text: locale[TranslationsKeys.priorityNotes]!),
+
+                    DrawerItem(
+                        page: SettingsPage(),
+                        text: locale[TranslationsKeys.settings]!),
                     DrawerItem(
                         page: RandomNotes(),
                         text: locale[TranslationsKeys.randomNotes]!),
                     DrawerItem(
                         page: AboutPage(),
                         text: locale[TranslationsKeys.about]!),
+                    DrawerItem(
+                        page: ChangeNotifierProvider(
+                          create: (context) => SearchProvider(),
+                            child: SearchPage()),
+                        text: locale[TranslationsKeys.search]!),
                     /*DrawerItem(
                         page: SettingsPage( ),
                         text: locale[TranslationsKeys.settings]!),*/

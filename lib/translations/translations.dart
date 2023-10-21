@@ -98,6 +98,8 @@ abstract class TranslationsKeys {
   static const randomNotes = 'randomNotes';
   static const noRandomNotes = 'noRandomNotes';
   static const noNotes = 'noNotes';
+  static const search = 'search';
+
 
 }
 
@@ -152,6 +154,7 @@ class Translations {
     "exitTheApp": "هل تريد الخروج من التطبيق",
     "randomNotes": "ملاحظات عشوائية",
     "noRandomNotes": "لا توجد أي ملاحظات في الوقت الحالي.",
+    "search": "البحث",
     "noNotes":
         "لا توجد أي ملاحظات في الوقت الحالي. لماذا لا تبدأ رحلتك بملاحظة جديدة؟"
   };
@@ -171,6 +174,7 @@ class Translations {
     "done": "Done",
     "folderName": "Folder Name",
     "about": "About",
+    "search" :"Search",
     "aboutContent":
         ''' Welcome to NAF, your reliable companion for efficient note-taking,
 seamless organization, and hassle-free categorization.

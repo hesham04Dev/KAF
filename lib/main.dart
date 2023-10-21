@@ -6,6 +6,7 @@ import 'package:note_files/homePageData.dart';
 import 'package:note_files/provider/ListViewProvider.dart';
 import 'package:note_files/provider/PriorityProvider.dart';
 import 'package:note_files/requiredData.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'functions/isRtlTextDirection.dart';
@@ -15,18 +16,21 @@ import 'translations/translations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+ requiredData.db.localRestoreDbIfRestoreButtonClicked();
+
   await requiredData.db.openDB();
-  //await requiredData.db.backup();
+
   homePageFolders = await requiredData.db.getFolders(null);
   homePageNotes = await requiredData.db.getNotes(null);
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => ListViewProvider()),
       ChangeNotifierProvider(create: (_) => PriorityProvider()),
+      //ChangeNotifierProvider(create: (_) => SearchProvider()),
     ],
     child: const MyApp(),
   ));
-  //print("the app is opened");
 }
 
 class MyApp extends StatelessWidget {
@@ -52,7 +56,7 @@ class MyApp extends StatelessWidget {
     } else {
       requiredData.set_isRtl = false;
     }
-    String chosenFont= "Noto"; /*this is the default font*/
+    String chosenFont = "Noto"; /*this is the default font*/
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
       return MaterialApp(
         //themeMode: ThemeMode.dark,
@@ -67,7 +71,7 @@ class MyApp extends StatelessWidget {
             dialogBackgroundColor: Colors.white,
             scaffoldBackgroundColor: Colors.white,
             dividerTheme: const DividerThemeData(color: Colors.black),
-            textButtonTheme:  TextButtonThemeData(
+            textButtonTheme: TextButtonThemeData(
                 style: ButtonStyle(
                     textStyle: MaterialStatePropertyAll(TextStyle(
                         color: Colors.black,

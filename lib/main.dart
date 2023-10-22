@@ -10,14 +10,17 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'functions/isRtlTextDirection.dart';
+import 'functions/restoreDb.dart';
 import 'screens/FolderPage.dart';
 import 'translations/translations.dart';
 
+
 void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
+  await localRestoreDbIfRestoreButtonClicked();
 
- requiredData.db.localRestoreDbIfRestoreButtonClicked();
-
+  print(" ddlkfd j");
   await requiredData.db.openDB();
 
   homePageFolders = await requiredData.db.getFolders(null);

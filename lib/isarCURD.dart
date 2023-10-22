@@ -11,8 +11,8 @@ import 'collection/Note.dart';
 class IsarService {
   late Future<Isar> db;
   final _supportDir = getApplicationSupportDirectory();
-  final _tempDir = getTemporaryDirectory();
   final _downloadsDir = getDownloadsDirectory();
+
   IsarService() {
     db = openDB();
   }
@@ -130,57 +130,19 @@ class IsarService {
     /*TODO add time naming*/
     getApplicationSupportDirectory().then((value) => print(value.path));
 
-    isar.copyToFile( await downloadsDir!.path + "/default.isar");
+    isar.copyToFile(await downloadsDir!.path + "/default.isar");
   }
+
   Future<void> copyDbToSupportDir(String sourcePath) async {
     var isar = await db;
     final supportDir = await _supportDir;
     if (isar.isOpen) {
-
-      //var baseDir = await getDownloadsDirectory();
       File sourceFile = File(sourcePath);
-      // TODO remove base dir and source file since we need to get it from the
-
-
       await sourceFile.copySync(supportDir.path + '/restored.isar');
       /* wee need to restart the app to get new db */
-
     }
   }
-  Future<void> localRestoreDbIfRestoreButtonClicked() async{
-    final supportDir = await _supportDir;
-    File needToRestoreOldDb = File(supportDir.path + "/default.restore");
-    File restoredDb = File(supportDir.path + "/restored.isar");
-    if (await restoredDb.exists()) {
-      _localRestoreNewDb(restoredDb);
-    }else if(await needToRestoreOldDb.exists()){
-      _localRestoreOldDb();
-       needToRestoreOldDb.delete();
-       /*This part done in the code but still not active since tell now we dont add
-       * the code that will create the default.restore file */
-    }
-  }
-  Future<void> _localRestoreNewDb(File restoredDb) async{
-  final supportDir = await _supportDir;
-  final temp = await _tempDir;
 
-    File oldDb = File(supportDir.path + "/default.isar");
-    await oldDb.copy(temp.path + "/default.isar");
-    await oldDb.delete();
-
-    restoredDb.rename(supportDir.path + "/default.isar");
-  }
-
-  Future<void> _localRestoreOldDb() async{
-    final temp = await _tempDir;
-    final supportDir = await _supportDir;
-
-    File db = File(supportDir.path + "/default.isar");
-    await db.delete();
-
-    final oldDb = File(temp.path + "/default.isar");
-    await oldDb.copy(supportDir.path + "/default.isar");
-  }
 
   Future<Isar> openDB() async {
     if (Isar.instanceNames.isEmpty) {
@@ -191,7 +153,7 @@ class IsarService {
       return await Isar.open(
         [FolderSchema, NoteSchema],
         directory: dir.path,
-        inspector: true,
+        inspector: false,
       );
     } else
       print("instance is not empty");

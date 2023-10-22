@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:note_files/isarCURD.dart';
+import 'package:path_provider/path_provider.dart';
 
 class RequiredData {
   final IsarService _db = IsarService();
@@ -32,6 +35,9 @@ class RequiredData {
   get chosenElement => _chosenElement;
   set set_chosenElement (String value) {
     _chosenElement = value;}/*TODO remove this block*/*/
+
+
+
 }
 
 RequiredData requiredData = RequiredData();

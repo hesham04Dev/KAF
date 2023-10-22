@@ -4,6 +4,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:note_files/requiredData.dart';
 
+import 'package:path_provider/path_provider.dart';
+
 import '../models/styles.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -66,12 +68,38 @@ class _SettingsPageState extends State<SettingsPage> {
                 }, child: Text("backup")),
                 TextButton(onPressed: () async{
                   //var allowStorage = await Permission.storage.request();
-                  FilePickerResult? result = await FilePicker.platform.pickFiles();
-                  if (result != null) {
+                  var downloadsDir = await getDownloadsDirectory();
+                  FilePickerResult? result = await FilePicker.platform.pickFiles(
+                    allowedExtensions: ['isar'],
+                    initialDirectory: downloadsDir!.path,
+                  );
+                  if (result != null ) {
+                    if(result.files.single.path!.endsWith(".isar")){
                     requiredData.db.copyDbToSupportDir(result.files.single.path);
+
+                      /*TODO restart the app */
+                      showDialog(context: context, builder: (context) => Dialog.fullscreen(
+                        child: Center(child: Text("you need to restart the app"),),
+                      ),);
+                    }
+                    else {
+                      showDialog(context: context, builder: (context) => Dialog(
+                        backgroundColor: Colors.red.withOpacity(0.2),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Text("wrong file",textAlign: TextAlign.center,),
+                        ),
+                      ),);
+
+                    }
+
+
+                    print("done");
                   } else {
+                    // TODO
                     // User canceled the picker
                   }
+
 
                   /*TODO add the isGranted permission of the storage and rutern
                         err if he dont acsept the permission*/
@@ -83,7 +111,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       // Permission denied.
                       }*/
 
-                  Navigator.pop(context);
+                  //Navigator.pop(context);
                 }, child: Text("restore")),
               ],
             )

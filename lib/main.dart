@@ -20,9 +20,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await localRestoreDbIfRestoreButtonClicked();
 
-  print(" ddlkfd j");
   await requiredData.db.openDB();
-
+  await requiredData.getDefaultFont();
   homePageFolders = await requiredData.db.getFolders(null);
   homePageNotes = await requiredData.db.getNotes(null);
 
@@ -54,14 +53,16 @@ class MyApp extends StatelessWidget {
     } else {
       requiredData.set_locale = Translations.mapLocales["en"]!;
     }
-    if (lang == "ar") {
+    if (lang != "ar") {
       requiredData.set_isRtl = true;
     } else {
       requiredData.set_isRtl = false;
     }
-    String chosenFont = "Noto"; /*this is the default font*/
+    String chosenFont = requiredData.isAmiri ? "Amiri" : "Noto";
+    print(chosenFont);
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
       return MaterialApp(
+
         //themeMode: ThemeMode.dark,
         debugShowCheckedModeBanner: false,
         debugShowMaterialGrid: false,
@@ -105,6 +106,7 @@ class MyApp extends StatelessWidget {
               backgroundColor: Colors.white,
             )),
         darkTheme: ThemeData(
+          
           iconButtonTheme: IconButtonThemeData(
               style: ButtonStyle(
                   iconColor: MaterialStatePropertyAll(

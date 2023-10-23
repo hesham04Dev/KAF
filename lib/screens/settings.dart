@@ -1,123 +1,200 @@
+import 'dart:io';
 
-
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:note_files/models/restartAppDialog.dart';
 import 'package:note_files/requiredData.dart';
-
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
+import '../functions/isRtlTextDirection.dart';
 import '../models/styles.dart';
+import '../translations/translations.dart';
 
 class SettingsPage extends StatefulWidget {
-
-
-   SettingsPage({super.key,});
+  SettingsPage({
+    super.key,
+  });
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
 }
-const fonts =["Amiri","Noto"];
-const ar_fonts =["اميري","نوتو"];
+
+const fonts = ["Noto","Amiri"];
+const ar_fonts = ["نوتو","اميري"];
+
 class _SettingsPageState extends State<SettingsPage> {
-  bool isAmiri = requiredData.isAmiri;
+  final Map<String, String> locale = requiredData.locale;
+
   bool isArabic = requiredData.isRtl;
+  var deviceInfo;
   @override
   Widget build(BuildContext context) {
+    bool isAmiri = requiredData.isAmiri;
+    if(Platform.isAndroid){
+       deviceInfo =  DeviceInfoPlugin().androidInfo;}
 
-    return  Scaffold(
-      appBar: AppBar(
-        title: Text("settings"),/*TODO transilation*/
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView(
-          children: [
-            SizedBox(height: 50,),
-           Row(
-             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-             children: [
-               Text("font family:",style: MediumText()),
-               Padding(
-                 padding: const EdgeInsets.all(8.0),
-                 child: TextButton(onPressed: (){
-                   if(isAmiri) isAmiri = false;
-                   else isAmiri = true;
-                   setState(() {
+    return Directionality(
+      textDirection: isRtlTextDirection(requiredData.isRtl),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(locale[TranslationsKeys.settings]!),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListView(
+            children: [
+              SizedBox(
+                height: 50,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(locale[TranslationsKeys.fontFamily]!, style: MediumText()),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextButton(
+                        onPressed: () async{
+                          if (isAmiri)
+                            requiredData.set_isAmiri = false;
+                          else
+                            requiredData.set_isAmiri = true;
+                          showDialog(context: context, builder: (context) => RestartAppDialog(),);
+                          await requiredData.setDefaultFont();
+                          setState(() {});
 
-                   });
-                 }, child: Text(isArabic ==true ? ar_fonts[isAmiri ?1:0]:fonts[isAmiri ? 1:0])),
-               )
+                        },
+                        child: Text(isArabic == true
+                            ? ar_fonts[isAmiri ? 1 : 0]
+                            : fonts[isAmiri ? 1 : 0])),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsetsDirectional.only(start: 20),
+                child: Text(
+                  locale[TranslationsKeys.dataRecovery]!,
+                  textAlign: TextAlign.start,
+                  style: MediumText(),
+                ),
+              ),
+              SizedBox(height: 10,),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
 
-             ],
-           ),
-            Row(
-              children: [
-                TextButton(onPressed: () async{
-                  //var allowStorage = await Permission.storage.request();
-                  requiredData.db.backup();
-                  /*if (allowStorage.isGranted) {
-                        requiredData.db.backup();
-                      // Permission granted, you can access the external storage.
-                      } else {
-                        print("99999999999999999");
-                      // Permission denied.
-                      }*/
-                    /*TODO 1 add tost the file in the downloads*/
-                    /*TODO 2 add permission */
-                  Navigator.pop(context);
-                }, child: Text("backup")),
-                TextButton(onPressed: () async{
-                  //var allowStorage = await Permission.storage.request();
-                  var downloadsDir = await getDownloadsDirectory();
-                  FilePickerResult? result = await FilePicker.platform.pickFiles(
-                    allowedExtensions: ['isar'],
-                    initialDirectory: downloadsDir!.path,
-                  );
-                  if (result != null ) {
-                    if(result.files.single.path!.endsWith(".isar")){
-                    requiredData.db.copyDbToSupportDir(result.files.single.path);
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: (MediaQuery.sizeOf(context).width / 2) - 8,
+                        child: TextButton(
+                            onPressed: () async {
 
-                      /*TODO restart the app */
-                      showDialog(context: context, builder: (context) => Dialog.fullscreen(
-                        child: Center(child: Text("you need to restart the app"),),
-                      ),);
-                    }
-                    else {
-                      showDialog(context: context, builder: (context) => Dialog(
-                        backgroundColor: Colors.red.withOpacity(0.2),
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Text("wrong file",textAlign: TextAlign.center,),
-                        ),
-                      ),);
+                              if(Platform.isAndroid ){
+                                final _deviceInfo = await deviceInfo;
+                                if(_deviceInfo.version.sdkInt <32){
+                                var allowStorage = await Permission.storage.request();
+                                if(allowStorage.isGranted){
+                                  requiredData.db.localBackup();
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => Dialog(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Text(
+                                            locale[TranslationsKeys.backupMsg]!),
+                                      ),
+                                    ),
+                                  );
+                                }
+                              }}
 
-                    }
-
-
-                    print("done");
-                  } else {
-                    // TODO
-                    // User canceled the picker
-                  }
+                              requiredData.db.localBackup();
 
 
-                  /*TODO add the isGranted permission of the storage and rutern
-                        err if he dont acsept the permission*/
-                  /*if (allowStorage.isGranted) {
-                        requiredData.db.backup();
-                      // Permission granted, you can access the external storage.
-                      } else {
-                        print("99999999999999999");
-                      // Permission denied.
-                      }*/
+                              showDialog(
+                                context: context,
+                                builder: (context) => Dialog(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Text(
+                                        locale[TranslationsKeys.backupMsg]!),
+                                  ),
+                                ),
+                              );
+                              // Navigator.pop(context);
+                            },
+                            child: Text(locale[TranslationsKeys.backup]!)),
+                      ),
+                      SizedBox(
+                        width: (MediaQuery.sizeOf(context).width / 2) - 8,
+                        child: TextButton(
+                            onPressed: () async {
+                              //var allowStorage = await Permission.storage.request();
+                              var downloadsDir = await getDownloadsDirectory();
+                              FilePickerResult? result =
+                                  await FilePicker.platform.pickFiles(
+                                allowedExtensions: ['hcody'],
+                                initialDirectory: downloadsDir!.path,
+                              );
+                              if (result != null) {
+                                if (result.files.single.path!
+                                    .endsWith(".hcody")) {
 
-                  //Navigator.pop(context);
-                }, child: Text("restore")),
-              ],
-            )
-          ],),
+                                  if(Platform.isAndroid){
+                                    final _deviceInfo = await deviceInfo;
+                                  if(_deviceInfo.version.sdkInt < 32){
+                                    var allowStorage = await Permission.storage.request();
+                                    if(allowStorage.isGranted){
+                                      requiredData.db.copyDbToSupportDir(
+                                          result.files.single.path);
+
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) => RestartAppDialog());
+                                    }
+                                  }}else{
+                                  requiredData.db.copyDbToSupportDir(
+                                      result.files.single.path);
+
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => RestartAppDialog(),);}
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => Dialog(
+                                      backgroundColor:
+                                          Colors.red.withOpacity(0.2),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Text(
+                                          locale[TranslationsKeys.wrongFile]!,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }
+                              }
+
+
+                            },
+                            child: Text(locale[TranslationsKeys.restore]!,)),
+                      ),
+                    ],
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
       ),
     );
-    
   }
 }

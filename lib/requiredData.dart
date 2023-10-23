@@ -2,13 +2,32 @@ import 'dart:io';
 
 import 'package:note_files/isarCURD.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RequiredData {
+  RequiredData() {
+
+
+  }
   final IsarService _db = IsarService();
+  final Future<SharedPreferences> prefs =  SharedPreferences.getInstance();
   bool _isRtl = false;
   bool restoreDb= false;
   Map<String, String> _locale = {};
-  bool _isAmiri = false;/*TODO get it from the db*/
+  late bool _isAmiri ;/*TODO get it from the db*/
+  Future<bool> getDefaultFont() async{
+    final _prefs = await prefs;
+    _isAmiri =  _prefs.getBool("isAmiri") ?? false;
+    print(" is Amiri stored $_isAmiri");
+    return Future.value(_isAmiri);
+  }
+  Future<void> setDefaultFont() async{
+    final _prefs = await prefs;
+    _prefs.setBool("isAmiri", _isAmiri);
+
+
+
+  }
   get isAmiri => _isAmiri;
   set set_isAmiri (bool value) {
     _isAmiri = value;

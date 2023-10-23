@@ -99,6 +99,12 @@ abstract class TranslationsKeys {
   static const noRandomNotes = 'noRandomNotes';
   static const noNotes = 'noNotes';
   static const search = 'search';
+  static const fontFamily = 'fontFamily';
+  static const dataRecovery = 'dataRecovery';
+  static const backupMsg = 'backupMsg';
+  static const restartAppMsg = 'restartAppMsg';
+  static const wrongFile = 'wrongFile';
+  static const restore = 'restore';
 
 
 }
@@ -121,6 +127,7 @@ class Translations {
     "done": "تم",
     "folderName": "اسم المجلد",
     "about": "عن التطبيق",
+    "restore": "استعادة البيانات",
     "aboutContent": '''حول تطبيق ناف
 
 مرحبًا بك في ناف، رفيقك الموثوق لتسجيل الملاحظات بكفاءة، وتنظيم سلس، وتصنيف بدون متاعب. يتيح هذا التطبيق منصة خالية من الفوضى وسهلة الاستخدام لتسجيل أفكارك، وملاحظاتك والمعلومات المهمة.
@@ -151,10 +158,15 @@ class Translations {
     'priority': "درجة الاهمية",
     "newFolder": "مجلد جديد",
     "exit": "الخروج",
+    "wrongFile": "ملف خاطئ",
     "exitTheApp": "هل تريد الخروج من التطبيق",
     "randomNotes": "ملاحظات عشوائية",
     "noRandomNotes": "لا توجد أي ملاحظات في الوقت الحالي.",
     "search": "البحث",
+    "fontFamily": "نوع الخط:",
+    "backupMsg": "تم حفظ نسخة من قاعدة البيانات في مجلد downloads",
+    "restartAppMsg": "انت بحاجة الى اعادة تشغيل التطبيق",
+    "dataRecovery": "استعادة البيانات",
     "noNotes":
         "لا توجد أي ملاحظات في الوقت الحالي. لماذا لا تبدأ رحلتك بملاحظة جديدة؟"
   };
@@ -175,6 +187,9 @@ class Translations {
     "folderName": "Folder Name",
     "about": "About",
     "search" :"Search",
+    "fontFamily" :"font family:",
+    "restore" :"Restore",
+    "backupMsg": "the backup saved in the downloads directory",
     "aboutContent":
         ''' Welcome to NAF, your reliable companion for efficient note-taking,
 seamless organization, and hassle-free categorization.
@@ -213,6 +228,9 @@ Whether you're a student, professional, creative thinker, or simply someone who 
     "exitTheApp": "do you want to exit the app",
     "randomNotes": "Random Notes",
     "noRandomNotes": "No notes to be found at the moment.",
+    "dataRecovery": "Data recovery",
+    "restartAppMsg": "you need to restart the app",
+    "wrongFile": "wrong file",
     "noNotes":
         "No notes to be found at the moment. Why not begin your journey with a fresh note?"
   };

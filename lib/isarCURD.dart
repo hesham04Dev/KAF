@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:date_format/date_format.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -127,10 +128,10 @@ class IsarService {
   Future<void> localBackup() async {
     final isar = await db;
     final downloadsDir = await _downloadsDir;
-    /*TODO add time naming*/
+    /*TODO if file exists*/
     getApplicationSupportDirectory().then((value) => print(value.path));
-
-    isar.copyToFile(await downloadsDir!.path + "/default.isar");
+    String date =formatDate(DateTime.now(), [yyyy, "-", mm, "-", dd,]).toString();
+    isar.copyToFile(await downloadsDir!.path + "/BackupDB_${date}.hcody");
   }
 
   Future<void> copyDbToSupportDir(String sourcePath) async {
@@ -148,8 +149,7 @@ class IsarService {
     if (Isar.instanceNames.isEmpty) {
       final dir = await getApplicationSupportDirectory();
       print(dir.path);
-      /*File file= File(dir.path + "/default.isar");
-      print(await file.exists());*/
+
       return await Isar.open(
         [FolderSchema, NoteSchema],
         directory: dir.path,

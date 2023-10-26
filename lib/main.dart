@@ -18,9 +18,10 @@ import 'translations/translations.dart';
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
-  await localRestoreDbIfRestoreButtonClicked();
+  bool restoreDB = await localRestoreDbIfRestoreButtonClicked();
 
   await requiredData.db.openDB();
+  requiredData.isDbRestored = restoreDB;
   await requiredData.getDefaultFont();
   homePageFolders = await requiredData.db.getFolders(null);
   homePageNotes = await requiredData.db.getNotes(null);
@@ -53,7 +54,7 @@ class MyApp extends StatelessWidget {
     } else {
       requiredData.set_locale = Translations.mapLocales["en"]!;
     }
-    if (lang != "ar") {
+    if (lang == "ar") {
       requiredData.set_isRtl = true;
     } else {
       requiredData.set_isRtl = false;

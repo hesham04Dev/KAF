@@ -105,6 +105,7 @@ abstract class TranslationsKeys {
   static const restartAppMsg = 'restartAppMsg';
   static const wrongFile = 'wrongFile';
   static const restore = 'restore';
+  static const restoreOldDbMsg = 'restoreOldDbMsg';
 
 
 }
@@ -128,6 +129,7 @@ class Translations {
     "folderName": "اسم المجلد",
     "about": "عن التطبيق",
     "restore": "استعادة البيانات",
+    "restoreOldDbMsg": "هل تريد استعادة البيانات القديمة عوضا عن هذه",
     "aboutContent": '''حول تطبيق ناف
 
 مرحبًا بك في ناف، رفيقك الموثوق لتسجيل الملاحظات بكفاءة، وتنظيم سلس، وتصنيف بدون متاعب. يتيح هذا التطبيق منصة خالية من الفوضى وسهلة الاستخدام لتسجيل أفكارك، وملاحظاتك والمعلومات المهمة.
@@ -186,6 +188,7 @@ class Translations {
     "done": "Done",
     "folderName": "Folder Name",
     "about": "About",
+    "restoreOldDbMsg": "Do you want to recover old data instead of this",
     "search" :"Search",
     "fontFamily" :"font family:",
     "restore" :"Restore",

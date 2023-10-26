@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:note_files/models/FloatingNewFolderNote.dart';
+import 'package:note_files/models/restartAppDialog.dart';
 import 'package:note_files/provider/ListViewProvider.dart';
 import 'package:note_files/requiredData.dart';
 import 'package:note_files/screens/PriorityPage.dart';
@@ -13,6 +14,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import '../functions/isRtlTextDirection.dart';
+import '../functions/restoreDb.dart';
 import '../models/MyWarningDialog.dart';
 import '../models/drawerItem.dart';
 import '../models/isRtlBackIcon.dart';
@@ -83,7 +85,28 @@ class FolderPage extends StatelessWidget {
               title,
             ),
             actions: folderId == null
-                ? null
+                ?
+            requiredData.isDbRestored ? [IconButton(onPressed: () {
+              /*
+              TODO show a confirmation dialog
+
+              TODO restart app dialog
+                *  then add File restore.default*/
+
+              showDialog(context: context, builder: (context) => MyWarningDialog(
+                onWarningPressed: () async{
+                  Navigator.pop(context);
+                 await createDefRestoreFile();
+                  showDialog(context: context, builder: (context) => RestartAppDialog(),);
+
+                },
+                translationsCancelButton: locale[TranslationsKeys.cancel]!,
+                translationsTitle: locale[TranslationsKeys.restoreOldDbMsg]!,
+                translationsWarningButton: locale[TranslationsKeys.restore]!,
+              ),);
+
+            }, icon: Icon(Icons.settings_backup_restore))]
+                :null
                 : [
                     Builder(
                         builder: (context) => IconButton(
@@ -186,22 +209,13 @@ TODO in the next version add the backup of the notes
 TODO in the next version add the widget
 
 TODO using flutter quill
-TODO adding google fonts
-TODO or adding this fonts rubic cario amiri but i preffer to add google fonts all
-
 TODO adding animations
-
 TODO use lelezar in the images in google play
-TODO re use the easy localization
-TODO use different way to route with animations
 
 
 
 
 */
-/// rode adding animations to the open page and to the font changing and to the backup also to the Floating action button
 /// backup localy and cloudly using google drive
-/// adding google font and save the font name in the db to use it when he reopen the app
-/// i prefer to change the main font to rubic font
 /// see flutter quill and the ability of using it in this application
 /// flutter quill allows the user to underline some word or bold some text like the word app

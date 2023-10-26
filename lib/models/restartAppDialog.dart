@@ -9,10 +9,10 @@ class RestartAppDialog extends StatelessWidget {
   final Map<String,String> locale = requiredData.locale;
   @override
   Widget build(BuildContext context) {
-   return   Dialog.fullscreen(
-          child: Center(
-            child:
-            Text(locale[TranslationsKeys.restartAppMsg]!),
+   return   Dialog(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Text(locale[TranslationsKeys.restartAppMsg]!,textAlign: TextAlign.center,),
           ),
         );
   }

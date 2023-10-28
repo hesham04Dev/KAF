@@ -100,7 +100,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 if(_deviceInfo.version.sdkInt <32){
                                 var allowStorage = await Permission.storage.request();
                                 if(allowStorage.isGranted){
-                                  requiredData.db.localBackup();
+                                  requiredData.db.localBackup(Platform.isAndroid);
                                   showDialog(
                                     context: context,
                                     builder: (context) => Dialog(
@@ -113,8 +113,8 @@ class _SettingsPageState extends State<SettingsPage> {
                                   );
                                 }
                               }}
-
-                              requiredData.db.localBackup();
+                              var allowStorage = await Permission.storage.request();
+                              requiredData.db.localBackup(true);
 
 
                               showDialog(
@@ -139,7 +139,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               var downloadsDir = await getDownloadsDirectory();
                               FilePickerResult? result =
                                   await FilePicker.platform.pickFiles(
-                                allowedExtensions: ['hcody'],
+
                                 initialDirectory: downloadsDir!.path,
                               );
                               if (result != null) {
@@ -158,7 +158,14 @@ class _SettingsPageState extends State<SettingsPage> {
                                           context: context,
                                           builder: (context) => RestartAppDialog());
                                     }
-                                  }}else{
+                                  }else{
+                                    requiredData.db.copyDbToSupportDir(
+                                        result.files.single.path);
+
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => RestartAppDialog(),);}
+                                  }else{
                                   requiredData.db.copyDbToSupportDir(
                                       result.files.single.path);
 

@@ -15,7 +15,7 @@ class RequiredData {
   bool restoreDb= false;
   Map<String, String> _locale = {};
   bool isDbRestored =false;
-  late bool _isAmiri ;/*TODO get it from the db*/
+  late bool _isAmiri ;
   Future<bool> getDefaultFont() async{
     final _prefs = await prefs;
     _isAmiri =  _prefs.getBool("isAmiri") ?? false;

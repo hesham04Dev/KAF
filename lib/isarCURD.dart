@@ -125,13 +125,20 @@ class IsarService {
     }
   }
 
-  Future<void> localBackup() async {
+  Future<void> localBackup(bool isAndroid) async {
     final isar = await db;
+    String pathToDownloadsDir;
+    if(isAndroid) {
+       pathToDownloadsDir = "/storage/emulated/0/Download";
+    }else{
     final downloadsDir = await _downloadsDir;
+     pathToDownloadsDir = downloadsDir!.path;}
+
     /*TODO if file exists*/
+    print(pathToDownloadsDir);
     getApplicationSupportDirectory().then((value) => print(value.path));
     String date =formatDate(DateTime.now(), [yyyy, "-", mm, "-", dd,]).toString();
-    isar.copyToFile(await downloadsDir!.path + "/BackupDB_${date}.hcody");
+    isar.copyToFile( pathToDownloadsDir + "/BackupDB_${date}.hcody");
   }
 
   Future<void> copyDbToSupportDir(String sourcePath) async {

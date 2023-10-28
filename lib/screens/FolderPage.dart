@@ -168,14 +168,12 @@ class FolderPage extends StatelessWidget {
                     DrawerItem(
                         page: AboutPage(),
                         text: locale[TranslationsKeys.about]!),
-                    DrawerItem(
+                    /*DrawerItem(
                         page: ChangeNotifierProvider(
                           create: (context) => SearchProvider(),
                             child: SearchPage()),
-                        text: locale[TranslationsKeys.search]!),
-                    /*DrawerItem(
-                        page: SettingsPage( ),
-                        text: locale[TranslationsKeys.settings]!),*/
+                        text: locale[TranslationsKeys.search]!),*/
+
                   ],
                 ),
               ),

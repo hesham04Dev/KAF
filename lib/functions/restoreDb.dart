@@ -21,12 +21,18 @@ Future<bool> localRestoreDbIfRestoreButtonClicked() async {
   }
   return false;
 }
-
+Future<void> deleteFileIfExists(String path) async{
+  File file =File(path);
+  if(await file.exists()){
+    await file.delete();
+  }
+}
 Future<void> _localRestoreNewDb(File restoredDb) async {
   final supportDir = await _supportDir;
   final temp = await _tempDir;
 
   File oldDb = File(supportDir.path + "/default.isar");
+  await deleteFileIfExists(temp.path + "/default.isar");
   await oldDb.copy(temp.path + "/default.isar");
   await oldDb.delete();
 

@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:date_format/date_format.dart';
 import 'package:isar/isar.dart';
+import 'package:note_files/functions/restoreDb.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'collection/Folder.dart';
@@ -134,10 +135,9 @@ class IsarService {
     final downloadsDir = await _downloadsDir;
      pathToDownloadsDir = downloadsDir!.path;}
 
-    /*TODO if file exists*/
-    print(pathToDownloadsDir);
-    getApplicationSupportDirectory().then((value) => print(value.path));
     String date =formatDate(DateTime.now(), [yyyy, "-", mm, "-", dd,]).toString();
+
+    await deleteFileIfExists(pathToDownloadsDir +"/BackupDB_${date}.hcody");
     isar.copyToFile( pathToDownloadsDir + "/BackupDB_${date}.hcody");
   }
 

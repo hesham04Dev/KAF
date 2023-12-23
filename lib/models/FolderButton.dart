@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../collection/Folder.dart';
 import '../functions/isRtlTextDirection.dart';
-import '../isarCURD.dart';
+import '../collection/isarCURD.dart';
 import '../models/FolderOrNoteButton.dart';
 import '../models/MultiLineText.dart';
 import '../screens/FolderPage.dart';

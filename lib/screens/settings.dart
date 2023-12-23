@@ -100,7 +100,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 if(_deviceInfo.version.sdkInt <32){
                                 var allowStorage = await Permission.storage.request();
                                 if(allowStorage.isGranted){
-                                  requiredData.db.localBackup(Platform.isAndroid);
+                                  requiredData.db.localBackup(true);
                                   showDialog(
                                     context: context,
                                     builder: (context) => Dialog(
@@ -112,9 +112,12 @@ class _SettingsPageState extends State<SettingsPage> {
                                     ),
                                   );
                                 }
-                              }}
-                              var allowStorage = await Permission.storage.request();
-                              requiredData.db.localBackup(true);
+                              }
+                                var allowStorage = await Permission.storage.request();
+                                requiredData.db.localBackup(true);
+                              }
+                              //var allowStorage = await Permission.storage.request();
+                              requiredData.db.localBackup(false);
 
 
                               showDialog(

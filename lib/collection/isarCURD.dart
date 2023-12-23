@@ -7,8 +7,8 @@ import 'package:isar/isar.dart';
 import 'package:note_files/functions/restoreDb.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'collection/Folder.dart';
-import 'collection/Note.dart';
+import 'Folder.dart';
+import 'Note.dart';
 
 class IsarService {
   late Future<Isar> db;
@@ -50,7 +50,7 @@ class IsarService {
     //oldFolder!.parent = updatedFolder.parent;
     /*the above is not nesscary since the user cant move the folder right now*/
     oldFolder!.name = updatedFolder.name;
-    isar.writeTxn(() => isar.folders.put(oldFolder));
+    await isar.writeTxn(() => isar.folders.put(oldFolder));
   }
 
   Future<void> deleteFolder(int folderId) async {
@@ -130,6 +130,7 @@ class IsarService {
     final isar = await db;
     String pathToDownloadsDir;
     if(isAndroid) {
+      print("the divice is android");
        pathToDownloadsDir = "/storage/emulated/0/Download";
     }else{
     final downloadsDir = await _downloadsDir;
@@ -138,7 +139,7 @@ class IsarService {
     String date =formatDate(DateTime.now(), [yyyy, "-", mm, "-", dd,]).toString();
 
     await deleteFileIfExists(pathToDownloadsDir +"/BackupDB_${date}.hcody");
-    isar.copyToFile( pathToDownloadsDir + "/BackupDB_${date}.hcody");
+    await isar.copyToFile( pathToDownloadsDir + "/BackupDB_${date}.hcody");
   }
 
   Future<void> copyDbToSupportDir(String sourcePath) async {

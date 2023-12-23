@@ -4,7 +4,7 @@ import 'package:note_files/requiredData.dart';
 import 'package:provider/provider.dart';
 
 import '../collection/Folder.dart';
-import '../isarCURD.dart';
+import '../collection/isarCURD.dart';
 import '../provider/ListViewProvider.dart';
 import '../screens/EditNotePage.dart';
 import 'FolderNameDialog.dart';

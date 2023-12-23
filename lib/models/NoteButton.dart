@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:note_files/requiredData.dart';
+
+import '../collection/isarCURD.dart';
 import '../models/FolderOrNoteButton.dart';
 import '../prioityColors.dart';
 import '../screens/NotePage.dart';
-
-import '../isarCURD.dart';
-import 'MultiLineText.dart';
 import 'FadeRoute.dart';
+import 'MultiLineText.dart';
 
 class NoteButton extends StatelessWidget {
   final bool isRtl = requiredData.isRtl;
@@ -38,7 +38,6 @@ class NoteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FolderOrNoteButton(
-        withBackground: true,
         onLongPressed: () {},
         onPressed: () {
           Navigator.push(
@@ -56,32 +55,12 @@ class NoteButton extends StatelessWidget {
                   parentFolderId: parentFolderId,
                 ),
               ));
-
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Center(
-                child: Row(
-                  children: [
-                    Text(noteTime, overflow: TextOverflow.ellipsis),
-                    priority == null
-                        ? const SizedBox()
-                        : Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 0),
-                            margin: const EdgeInsets.symmetric(horizontal: 10),
-                            decoration: BoxDecoration(
-                                color: priorityColors[priority! - 1],
-                                borderRadius: BorderRadius.circular(15)),
-                            child: Text(
-                              "$priority",
-                            ),
-                          )
-                  ],
-                ),
-              ),
               noteTitle.isEmpty
                   ? SizedBox()
                   : MultiLineText(
@@ -90,18 +69,41 @@ class NoteButton extends StatelessWidget {
                       text: noteTitle,
                       bold: true,
                       textDirection: titleDirection,
-                      fontSize: 19),
-              SizedBox(
-                height: noteTitle.isEmpty ? 0 : 5,
-              ),
+                      fontSize: 16),
+              /*SizedBox(
+                height: noteTitle.isEmpty ? 0 : 0,
+              ),*/
               noteContent.isEmpty
                   ? SizedBox()
                   : MultiLineText(
                       margin: 92,
-                      maxLines: 3,
+                      maxLines: 1,
                       text: noteContent,
                       textDirection: contentDirection,
                     ),
+              Padding(
+                padding: const EdgeInsets.only(top: 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(noteTime, overflow: TextOverflow.ellipsis),
+                    priority == null
+                        ? const SizedBox()
+                        : Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 0),
+                            margin: const EdgeInsetsDirectional.fromSTEB(
+                                10, 0, 0, 0),
+                            decoration: BoxDecoration(
+                                color: priorityColors[priority! - 1],
+                                borderRadius: BorderRadius.circular(15)),
+                            child: Text(
+                              "$priority",
+                            ),
+                          ),
+                  ],
+                ),
+              ),
             ],
           ),
         ));

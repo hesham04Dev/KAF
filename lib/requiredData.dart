@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:note_files/isarCURD.dart';
+import 'package:note_files/collection/isarCURD.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

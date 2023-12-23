@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import '../collection/Note.dart';
 import '../functions/boolFn.dart';
 import '../functions/isRtlTextDirection.dart';
-import '../isarCURD.dart';
+import '../collection/isarCURD.dart';
 import '../models/AutoDirectionTextField.dart';
 import '../models/MyWarningDialog.dart';
 import '../models/isRtlBackIcon.dart';
@@ -139,7 +139,7 @@ class EditNote extends StatelessWidget {
                           db.updateNote(oldNote);
                           provider.updateNote(oldNote);
                           isPriorityPageOpened == true
-                              ? context
+                              ? await context
                                   .read<PriorityProvider>()
                                   .updateNote(oldNote)
                               : null;

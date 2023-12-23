@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../functions/boolFn.dart';
 import '../functions/isRtlTextDirection.dart';
-import '../isarCURD.dart';
+import '../collection/isarCURD.dart';
 import '../translations/translations.dart';
 
 class FolderNameDialog extends StatelessWidget {
@@ -37,21 +37,29 @@ class FolderNameDialog extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
+
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const SizedBox(
                   height: 10,
                 ),
+                Text("اسم المجلد:",textAlign: TextAlign.start,),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding:  EdgeInsets.all(8.0),
                   child: SizedBox(
-                    width: 200,
+                    width: 250,
                     child: TextField(
+                      style: Theme.of(context).textTheme.bodySmall,
                       controller: folderNameController,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
-                          hintText: locale[TranslationsKeys.folderName]!,
-                          border: UnderlineInputBorder(),
+
+                          //hintText: locale[TranslationsKeys.folderName]!,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            borderSide: BorderSide.none
+                          ),
+
                           filled: true,
                           fillColor: isDark
                               ? Colors.white12
@@ -62,7 +70,12 @@ class FolderNameDialog extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 5),
-                TextButton(
+                FilledButton(
+
+                  style: ButtonStyle(
+                    minimumSize: MaterialStateProperty.all(Size(250, 40)),
+                    maximumSize: MaterialStateProperty.all(Size(270, 40))/*TODO pla pla*/
+                  ),
                   onPressed: () async {
                     if (folderNameController.text.isNotEmpty) {
                       onSubmit(folderNameController.text);

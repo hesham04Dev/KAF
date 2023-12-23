@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../collection/Folder.dart';
 import '../collection/Note.dart';
-import '../isarCURD.dart';
+import '../collection/isarCURD.dart';
 import '../models/FolderButton.dart';
 import '../models/NoteButton.dart';
 import '../requiredData.dart';
@@ -45,8 +45,7 @@ class ListViewBody extends StatelessWidget {
             ),
             ...List<Widget>.generate(
                 oldListFolders.length,
-                (index) => Column(
-                      children: [
+                (index) =>
                         FolderButton(
                             parentFolderId: oldListFolders[index].parent,
                             id: oldListFolders[index].id,
@@ -72,13 +71,12 @@ class ListViewBody extends StatelessWidget {
                                 ],
                               ),
                             )),
-                        const Divider(color: Colors.white54),
-                      ],
-                    )),
+
+                    ),
             ...List<Widget>.generate(
                 oldListNotes.length,
-                (index) => Column(
-                      children: [
+                (index) =>
+
                         NoteButton(
                             priority: oldListNotes[index].priority,
                             contentDirection:
@@ -95,9 +93,7 @@ class ListViewBody extends StatelessWidget {
                             noteTitle: oldListNotes[index].title!,
                             noteTime: formatDate(oldListNotes[index].date!,
                                 [yy, "/", mm, "/", dd, "   ", hh, ":", nn])),
-                        const Divider(color: Colors.white54),
-                      ],
-                    ))
+                      )
           ],
         ),
       );

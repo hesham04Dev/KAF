@@ -3,7 +3,7 @@ import 'package:note_files/models/FadeRoute.dart';
 import 'package:note_files/requiredData.dart';
 import 'package:provider/provider.dart';
 
-import '../isarCURD.dart';
+import '../collection/isarCURD.dart';
 import '../models/MyWarningDialog.dart';
 import '../models/styles.dart';
 import '../provider/ListViewProvider.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:note_files/requiredData.dart';
 
 import '../functions/isRtlTextDirection.dart';
+import '../requiredData.dart';
 
 class FolderOrNoteButton extends StatelessWidget {
   final bool isRtl = requiredData.isRtl;
@@ -9,42 +9,46 @@ class FolderOrNoteButton extends StatelessWidget {
   final Function onPressed;
   final Widget child;
   final Icon? icon;
-  final bool withBackground;
 
-  FolderOrNoteButton(
-      {super.key,
-      required this.onLongPressed,
-      required this.onPressed,
-      required this.child,
-      this.icon,
-      this.withBackground = false});
+  FolderOrNoteButton({
+    super.key,
+    required this.onLongPressed,
+    required this.onPressed,
+    required this.child,
+    this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      color: withBackground
-          ? Theme.of(context).primaryColor.withOpacity(0.1)
-          : null,
-      elevation: 0,
-      hoverElevation: 0,
-      onLongPress: () {
-        onLongPressed();
-      },
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      onPressed: () {
-        onPressed();
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          textDirection: isRtlTextDirection(isRtl),
-          children: [
-            icon ?? const SizedBox(),
-            SizedBox(
-              width: icon == null ? null : 10,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: MaterialButton(
+        color: Theme.of(context).primaryColor.withOpacity(0.3),
+        elevation: 0,
+        hoverElevation: 0,
+        onLongPress: () {
+          onLongPressed();
+        },
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        onPressed: () {
+          onPressed();
+        },
+        child: SizedBox(
+          height: 83,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 2.0, bottom: 1),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              textDirection: isRtlTextDirection(isRtl),
+              children: [
+                icon ?? const SizedBox(),
+                SizedBox(
+                  width: icon == null ? null : 20,
+                ),
+                child,
+              ],
             ),
-            child,
-          ],
+          ),
         ),
       ),
     );

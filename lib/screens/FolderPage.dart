@@ -21,7 +21,7 @@ import '../models/isRtlBackIcon.dart';
 import '../provider/searchProvider.dart';
 import '../screens/AboutPage.dart';
 import '../translations/translations.dart';
-import '../isarCURD.dart';
+import '../collection/isarCURD.dart';
 import './homePageBody.dart';
 
 class FolderPage extends StatelessWidget {
@@ -69,7 +69,18 @@ class FolderPage extends StatelessWidget {
         textDirection: isRtlTextDirection(requiredData.isRtl!),
         child: Scaffold(
           appBar: AppBar(
-            leading: folderId == null
+            leading:
+              Builder(
+                  builder: (context) => IconButton(
+                    icon: const Icon(
+                      Icons.menu_rounded,
+                    ),
+                    onPressed: () {
+                      return Scaffold.of(context).openDrawer();
+                    },
+                  ))
+            ,
+            /*leading: folderId == null
                 ? null
                 : IconButton(
                     onPressed: () async {
@@ -80,17 +91,28 @@ class FolderPage extends StatelessWidget {
                       Navigator.pop(context);
                     },
                     icon: IsRtlBackIcon(isRtl: isRtl),
-                  ),
+                  ),*/
             title: Text(
               title,
             ),
             actions: folderId == null
+                ? null
+                : [IconButton(
+              onPressed: () async {
+                //print("parint folder id :$parentFolderId");
+                await context
+                    .read<ListViewProvider>()
+                    .getFoldersAndNotes(parentFolderId);
+                Navigator.pop(context);
+              },
+              icon: IsRtlBackIcon(isRtl: !isRtl),
+            )],/*folderId == null
                 ?
             requiredData.isDbRestored ? [IconButton(onPressed: () {
               /*
-              TODO show a confirmation dialog
-
-              TODO restart app dialog
+               show a confirmation dialog
+                i dont if it done or not
+               restart app dialog
                 *  then add File restore.default*/
 
               showDialog(context: context, builder: (context) => MyWarningDialog(
@@ -117,7 +139,7 @@ class FolderPage extends StatelessWidget {
                                 return Scaffold.of(context).openDrawer();
                               },
                             ))
-                  ],
+                  ],*/
           ),
           drawer: NavigationDrawer(
             children: [

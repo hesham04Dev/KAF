@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../isarCURD.dart';
+import '../collection/isarCURD.dart';
 
 import '../translations/translations.dart';
 import 'FolderNameDialog.dart';

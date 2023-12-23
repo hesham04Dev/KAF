@@ -40,14 +40,14 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   static final _defaultLightColorScheme = ColorScheme.fromSwatch(
-      primarySwatch: Colors.green, brightness: Brightness.light);
+      primarySwatch: Colors.lightBlue, brightness: Brightness.light);
 
   static final _defaultDarkColorScheme = ColorScheme.fromSwatch(
-      primarySwatch: Colors.green, brightness: Brightness.dark);
+      primarySwatch: Colors.lightBlue, brightness: Brightness.dark);
 
   @override
   Widget build(BuildContext context) {
-    //print("My app building");
+
     String lang = "${Platform.localeName[0]}${Platform.localeName[1]}";
     if (Translations.supportedLocales.contains(lang)) {
       requiredData.set_locale = Translations.mapLocales[lang]!;

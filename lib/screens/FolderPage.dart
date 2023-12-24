@@ -1,28 +1,22 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-
 import 'package:note_files/models/FloatingNewFolderNote.dart';
-import 'package:note_files/models/restartAppDialog.dart';
 import 'package:note_files/provider/ListViewProvider.dart';
 import 'package:note_files/requiredData.dart';
 import 'package:note_files/screens/PriorityPage.dart';
 import 'package:note_files/screens/randomNotes.dart';
-import 'package:note_files/screens/searchPage.dart';
 import 'package:note_files/screens/settings.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
+import './homePageBody.dart';
+import '../collection/isarCURD.dart';
 import '../functions/isRtlTextDirection.dart';
-import '../functions/restoreDb.dart';
 import '../models/MyWarningDialog.dart';
 import '../models/drawerItem.dart';
 import '../models/isRtlBackIcon.dart';
-import '../provider/searchProvider.dart';
 import '../screens/AboutPage.dart';
 import '../translations/translations.dart';
-import '../collection/isarCURD.dart';
-import './homePageBody.dart';
 
 class FolderPage extends StatelessWidget {
   final Map<String, String> locale = requiredData.locale;
@@ -69,17 +63,15 @@ class FolderPage extends StatelessWidget {
         textDirection: isRtlTextDirection(requiredData.isRtl!),
         child: Scaffold(
           appBar: AppBar(
-            leading:
-              Builder(
-                  builder: (context) => IconButton(
-                    icon: const Icon(
-                      Icons.menu_rounded,
-                    ),
-                    onPressed: () {
-                      return Scaffold.of(context).openDrawer();
-                    },
-                  ))
-            ,
+            leading: Builder(
+                builder: (context) => IconButton(
+                      icon: const Icon(
+                        Icons.menu_rounded,
+                      ),
+                      onPressed: () {
+                        return Scaffold.of(context).openDrawer();
+                      },
+                    )),
             /*leading: folderId == null
                 ? null
                 : IconButton(
@@ -97,16 +89,18 @@ class FolderPage extends StatelessWidget {
             ),
             actions: folderId == null
                 ? null
-                : [IconButton(
-              onPressed: () async {
-                //print("parint folder id :$parentFolderId");
-                await context
-                    .read<ListViewProvider>()
-                    .getFoldersAndNotes(parentFolderId);
-                Navigator.pop(context);
-              },
-              icon: IsRtlBackIcon(isRtl: !isRtl),
-            )],/*folderId == null
+                : [
+                    IconButton(
+                      onPressed: () async {
+                        //print("parint folder id :$parentFolderId");
+                        await context
+                            .read<ListViewProvider>()
+                            .getFoldersAndNotes(parentFolderId);
+                        Navigator.pop(context);
+                      },
+                      icon: IsRtlBackIcon(isRtl: !isRtl),
+                    )
+                  ], /*folderId == null
                 ?
             requiredData.isDbRestored ? [IconButton(onPressed: () {
               /*
@@ -144,20 +138,28 @@ class FolderPage extends StatelessWidget {
           drawer: NavigationDrawer(
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(
-                            Icons.close_rounded,
-                            color: Colors.red,
-                          )),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(locale[TranslationsKeys.title]!,
+                            style: TextStyle(fontSize: 20)),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: const Icon(
+                                Icons.close_rounded,
+                                color: Colors.red,
+                              )),
+                        ),
+                      ],
                     ),
                     const Divider(),
                     const SizedBox(
@@ -180,7 +182,6 @@ class FolderPage extends StatelessWidget {
                     DrawerItem(
                         page: priorityScreen(),
                         text: locale[TranslationsKeys.priorityNotes]!),
-
                     DrawerItem(
                         page: SettingsPage(),
                         text: locale[TranslationsKeys.settings]!),
@@ -195,7 +196,6 @@ class FolderPage extends StatelessWidget {
                           create: (context) => SearchProvider(),
                             child: SearchPage()),
                         text: locale[TranslationsKeys.search]!),*/
-
                   ],
                 ),
               ),

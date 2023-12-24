@@ -1,3 +1,4 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:note_files/models/FadeRoute.dart';
 import 'package:note_files/requiredData.dart';
@@ -6,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../collection/isarCURD.dart';
 import '../models/MyWarningDialog.dart';
 import '../models/styles.dart';
+import '../prioityColors.dart';
 import '../provider/ListViewProvider.dart';
 import '../provider/PriorityProvider.dart';
 import '../translations/translations.dart';
@@ -99,41 +101,61 @@ class NotePage extends StatelessWidget {
         padding: const EdgeInsets.all(
           8,
         ),
-        child: Container(
-          decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(10)),
-          padding: const EdgeInsets.all(8),
-          child: ListView(
+        child: Padding(
+          padding: EdgeInsets.all(8),
+          child: Column(
             children: [
-              const SizedBox(
-                height: 15,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: Text(
-                    textDirection: titleDirection,
-                    " ${locale[TranslationsKeys.priority]}: $priority ",
-                    style: const MediumText(),
+              Row(
+                textDirection: titleDirection,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: priorityColors[priority ?? 1 - 1],
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Text(
+                      textDirection: titleDirection,
+                      " ${locale[TranslationsKeys.priority]}: $priority ",
+                      style: const MediumText(),
+                    ),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      formatDate(DateTime.now(), [
+                        yyyy,
+                        "-",
+                        mm,
+                        "-",
+                        dd,
+                        "   ",
+                        hh,
+                        ":",
+                        nn
+                      ]).toString(),
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(
-                  width: double.infinity,
-                  child: Text(
-                    textDirection: titleDirection,
-                    title,
-                    style: const BigText(),
-                  )),
-              const Divider(),
-              SizedBox(
-                  width: double.infinity,
-                  child: Text(
-                    textDirection: contentDirection,
-                    content,
-                    style: const MediumText(),
-                  )),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                textDirection: titleDirection,
+                title,
+                style: const BigText(),
+              ),
+              //const Divider(),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                textDirection: contentDirection,
+                content,
+                style: const MediumText(),
+              ),
               const SizedBox(
                 height: 15,
               ),

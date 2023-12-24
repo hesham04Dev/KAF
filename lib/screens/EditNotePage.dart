@@ -5,9 +5,9 @@ import 'package:note_files/requiredData.dart';
 import 'package:provider/provider.dart';
 
 import '../collection/Note.dart';
+import '../collection/isarCURD.dart';
 import '../functions/boolFn.dart';
 import '../functions/isRtlTextDirection.dart';
-import '../collection/isarCURD.dart';
 import '../models/AutoDirectionTextField.dart';
 import '../models/MyWarningDialog.dart';
 import '../models/isRtlBackIcon.dart';
@@ -47,7 +47,6 @@ class EditNote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int get_priority = context.watch<PriorityProvider>().priority;
-
 
     if (!isLoaded && priority != null) {
       print("priority is $priority");
@@ -99,10 +98,7 @@ class EditNote extends StatelessWidget {
               onPressed: onPop,
               icon: IsRtlBackIcon(isRtl: isRtl),
             ),
-            title: Text(
-              formatDate(DateTime.now(),
-                  [yy, "/", mm, "/", dd, "   ", hh, ":", nn]).toString(),
-            ),
+            title: Text(locale[TranslationsKeys.title]!),
             actions: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -156,7 +152,7 @@ class EditNote extends StatelessWidget {
           ),
           body: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
+            child: /*Container(
               decoration: BoxDecoration(
                   color: isDark == true
                       ? Colors.white10
@@ -164,33 +160,81 @@ class EditNote extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10)),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: ListView(
+                child:*/
+                Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Center(
-                        child: PriorityMenu(
-                      priority: priority,
-                    )),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Colors
+                              .black12, //priorityColors[priority ?? 1 - 1],
+                          borderRadius: BorderRadius.circular(10)),
+                      child: PriorityMenu(
+                        priority: priority,
+                      ),
+                    ),
                     Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: AutoDirectionTextField(
-                          controller: titleController,
-                          locale: locale,
-                          hintText: TranslationsKeys.yourTitle,
-                        )),
-                    Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: AutoDirectionTextField(
-                          controller: noteTextController,
-                          locale: locale,
-                          hintText: TranslationsKeys.yourNote,
-                          maxLines: null,
-                          isUnderLinedBorder: false,
-                        ))
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        formatDate(DateTime.now(), [
+                          yyyy,
+                          "-",
+                          mm,
+                          "-",
+                          dd,
+                          "   ",
+                          hh,
+                          ":",
+                          nn
+                        ]).toString(),
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                    ),
                   ],
                 ),
-              ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.black12,
+                    ),
+                    margin: const EdgeInsets.symmetric(vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: AutoDirectionTextField(
+                      controller: titleController,
+                      locale: locale,
+                      isUnderLinedBorder: false,
+                      hintText: TranslationsKeys.yourTitle,
+                    )),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: isDark == true ? Colors.white10 : Colors.black12,
+                        borderRadius: BorderRadius.circular(30)),
+                    padding: EdgeInsets.all(5),
+                    child: ListView(children: [
+                      Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: AutoDirectionTextField(
+                            controller: noteTextController,
+                            locale: locale,
+                            hintText: TranslationsKeys.yourNote,
+                            maxLines: null,
+                            isUnderLinedBorder: false,
+                          )),
+                    ]),
+                  ),
+                )
+              ],
             ),
           ),
+          /*),
+          ),*/
         ),
       ),
     );

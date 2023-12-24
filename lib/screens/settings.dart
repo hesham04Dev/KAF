@@ -50,6 +50,12 @@ class _SettingsPageState extends State<SettingsPage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(locale[TranslationsKeys.settings]!),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back_ios_rounded),
+          ),
         ),
         body: Padding(
           padding: const EdgeInsets.all(20),

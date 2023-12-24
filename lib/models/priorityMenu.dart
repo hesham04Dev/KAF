@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import '../provider/PriorityProvider.dart';
 import '../translations/translations.dart';
 
-
 class PriorityMenu extends StatefulWidget {
   final int? priority;
   const PriorityMenu({
@@ -20,20 +19,27 @@ class PriorityMenu extends StatefulWidget {
 
 class _PriorityMenuState extends State<PriorityMenu> {
   Map<String, String> locale = requiredData.locale;
-  int getPriority=1;
-  bool isLoaded =false;
-
-
+  int getPriority = 1;
+  bool isLoaded = false;
 
   @override
   Widget build(BuildContext context) {
-    if(widget.priority == null){
+    if (widget.priority == null) {
       print("is null in pm");
-      getPriority = context.read<PriorityProvider>().priority;}
-    else if(!isLoaded){getPriority = widget.priority!; isLoaded = true;}
+      getPriority = context.read<PriorityProvider>().priority;
+    } else if (!isLoaded) {
+      getPriority = widget.priority!;
+      isLoaded = true;
+    }
     print("priority:  ${getPriority}");
 
     return PopupMenuButton(
+      elevation: 0,
+      shape: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(
+            width: 0,
+          )),
       child: Text(
         "${locale[TranslationsKeys.priority]!}: ${getPriority}",
         style: const MediumText(),

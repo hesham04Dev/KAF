@@ -106,8 +106,8 @@ abstract class TranslationsKeys {
   static const wrongFile = 'wrongFile';
   static const restore = 'restore';
   static const restoreOldDbMsg = 'restoreOldDbMsg';
-
-
+  static const enterFolderName = 'enterFolderName';
+  static const saveDataLocally = 'saveDataLocally';
 }
 
 class Translations {
@@ -127,8 +127,10 @@ class Translations {
     "delete": "حذف",
     "done": "تم",
     "folderName": "اسم المجلد",
+    "saveDataLocally": "حفظ البيانات محليا",
     "about": "عن التطبيق",
     "restore": "استعادة البيانات",
+    "enterFolderName": "أدخل اسم المجلد",
     "restoreOldDbMsg": "هل تريد استعادة البيانات القديمة عوضا عن هذه",
     "aboutContent": '''حول تطبيق ناف
 
@@ -182,16 +184,18 @@ class Translations {
     "yourNote": "Your Note",
     "discardYourNote": "Discard your note",
     "discard": "Discard",
+    "saveDataLocally": "Save Data Locally",
     "cancel": "Cancel",
     "edit": "Edit",
     "delete": "Delete",
     "done": "Done",
+    "enterFolderName": "Enter Folder Name",
     "folderName": "Folder Name",
     "about": "About",
     "restoreOldDbMsg": "Do you want to recover old data instead of this",
-    "search" :"Search",
-    "fontFamily" :"font family:",
-    "restore" :"Restore",
+    "search": "Search",
+    "fontFamily": "font family:",
+    "restore": "Restore",
     "backupMsg": "the backup saved in the downloads directory",
     "aboutContent":
         ''' Welcome to NAF, your reliable companion for efficient note-taking,

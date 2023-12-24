@@ -67,32 +67,26 @@ class _priorityScreenState extends State<priorityScreen> {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListView.builder(
-                itemBuilder: (context, index) => Column(
-                  children: [
-                    NoteButton(
-                        isPriorityPageOpened: true,
-                        priority: priority,
-                        contentDirection: isRtlTextDirection(_listNotes[index]
-                            .isContentRtl! /*snapshot.data[index].isContentRtl ?? isRtl*/),
-                        titleDirection: isRtlTextDirection(
-                            /*_listNotes[index].isTitleRtl*/ snapshot
-                                    .data[index].isTitleRtl ??
-                                isRtl),
-                        parentFolderId: /*_listNotes[index].parentFolderId*/
-                            snapshot.data[index].parentFolderId,
-                        noteContent: _listNotes[index]
-                            .content! /*snapshot.data[index].content*/,
-                        noteId: /*_listNotes[index].id*/
-                            snapshot.data[index].id,
-                        noteTitle: _listNotes[index]
-                            .title! /*snapshot.data[index].title,*/,
-                        noteTime: formatDate(
-                            /*_listNotes[index].date!*/ snapshot
-                                .data[index].date,
-                            [yy, "/", mm, "/", dd, "   ", hh, ":", nn])),
-                    const Divider(color: Colors.white54),
-                  ],
-                ),
+                itemBuilder: (context, index) => NoteButton(
+                    isPriorityPageOpened: true,
+                    priority: priority,
+                    contentDirection: isRtlTextDirection(_listNotes[index]
+                        .isContentRtl! /*snapshot.data[index].isContentRtl ?? isRtl*/),
+                    titleDirection: isRtlTextDirection(
+                        /*_listNotes[index].isTitleRtl*/ snapshot
+                                .data[index].isTitleRtl ??
+                            isRtl),
+                    parentFolderId: /*_listNotes[index].parentFolderId*/
+                        snapshot.data[index].parentFolderId,
+                    noteContent: _listNotes[index]
+                        .content! /*snapshot.data[index].content*/,
+                    noteId: /*_listNotes[index].id*/
+                        snapshot.data[index].id,
+                    noteTitle: _listNotes[index]
+                        .title! /*snapshot.data[index].title,*/,
+                    noteTime: formatDate(
+                        /*_listNotes[index].date!*/ snapshot.data[index].date,
+                        [yy, "/", mm, "/", dd, "   ", hh, ":", nn])),
                 itemCount: /*_listNotes.length*/ snapshot.data.length,
               ),
             );

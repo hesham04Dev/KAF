@@ -40,7 +40,7 @@ class FolderNameDialog extends StatelessWidget {
                 ),
                 MultiLineText(
                   margin: 120,
-                  text: "أدخل اسم المجلد:",
+                  text: locale[TranslationsKeys.enterFolderName]!,
                   maxLines: 1,
                   fontSize: 20,
                   textDirection: isRtlTextDirection(isRtl),

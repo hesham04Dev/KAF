@@ -180,16 +180,23 @@ class FolderPage extends StatelessWidget {
                     ),*/
 
                     DrawerItem(
-                        page: priorityScreen(),
+                        page: Directionality(
+                            textDirection: isRtlTextDirection(isRtl),
+                            child: priorityScreen()),
                         text: locale[TranslationsKeys.priorityNotes]!),
                     DrawerItem(
                         page: SettingsPage(),
                         text: locale[TranslationsKeys.settings]!),
                     DrawerItem(
-                        page: RandomNotes(),
+                        page: Directionality(
+                            textDirection: isRtlTextDirection(isRtl),
+                            child: RandomNotes()),
                         text: locale[TranslationsKeys.randomNotes]!),
                     DrawerItem(
-                        page: AboutPage(),
+                        page: Directionality(
+                          textDirection: isRtlTextDirection(isRtl),
+                          child: AboutPage(),
+                        ),
                         text: locale[TranslationsKeys.about]!),
                     /*DrawerItem(
                         page: ChangeNotifierProvider(

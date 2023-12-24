@@ -23,7 +23,7 @@ class FolderOrNoteButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: MaterialButton(
-        color: Theme.of(context).primaryColor.withOpacity(0.3),
+        color: Colors.black12,
         elevation: 0,
         hoverElevation: 0,
         onLongPress: () {

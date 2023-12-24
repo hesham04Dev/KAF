@@ -49,7 +49,9 @@ class NotePage extends StatelessWidget {
           },
           icon: Icon(Icons.arrow_back_ios_rounded),
         ),
-        title: Text(date.toString()),
+        title: Text(
+          locale[TranslationsKeys.title]!,
+        ),
         actions: [
           IconButton(
               onPressed: () {
@@ -103,7 +105,7 @@ class NotePage extends StatelessWidget {
         ),
         child: Padding(
           padding: EdgeInsets.all(8),
-          child: Column(
+          child: ListView(
             children: [
               Row(
                 textDirection: titleDirection,

@@ -8,7 +8,6 @@ import 'package:note_files/requiredData.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../functions/boolFn.dart';
 import '../functions/isRtlTextDirection.dart';
 import '../models/styles.dart';
 import '../translations/translations.dart';
@@ -33,13 +32,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     bool isAmiri = requiredData.isAmiri;
-    bool isDark = isDarkMode(context);
-    Color background;
-    if (!isDark) {
-      background = Colors.black12;
-    } else {
-      background = Colors.white12;
-    }
+
     if (Platform.isAndroid) {
       deviceInfo = DeviceInfoPlugin().androidInfo;
     }
@@ -66,7 +59,8 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               Container(
                 decoration: BoxDecoration(
-                    color: background, borderRadius: BorderRadius.circular(10)),
+                    color: Colors.black12,
+                    borderRadius: BorderRadius.circular(10)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -104,7 +98,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 padding: const EdgeInsetsDirectional.only(start: 20),
                 child: Text(
                   //locale[TranslationsKeys.dataRecovery]!,
-                  "حفظ البيانات محليا",
+                  locale[TranslationsKeys.saveDataLocally]!,
                   textAlign: TextAlign.center,
                   style: MediumText(),
                 ),
@@ -120,7 +114,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                            color: background,
+                            color: Colors.black12,
                             borderRadius: BorderRadius.circular(10)),
                         width: half,
                         child: TextButton(
@@ -170,7 +164,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                       Container(
                         decoration: BoxDecoration(
-                            color: background,
+                            color: Colors.black12,
                             borderRadius: BorderRadius.circular(10)),
                         width: half,
                         child: TextButton(

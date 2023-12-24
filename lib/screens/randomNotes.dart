@@ -1,12 +1,10 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:note_files/models/NoteButton.dart';
 import 'package:note_files/requiredData.dart';
+
 import '../collection/Note.dart';
 import '../functions/isRtlTextDirection.dart';
-import '../models/MultiLineText.dart';
-
 import '../translations/translations.dart';
 
 const String githubSource = "https://github.com/hesham04Dev/note_files";

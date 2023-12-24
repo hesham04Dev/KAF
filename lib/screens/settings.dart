@@ -8,6 +8,7 @@ import 'package:note_files/requiredData.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../functions/boolFn.dart';
 import '../functions/isRtlTextDirection.dart';
 import '../models/styles.dart';
 import '../translations/translations.dart';
@@ -21,8 +22,8 @@ class SettingsPage extends StatefulWidget {
   State<SettingsPage> createState() => _SettingsPageState();
 }
 
-const fonts = ["Noto","Amiri"];
-const ar_fonts = ["نوتو","اميري"];
+const fonts = ["Noto", "Amiri"];
+const ar_fonts = ["نوتو", "اميري"];
 
 class _SettingsPageState extends State<SettingsPage> {
   final Map<String, String> locale = requiredData.locale;
@@ -32,8 +33,17 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     bool isAmiri = requiredData.isAmiri;
-    if(Platform.isAndroid){
-       deviceInfo =  DeviceInfoPlugin().androidInfo;}
+    bool isDark = isDarkMode(context);
+    Color background;
+    if (!isDark) {
+      background = Colors.black12;
+    } else {
+      background = Colors.white12;
+    }
+    if (Platform.isAndroid) {
+      deviceInfo = DeviceInfoPlugin().androidInfo;
+    }
+    final double half = (MediaQuery.sizeOf(context).width / 2) - 25;
 
     return Directionality(
       textDirection: isRtlTextDirection(requiredData.isRtl),
@@ -42,34 +52,44 @@ class _SettingsPageState extends State<SettingsPage> {
           title: Text(locale[TranslationsKeys.settings]!),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(20),
           child: ListView(
             children: [
               SizedBox(
                 height: 50,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(locale[TranslationsKeys.fontFamily]!, style: MediumText()),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextButton(
-                        onPressed: () async{
-                          if (isAmiri)
-                            requiredData.set_isAmiri = false;
-                          else
-                            requiredData.set_isAmiri = true;
-                          showDialog(context: context, builder: (context) => RestartAppDialog(),);
-                          await requiredData.setDefaultFont();
-                          setState(() {});
-
-                        },
-                        child: Text(isArabic == true
-                            ? ar_fonts[isAmiri ? 1 : 0]
-                            : fonts[isAmiri ? 1 : 0])),
-                  )
-                ],
+              Container(
+                decoration: BoxDecoration(
+                    color: background, borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Text(locale[TranslationsKeys.fontFamily]!,
+                          style: MediumText()),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextButton(
+                          onPressed: () async {
+                            if (isAmiri)
+                              requiredData.set_isAmiri = false;
+                            else
+                              requiredData.set_isAmiri = true;
+                            showDialog(
+                              context: context,
+                              builder: (context) => RestartAppDialog(),
+                            );
+                            await requiredData.setDefaultFont();
+                            setState(() {});
+                          },
+                          child: Text(isArabic == true
+                              ? ar_fonts[isAmiri ? 1 : 0]
+                              : fonts[isAmiri ? 1 : 0])),
+                    )
+                  ],
+                ),
               ),
               SizedBox(
                 height: 20,
@@ -77,48 +97,53 @@ class _SettingsPageState extends State<SettingsPage> {
               Padding(
                 padding: const EdgeInsetsDirectional.only(start: 20),
                 child: Text(
-                  locale[TranslationsKeys.dataRecovery]!,
-                  textAlign: TextAlign.start,
+                  //locale[TranslationsKeys.dataRecovery]!,
+                  "حفظ البيانات محليا",
+                  textAlign: TextAlign.center,
                   style: MediumText(),
                 ),
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-
                   Row(
                     children: [
-                      SizedBox(
-                        width: (MediaQuery.sizeOf(context).width / 2) - 8,
+                      Container(
+                        decoration: BoxDecoration(
+                            color: background,
+                            borderRadius: BorderRadius.circular(10)),
+                        width: half,
                         child: TextButton(
                             onPressed: () async {
-
-                              if(Platform.isAndroid ){
+                              if (Platform.isAndroid) {
                                 final _deviceInfo = await deviceInfo;
-                                if(_deviceInfo.version.sdkInt <32){
-                                var allowStorage = await Permission.storage.request();
-                                if(allowStorage.isGranted){
-                                  requiredData.db.localBackup(true);
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => Dialog(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: Text(
-                                            locale[TranslationsKeys.backupMsg]!),
+                                if (_deviceInfo.version.sdkInt < 32) {
+                                  var allowStorage =
+                                      await Permission.storage.request();
+                                  if (allowStorage.isGranted) {
+                                    requiredData.db.localBackup(true);
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => Dialog(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(20.0),
+                                          child: Text(locale[
+                                              TranslationsKeys.backupMsg]!),
+                                        ),
                                       ),
-                                    ),
-                                  );
+                                    );
+                                  }
                                 }
-                              }
-                                var allowStorage = await Permission.storage.request();
+                                var allowStorage =
+                                    await Permission.storage.request();
                                 requiredData.db.localBackup(true);
                               }
                               //var allowStorage = await Permission.storage.request();
                               requiredData.db.localBackup(false);
-
 
                               showDialog(
                                 context: context,
@@ -134,47 +159,58 @@ class _SettingsPageState extends State<SettingsPage> {
                             },
                             child: Text(locale[TranslationsKeys.backup]!)),
                       ),
-                      SizedBox(
-                        width: (MediaQuery.sizeOf(context).width / 2) - 8,
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: background,
+                            borderRadius: BorderRadius.circular(10)),
+                        width: half,
                         child: TextButton(
                             onPressed: () async {
                               //var allowStorage = await Permission.storage.request();
                               var downloadsDir = await getDownloadsDirectory();
                               FilePickerResult? result =
                                   await FilePicker.platform.pickFiles(
-
                                 initialDirectory: downloadsDir!.path,
                               );
                               if (result != null) {
                                 if (result.files.single.path!
                                     .endsWith(".hcody")) {
-
-                                  if(Platform.isAndroid){
+                                  if (Platform.isAndroid) {
                                     final _deviceInfo = await deviceInfo;
-                                  if(_deviceInfo.version.sdkInt < 32){
-                                    var allowStorage = await Permission.storage.request();
-                                    if(allowStorage.isGranted){
+                                    if (_deviceInfo.version.sdkInt < 32) {
+                                      var allowStorage =
+                                          await Permission.storage.request();
+                                      if (allowStorage.isGranted) {
+                                        requiredData.db.copyDbToSupportDir(
+                                            result.files.single.path);
+
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) =>
+                                                RestartAppDialog());
+                                      }
+                                    } else {
                                       requiredData.db.copyDbToSupportDir(
                                           result.files.single.path);
 
                                       showDialog(
-                                          context: context,
-                                          builder: (context) => RestartAppDialog());
+                                        context: context,
+                                        builder: (context) =>
+                                            RestartAppDialog(),
+                                      );
                                     }
-                                  }else{
+                                  } else {
                                     requiredData.db.copyDbToSupportDir(
                                         result.files.single.path);
 
                                     showDialog(
                                       context: context,
-                                      builder: (context) => RestartAppDialog(),);}
-                                  }else{
-                                  requiredData.db.copyDbToSupportDir(
-                                      result.files.single.path);
-
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => RestartAppDialog(),);}
+                                      builder: (context) => RestartAppDialog(),
+                                    );
+                                  }
                                 } else {
                                   showDialog(
                                     context: context,
@@ -192,10 +228,10 @@ class _SettingsPageState extends State<SettingsPage> {
                                   );
                                 }
                               }
-
-
                             },
-                            child: Text(locale[TranslationsKeys.restore]!,)),
+                            child: Text(
+                              locale[TranslationsKeys.restore]!,
+                            )),
                       ),
                     ],
                   )

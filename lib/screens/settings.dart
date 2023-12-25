@@ -55,12 +55,12 @@ class _SettingsPageState extends State<SettingsPage> {
           child: ListView(
             children: [
               SizedBox(
-                height: 50,
+                height: 30,
               ),
               Container(
                 decoration: BoxDecoration(
                     color: Colors.black12,
-                    borderRadius: BorderRadius.circular(10)),
+                    borderRadius: BorderRadius.circular(30)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -69,25 +69,22 @@ class _SettingsPageState extends State<SettingsPage> {
                       child: Text(locale[TranslationsKeys.fontFamily]!,
                           style: MediumText()),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextButton(
-                          onPressed: () async {
-                            if (isAmiri)
-                              requiredData.set_isAmiri = false;
-                            else
-                              requiredData.set_isAmiri = true;
-                            showDialog(
-                              context: context,
-                              builder: (context) => RestartAppDialog(),
-                            );
-                            await requiredData.setDefaultFont();
-                            setState(() {});
-                          },
-                          child: Text(isArabic == true
-                              ? ar_fonts[isAmiri ? 1 : 0]
-                              : fonts[isAmiri ? 1 : 0])),
-                    )
+                    TextButton(
+                        onPressed: () async {
+                          if (isAmiri)
+                            requiredData.set_isAmiri = false;
+                          else
+                            requiredData.set_isAmiri = true;
+                          showDialog(
+                            context: context,
+                            builder: (context) => RestartAppDialog(),
+                          );
+                          await requiredData.setDefaultFont();
+                          setState(() {});
+                        },
+                        child: Text(isArabic == true
+                            ? ar_fonts[isAmiri ? 1 : 0]
+                            : fonts[isAmiri ? 1 : 0]))
                   ],
                 ),
               ),
@@ -115,7 +112,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       Container(
                         decoration: BoxDecoration(
                             color: Colors.black12,
-                            borderRadius: BorderRadius.circular(10)),
+                            borderRadius: BorderRadius.circular(30)),
                         width: half,
                         child: TextButton(
                             onPressed: () async {
@@ -165,7 +162,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       Container(
                         decoration: BoxDecoration(
                             color: Colors.black12,
-                            borderRadius: BorderRadius.circular(10)),
+                            borderRadius: BorderRadius.circular(30)),
                         width: half,
                         child: TextButton(
                             onPressed: () async {

@@ -45,10 +45,13 @@ class _RandomNotesState extends State<RandomNotes> {
           if (snapshot.hasData) {
             if (note != null) {
               return Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
                   children: [
                     const SizedBox(
+                      width: double.infinity,
                       height: 10,
                     ),
                     // NoteButton(priority: note.priority, noteTitle: note.title?? "", noteTime: note.date??"", noteContent: note.content??"", noteId: note.id, titleDirection: note.isTitleRtl, contentDirection: note.isContentRtl),

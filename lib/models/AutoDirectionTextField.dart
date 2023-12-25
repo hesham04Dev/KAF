@@ -6,7 +6,7 @@ import 'AutoDirection.dart';
 class AutoDirectionTextField extends StatefulWidget {
   final TextEditingController controller;
   final Map<String, String> locale;
-  final String hintText;
+  final String? hintText;
   final bool isUnderLinedBorder;
   final int? maxLines;
   final TextStyle? style;
@@ -15,7 +15,7 @@ class AutoDirectionTextField extends StatefulWidget {
       {super.key,
       required this.controller,
       required this.locale,
-      required this.hintText,
+      this.hintText,
       this.isUnderLinedBorder = true,
       this.maxLines = 1,
       this.style});
@@ -39,7 +39,8 @@ class _AutoDirectionTextFormFieldState extends State<AutoDirectionTextField> {
           setState(() {});
         },
         decoration: InputDecoration(
-            hintText: widget.locale[widget.hintText]!,
+            hintText:
+                widget.hintText == null ? "" : widget.locale[widget.hintText]!,
             border: widget.isUnderLinedBorder ? null : InputBorder.none),
         style: widget.style ?? MediumText(),
       ),

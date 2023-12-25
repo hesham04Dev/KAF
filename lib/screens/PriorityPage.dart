@@ -65,7 +65,7 @@ class _priorityScreenState extends State<priorityScreen> {
           if (snapshot.hasData) {
             _listNotes = context.watch<PriorityProvider>().listNotes;
             return Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(15.0),
               child: ListView.builder(
                 itemBuilder: (context, index) => NoteButton(
                     isPriorityPageOpened: true,

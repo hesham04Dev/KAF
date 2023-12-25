@@ -62,7 +62,9 @@ class NoteButton extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               noteTitle.isEmpty
-                  ? SizedBox()
+                  ? SizedBox(
+                      height: 16,
+                    )
                   : MultiLineText(
                       margin: 92,
                       maxLines: 1,
@@ -74,7 +76,9 @@ class NoteButton extends StatelessWidget {
                 height: noteTitle.isEmpty ? 0 : 0,
               ),*/
               noteContent.isEmpty
-                  ? SizedBox()
+                  ? SizedBox(
+                      height: 14,
+                    )
                   : MultiLineText(
                       margin: 92,
                       maxLines: 1,

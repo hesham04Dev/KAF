@@ -105,14 +105,14 @@ class NotePage extends StatelessWidget {
         ),
         child: Padding(
           padding: EdgeInsets.all(8),
-          child: ListView(
+          child: Column(
             children: [
               Row(
                 textDirection: titleDirection,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                     decoration: BoxDecoration(
                         color: priorityColors[priority ?? 1 - 1],
                         borderRadius: BorderRadius.circular(10)),
@@ -123,7 +123,7 @@ class NotePage extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Text(
                       formatDate(DateTime.now(), [
                         yyyy,
@@ -136,7 +136,7 @@ class NotePage extends StatelessWidget {
                         ":",
                         nn
                       ]).toString(),
-                      style: Theme.of(context).textTheme.titleLarge,
+                      style: MediumText(),
                     ),
                   ),
                 ],
@@ -144,19 +144,25 @@ class NotePage extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              Text(
-                textDirection: titleDirection,
-                title,
-                style: const BigText(),
+              Center(
+                child: Text(
+                  textDirection: titleDirection,
+                  title,
+                  style: const BigText(),
+                ),
               ),
               //const Divider(),
               const SizedBox(
                 height: 10,
               ),
-              Text(
-                textDirection: contentDirection,
-                content,
-                style: const MediumText(),
+              Expanded(
+                child: ListView(children: [
+                  Text(
+                    textDirection: contentDirection,
+                    content,
+                    style: const MediumText(),
+                  ),
+                ]),
               ),
               const SizedBox(
                 height: 15,

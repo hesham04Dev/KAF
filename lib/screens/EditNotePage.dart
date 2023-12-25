@@ -1,5 +1,6 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:note_files/models/styles.dart';
 import 'package:note_files/provider/ListViewProvider.dart';
 import 'package:note_files/requiredData.dart';
 import 'package:provider/provider.dart';
@@ -56,7 +57,6 @@ class EditNote extends StatelessWidget {
     ;
     ListViewProvider provider =
         Provider.of<ListViewProvider>(context, listen: false);
-    bool isDark = isDarkMode(context);
 
     /// oldTitle and oldContent are the text written in the note
     oldTitle == null ? null : titleController.text = oldTitle!;
@@ -152,16 +152,7 @@ class EditNote extends StatelessWidget {
           ),
           body: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: /*Container(
-              decoration: BoxDecoration(
-                  color: isDark == true
-                      ? Colors.white10
-                      : Theme.of(context).primaryColor.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(10)),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child:*/
-                Column(
+            child: Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -169,8 +160,7 @@ class EditNote extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                          color: Colors
-                              .black12, //priorityColors[priority ?? 1 - 1],
+                          color: Colors.black12,
                           borderRadius: BorderRadius.circular(10)),
                       child: PriorityMenu(
                         priority: priority,
@@ -190,7 +180,7 @@ class EditNote extends StatelessWidget {
                           ":",
                           nn
                         ]).toString(),
-                        style: Theme.of(context).textTheme.titleLarge,
+                        style: MediumText(),
                       ),
                     ),
                   ],
@@ -214,7 +204,7 @@ class EditNote extends StatelessWidget {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                        color: isDark == true ? Colors.white10 : Colors.black12,
+                        color: Colors.black12,
                         borderRadius: BorderRadius.circular(30)),
                     padding: EdgeInsets.all(5),
                     child: ListView(children: [
@@ -233,16 +223,8 @@ class EditNote extends StatelessWidget {
               ],
             ),
           ),
-          /*),
-          ),*/
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    titleController.dispose();
-    noteTextController.dispose();
   }
 }

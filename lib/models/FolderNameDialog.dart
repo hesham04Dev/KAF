@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_files/models/AutoDirectionTextField.dart';
 
 import '../collection/isarCURD.dart';
 import '../functions/isRtlTextDirection.dart';
@@ -48,18 +49,34 @@ class FolderNameDialog extends StatelessWidget {
                 const SizedBox(
                   height: 7,
                 ),
-                TextField(
-                  style: Theme.of(context).textTheme.bodySmall,
+                /*TextField(
+                  style: Theme.of(context).textTheme.bodyMedium,
                   controller: folderNameController,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                      constraints: BoxConstraints(maxHeight: 50),
+                      //constraints: BoxConstraints(maxHeight: 50),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                           borderSide: BorderSide.none),
                       filled: true,
                       fillColor: Colors.white12),
-                ),
+                ),*/
+                /*AutoDirectionTextField(
+                    controller: folderNameController,
+                    locale: locale,
+                    hintText: ""),*/
+                Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.black12,
+                    ),
+                    margin: const EdgeInsets.symmetric(vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: AutoDirectionTextField(
+                      controller: folderNameController,
+                      locale: locale,
+                      isUnderLinedBorder: false,
+                    )),
                 const SizedBox(height: 5),
                 FilledButton(
                   onPressed: () async {

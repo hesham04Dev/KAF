@@ -1,6 +1,6 @@
-# NAF
+# KAF
 
-Welcome to NAF, your reliable companion for efficient note-taking,
+Welcome to KAF, your reliable companion for efficient note-taking,
 seamless organization, and hassle-free categorization.
 This app is committed to empowering you with a clutter-free
 and intuitive platform to capture your thoughts, ideas, and important information.
@@ -27,7 +27,7 @@ Your feedback and contributions are invaluable in shaping the future of the app.
 
 ## 🔓 Open Source and Ad-Free:
 
-We believe in transparency and providing a seamless user experience. That's why NAF is proudly open source and completely ad-free. No distractions, no invasive ads – just a clean and distraction-free environment to enhance your productivity.
+We believe in transparency and providing a seamless user experience. That's why KAF is proudly open source and completely ad-free. No distractions, no invasive ads – just a clean and distraction-free environment to enhance your productivity.
 
 
-Whether you're a student, professional, creative thinker, or simply someone who loves to jot down ideas on the go, NAF is designed to meet your needs. Experience the freedom of organized note-taking without the clutter. Download NAF today and join us in revolutionizing the way you capture and manage your notes.
+Whether you're a student, professional, creative thinker, or simply someone who loves to jot down ideas on the go, KAF is designed to meet your needs. Experience the freedom of organized note-taking without the clutter. Download KAF today and join us in revolutionizing the way you capture and manage your notes.

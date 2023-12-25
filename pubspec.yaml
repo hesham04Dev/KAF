@@ -88,6 +88,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
    - assets/translations/
+   - assets/icons/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -107,10 +108,8 @@ flutter:
         - asset: assets/fonts/Amiri/Amiri-Regular.ttf
         - asset: assets/fonts/Amiri/Amiri-Bold.ttf
           weight: 700
-    - family: Noto
+    - family: Jozoor
       fonts:
-        - asset: assets/fonts/Noto/NotoSansArabic-light.ttf
-        - asset: assets/fonts/Noto/NotoSansArabic-SemiBold.ttf
-          weight: 700
+        - asset: assets/fonts/jozoor.otf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

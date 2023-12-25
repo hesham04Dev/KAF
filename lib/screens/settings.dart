@@ -21,8 +21,8 @@ class SettingsPage extends StatefulWidget {
   State<SettingsPage> createState() => _SettingsPageState();
 }
 
-const fonts = ["Noto", "Amiri"];
-const ar_fonts = ["نوتو", "اميري"];
+const fonts = ["Jozoor", "Amiri"];
+const ar_fonts = ["جذور", "اميري"];
 
 class _SettingsPageState extends State<SettingsPage> {
   final Map<String, String> locale = requiredData.locale;

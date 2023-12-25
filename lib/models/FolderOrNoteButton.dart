@@ -8,7 +8,7 @@ class FolderOrNoteButton extends StatelessWidget {
   final Function onLongPressed;
   final Function onPressed;
   final Widget child;
-  final Icon? icon;
+  final Widget? icon;
 
   FolderOrNoteButton({
     super.key,

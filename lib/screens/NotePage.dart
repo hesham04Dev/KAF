@@ -114,12 +114,12 @@ class NotePage extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                     decoration: BoxDecoration(
-                        color: priorityColors[priority ?? 1 - 1],
+                        color: priorityColors[(priority ?? 1) - 1],
                         borderRadius: BorderRadius.circular(10)),
                     child: Text(
                       textDirection: titleDirection,
                       " ${locale[TranslationsKeys.priority]}: $priority ",
-                      style: const MediumText(),
+                      style: TextStyle(fontSize: 14, color: Colors.black),
                     ),
                   ),
                   Padding(

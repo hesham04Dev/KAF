@@ -5,8 +5,8 @@ import 'package:note_files/requiredData.dart';
 import 'package:provider/provider.dart';
 
 import '../collection/Folder.dart';
-import '../functions/isRtlTextDirection.dart';
 import '../collection/isarCURD.dart';
+import '../functions/isRtlTextDirection.dart';
 import '../models/FolderOrNoteButton.dart';
 import '../models/MultiLineText.dart';
 import '../screens/FolderPage.dart';
@@ -31,9 +31,10 @@ class FolderButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FolderOrNoteButton(
-      icon: const Icon(
-        Icons.folder_rounded,
-        size: 50,
+      icon: Image.asset(
+        "assets/icons/folder.png",
+        color: requiredData.primaryColor,
+        width: 50,
       ),
       onLongPressed: () {
         showModalBottomSheet(

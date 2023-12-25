@@ -6,17 +6,15 @@ import 'package:note_files/homePageData.dart';
 import 'package:note_files/provider/ListViewProvider.dart';
 import 'package:note_files/provider/PriorityProvider.dart';
 import 'package:note_files/requiredData.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
+import 'functions/boolFn.dart';
 import 'functions/isRtlTextDirection.dart';
 import 'functions/restoreDb.dart';
 import 'screens/FolderPage.dart';
 import 'translations/translations.dart';
 
-
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   bool restoreDB = await localRestoreDbIfRestoreButtonClicked();
 
@@ -47,7 +45,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     String lang = "${Platform.localeName[0]}${Platform.localeName[1]}";
     if (Translations.supportedLocales.contains(lang)) {
       requiredData.set_locale = Translations.mapLocales[lang]!;
@@ -62,8 +59,14 @@ class MyApp extends StatelessWidget {
     String chosenFont = requiredData.isAmiri ? "Amiri" : "Noto";
     print(chosenFont);
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
+      if (isDarkMode(context)) {
+        requiredData.primaryColor =
+            darkColorScheme?.primary ?? _defaultDarkColorScheme.primary;
+      } else {
+        requiredData.primaryColor =
+            lightColorScheme?.primary ?? _defaultLightColorScheme.primary;
+      }
       return MaterialApp(
-
         //themeMode: ThemeMode.dark,
         debugShowCheckedModeBanner: false,
         debugShowMaterialGrid: false,
@@ -107,7 +110,6 @@ class MyApp extends StatelessWidget {
               backgroundColor: Colors.white,
             )),
         darkTheme: ThemeData(
-          
           iconButtonTheme: IconButtonThemeData(
               style: ButtonStyle(
                   iconColor: MaterialStatePropertyAll(

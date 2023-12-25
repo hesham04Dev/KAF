@@ -38,44 +38,53 @@ class _FloatingNewFolderNoteState extends State<FloatingNewFolderNote> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: FloatingActionButton(
-                  mini: true,
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) => FolderNameDialog(
-                              db: widget.db,
-                              parentFolderId: null,
-                              isRtl: widget.isRtl,
-                              onSubmit: (text) {
-                                final newFolder = Folder()
-                                  ..name = text
-                                  ..parent = widget.parentFolderId;
-                                widget.db.saveFolder(newFolder);
-                                context
-                                    .read<ListViewProvider>()
-                                    .addFolder(newFolder);
-                              },
-                              locale: widget.locale,
-                            ));
-                  },
-                  child: const Icon(Icons.create_new_folder),
-                ),
+                    mini: true,
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) => FolderNameDialog(
+                                db: widget.db,
+                                parentFolderId: null,
+                                isRtl: widget.isRtl,
+                                onSubmit: (text) {
+                                  final newFolder = Folder()
+                                    ..name = text
+                                    ..parent = widget.parentFolderId;
+                                  widget.db.saveFolder(newFolder);
+                                  context
+                                      .read<ListViewProvider>()
+                                      .addFolder(newFolder);
+                                },
+                                locale: widget.locale,
+                              ));
+                    },
+                    child: Image.asset(
+                      "assets/icons/addFolderOrNote.png",
+                      color: requiredData.primaryColor,
+                      width: 25,
+                    )),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: FloatingActionButton(
-                  heroTag: null,
-                  mini: true,
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        FadeRoute(
-                          pageBuilder: (_, __, ___) =>
-                              EditNote(parentFolderId: widget.parentFolderId),
-                        ));
-                  },
-                  child: const Icon(Icons.note_add),
-                ),
+                    heroTag: null,
+                    mini: true,
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          FadeRoute(
+                            pageBuilder: (_, __, ___) =>
+                                EditNote(parentFolderId: widget.parentFolderId),
+                          ));
+                    },
+                    child: Transform.rotate(
+                      angle: 3.14 / 2,
+                      child: Image.asset(
+                        "assets/icons/addFolderOrNote.png",
+                        color: requiredData.primaryColor,
+                        width: 25,
+                      ),
+                    )),
               ),
               const SizedBox(
                 height: 10,
@@ -83,7 +92,6 @@ class _FloatingNewFolderNoteState extends State<FloatingNewFolderNote> {
             ],
           ),
         FloatingActionButton(
-            heroTag: null,
             onPressed: () {
               if (actionButtonPressed == false) {
                 actionButtonPressed = true;

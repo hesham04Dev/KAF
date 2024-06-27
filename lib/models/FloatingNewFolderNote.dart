@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_files/functions/boolFn.dart';
 import 'package:note_files/models/FadeRoute.dart';
 import 'package:note_files/requiredData.dart';
 import 'package:provider/provider.dart';
@@ -39,6 +40,7 @@ class _FloatingNewFolderNoteState extends State<FloatingNewFolderNote> {
                 padding: const EdgeInsets.all(8.0),
                 child: FloatingActionButton(
                     mini: true,
+                    heroTag: null,
                     onPressed: () {
                       showDialog(
                           context: context,
@@ -60,8 +62,9 @@ class _FloatingNewFolderNoteState extends State<FloatingNewFolderNote> {
                     },
                     child: Image.asset(
                       "assets/icons/addFolderOrNote.png",
-                      color: requiredData.primaryColor,
-                      width: 25,
+                      color:
+                          isDarkMode(context) ? Colors.white70 : Colors.black87,
+                      width: 23,
                     )),
               ),
               Padding(
@@ -81,8 +84,10 @@ class _FloatingNewFolderNoteState extends State<FloatingNewFolderNote> {
                       angle: 3.14 / 2,
                       child: Image.asset(
                         "assets/icons/addFolderOrNote.png",
-                        color: requiredData.primaryColor,
-                        width: 25,
+                        color: isDarkMode(context)
+                            ? Colors.white70
+                            : Colors.black87,
+                        width: 23,
                       ),
                     )),
               ),
@@ -95,11 +100,10 @@ class _FloatingNewFolderNoteState extends State<FloatingNewFolderNote> {
             onPressed: () {
               if (actionButtonPressed == false) {
                 actionButtonPressed = true;
-                setState(() {});
               } else {
                 actionButtonPressed = false;
-                setState(() {});
               }
+              setState(() {});
             },
             child: Transform.rotate(
               origin: Offset.zero,

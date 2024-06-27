@@ -16,13 +16,7 @@ import '../models/priorityMenu.dart';
 import '../provider/PriorityProvider.dart';
 import '../translations/translations.dart';
 
-class EditNote extends StatelessWidget {
-  final Map<String, String> locale = requiredData.locale;
-  final IsarService db = requiredData.db;
-  final bool isRtl = requiredData.isRtl;
-
-  final titleController = TextEditingController();
-  final noteTextController = TextEditingController();
+class EditNote extends StatefulWidget {
   final int? parentFolderId;
 
   /// these arguments fore using this page to edit the note
@@ -33,7 +27,6 @@ class EditNote extends StatelessWidget {
 
   final bool? isPriorityPageOpened;
 
-  /// when true this means that the application calls editNote from priority page this for the provider
   EditNote(
       {super.key,
       this.priority,
@@ -43,29 +36,88 @@ class EditNote extends StatelessWidget {
       this.oldContent,
       this.parentFolderId});
 
+  @override
+  State<EditNote> createState() => _EditNoteState();
+}
+
+class _EditNoteState extends State<EditNote> with WidgetsBindingObserver {
+  final Map<String, String> locale = requiredData.locale;
+
+  final IsarService db = requiredData.db;
+
+  final bool isRtl = requiredData.isRtl;
+
+  final titleController = TextEditingController();
+
+  final noteTextController = TextEditingController();
+
   bool isLoaded = false;
+  late int get_priority;
+  late ListViewProvider provider;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  void save() async {
+    if (titleController.text.isNotEmpty || noteTextController.text.isNotEmpty) {
+      if (widget.idOfNote == null) {
+        var newNote = Note()
+          ..title = titleController.text
+          ..isTitleRtl = isRTL(
+              titleController.text.isEmpty ? "" : titleController.text[0],
+              isRtl)
+          ..date = DateTime.now()
+          ..priority = get_priority
+          ..content = noteTextController.text
+          ..isContentRtl = isRTL(
+              noteTextController.text.isEmpty ? "" : noteTextController.text[0],
+              isRtl)
+          ..parentFolderId = widget.parentFolderId;
+
+        db.saveNote(newNote);
+        provider.addNote(newNote);
+      } else {
+        var oldNote = await db.getNote(widget.idOfNote!);
+        oldNote!.title = titleController.text;
+        oldNote.date = DateTime.now();
+        oldNote.content = noteTextController.text;
+        oldNote.priority = get_priority;
+        db.updateNote(oldNote);
+        provider.updateNote(oldNote);
+        if (widget.isPriorityPageOpened == true) {
+          await context.read<PriorityProvider>().updateNote(oldNote);
+        }
+      }
+
+      Navigator.pop(context);
+    } else {
+      Navigator.pop(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    int get_priority = context.watch<PriorityProvider>().priority;
+    get_priority = context.watch<PriorityProvider>().priority;
 
-    if (!isLoaded && priority != null) {
-      print("priority is $priority");
+    if (!isLoaded && widget.priority != null) {
+      print("priority is ${widget.priority}");
       isLoaded = true;
-      get_priority = priority!;
+      get_priority = widget.priority!;
     }
     ;
-    ListViewProvider provider =
-        Provider.of<ListViewProvider>(context, listen: false);
+    provider = Provider.of<ListViewProvider>(context, listen: false);
 
     /// oldTitle and oldContent are the text written in the note
-    oldTitle == null ? null : titleController.text = oldTitle!;
-    oldContent == null ? null : noteTextController.text = oldContent!;
+    widget.oldTitle == null ? null : titleController.text = widget.oldTitle!;
+    widget.oldContent == null
+        ? null
+        : noteTextController.text = widget.oldContent!;
 
     /// by doing that we put the old text in the TextFormField
     Future<bool> onPop() async {
       if (titleController.text.isEmpty && noteTextController.text.isEmpty) {
-        print("poping edit text");
         Navigator.pop(context);
         return false;
       } else {
@@ -88,8 +140,11 @@ class EditNote extends StatelessWidget {
     }
 
     print("get_Priority = $get_priority");
-    return WillPopScope(
-      onWillPop: onPop,
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (didPop) {
+        onPop();
+      },
       child: Directionality(
         textDirection: isRtlTextDirection(requiredData.isRtl!),
         child: Scaffold(
@@ -103,50 +158,7 @@ class EditNote extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: IconButton(
-                    onPressed: () async {
-                      if (titleController.text.isNotEmpty ||
-                          noteTextController.text.isNotEmpty) {
-                        if (idOfNote == null) {
-                          var newNote = Note()
-                            ..title = titleController.text
-                            ..isTitleRtl = isRTL(
-                                titleController.text.isEmpty
-                                    ? ""
-                                    : titleController.text[0],
-                                isRtl)
-                            ..date = DateTime.now()
-                            ..priority = get_priority
-                            ..content = noteTextController.text
-                            ..isContentRtl = isRTL(
-                                noteTextController.text.isEmpty
-                                    ? ""
-                                    : noteTextController.text[0],
-                                isRtl)
-                            ..parentFolderId = parentFolderId;
-
-                          db.saveNote(newNote);
-                          provider.addNote(newNote);
-                        } else {
-                          var oldNote = await db.getNote(idOfNote!);
-                          oldNote!.title = titleController.text;
-                          oldNote.date = DateTime.now();
-                          oldNote.content = noteTextController.text;
-                          oldNote.priority = get_priority;
-                          db.updateNote(oldNote);
-                          provider.updateNote(oldNote);
-                          isPriorityPageOpened == true
-                              ? await context
-                                  .read<PriorityProvider>()
-                                  .updateNote(oldNote)
-                              : null;
-                        }
-
-                        Navigator.pop(context);
-                      } else {
-                        onPop();
-                      }
-                    },
-                    icon: const Icon(Icons.save_rounded)),
+                    onPressed: save, icon: const Icon(Icons.save_rounded)),
               )
             ],
           ),
@@ -161,9 +173,9 @@ class EditNote extends StatelessWidget {
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
                           color: Colors.black12,
-                          borderRadius: BorderRadius.circular(10)),
+                          borderRadius: BorderRadius.circular(50)),
                       child: PriorityMenu(
-                        priority: priority,
+                        priority: widget.priority,
                       ),
                     ),
                     Padding(
@@ -226,5 +238,22 @@ class EditNote extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    print("Widget is being disposed");
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.detached) {
+      save();
+      print("App is closing");
+      // Add your cleanup code here
+    }
   }
 }

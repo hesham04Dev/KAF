@@ -1,10 +1,11 @@
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:note_files/models/FadeRoute.dart';
+import 'package:flutter/services.dart';
+import 'package:isar/isar.dart';
 import 'package:note_files/requiredData.dart';
 import 'package:provider/provider.dart';
 
 import '../collection/isarCURD.dart';
+import '../models/FadeRoute.dart';
 import '../models/MyWarningDialog.dart';
 import '../models/styles.dart';
 import '../prioityColors.dart';
@@ -13,18 +14,17 @@ import '../provider/PriorityProvider.dart';
 import '../translations/translations.dart';
 import 'EditNotePage.dart';
 
-class NotePage extends StatelessWidget {
-  final Map<String, String> locale = requiredData.locale;
+class NotePage extends StatefulWidget {
   final String date;
   final String title;
   final String content;
-  final IsarService db = requiredData.db;
   final int id;
   final int? parentFolderId;
   final TextDirection titleDirection;
   final TextDirection contentDirection;
   final int? priority;
   final bool isPriorityPageOpened;
+  final scrollController = ScrollController();
 
   NotePage({
     super.key,
@@ -40,6 +40,17 @@ class NotePage extends StatelessWidget {
   });
 
   @override
+  State<NotePage> createState() => _NotePageState();
+}
+
+class _NotePageState extends State<NotePage> {
+  final Map<String, String> locale = requiredData.locale;
+
+  final IsarService db = requiredData.db;
+
+  float fontSize = 1;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -49,10 +60,36 @@ class NotePage extends StatelessWidget {
           },
           icon: Icon(Icons.arrow_back_ios_rounded),
         ),
-        title: Text(
-          locale[TranslationsKeys.title]!,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+                onPressed: () {
+                  if (fontSize > 0.2) {
+                    fontSize -= 0.1;
+                    setState(() {});
+                  }
+                },
+                icon: const Icon(Icons.remove_rounded)),
+            Icon(
+              Icons.format_size_rounded,
+              color: Colors.black,
+            ),
+            IconButton(
+                onPressed: () {
+                  fontSize += 0.1;
+                  setState(() {});
+                },
+                icon: const Icon(Icons.add_rounded)),
+          ],
         ),
         actions: [
+          IconButton(
+              onPressed: () {
+                Clipboard.setData(
+                    ClipboardData(text: widget.title + "\n" + widget.content));
+              },
+              icon: const Icon(Icons.copy_rounded)),
           IconButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -61,12 +98,12 @@ class NotePage extends StatelessWidget {
                   FadeRoute(
                     pageBuilder: (context, animation, secondaryAnimation) =>
                         EditNote(
-                            parentFolderId: parentFolderId,
-                            oldTitle: title,
-                            oldContent: content,
-                            idOfNote: id,
-                            priority: priority,
-                            isPriorityPageOpened: isPriorityPageOpened),
+                            parentFolderId: widget.parentFolderId,
+                            oldTitle: widget.title,
+                            oldContent: widget.content,
+                            idOfNote: widget.id,
+                            priority: widget.priority,
+                            isPriorityPageOpened: widget.isPriorityPageOpened),
                   ),
                 );
               },
@@ -78,11 +115,13 @@ class NotePage extends StatelessWidget {
                   builder: (context) => MyWarningDialog(
                     translationsWarningButton: locale[TranslationsKeys.delete]!,
                     onWarningPressed: () {
-                      db.deleteNote(id);
+                      db.deleteNote(widget.id);
 
-                      context.read<ListViewProvider>().deleteNote(id);
-                      isPriorityPageOpened
-                          ? context.read<PriorityProvider>().deleteNote(id)
+                      context.read<ListViewProvider>().deleteNote(widget.id);
+                      widget.isPriorityPageOpened
+                          ? context
+                              .read<PriorityProvider>()
+                              .deleteNote(widget.id)
                           : null;
                       Navigator.pop(context);
                       Navigator.pop(context);
@@ -104,39 +143,30 @@ class NotePage extends StatelessWidget {
           8,
         ),
         child: Padding(
-          padding: EdgeInsets.all(8),
+          padding: EdgeInsets.only(top: 8, left: 8, right: 8),
           child: Column(
             children: [
               Row(
-                textDirection: titleDirection,
+                textDirection: widget.titleDirection,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                     decoration: BoxDecoration(
-                        color: priorityColors[(priority ?? 1) - 1],
+                        color: priorityColors[(widget.priority ?? 1) - 1],
                         borderRadius: BorderRadius.circular(10)),
                     child: Text(
-                      textDirection: titleDirection,
-                      " ${locale[TranslationsKeys.priority]}: $priority ",
+                      textDirection: widget.titleDirection,
+                      " ${locale[TranslationsKeys.priority]}: ${widget.priority} ",
                       style: TextStyle(fontSize: 14, color: Colors.black),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Text(
-                      formatDate(DateTime.now(), [
-                        yyyy,
-                        "-",
-                        mm,
-                        "-",
-                        dd,
-                        "   ",
-                        hh,
-                        ":",
-                        nn
-                      ]).toString(),
-                      style: MediumText(),
+                      widget.date,
+                      style: TextStyle(
+                          fontSize: (MediumText().fontSize! * fontSize)),
                     ),
                   ),
                 ],
@@ -146,9 +176,9 @@ class NotePage extends StatelessWidget {
               ),
               Center(
                 child: Text(
-                  textDirection: titleDirection,
-                  title,
-                  style: const BigText(),
+                  textDirection: widget.titleDirection,
+                  widget.title,
+                  style: TextStyle(fontSize: BigText().fontSize! * fontSize),
                 ),
               ),
               //const Divider(),
@@ -156,16 +186,18 @@ class NotePage extends StatelessWidget {
                 height: 10,
               ),
               Expanded(
-                child: ListView(children: [
-                  Text(
-                    textDirection: contentDirection,
-                    content,
-                    style: const MediumText(),
-                  ),
-                ]),
-              ),
-              const SizedBox(
-                height: 15,
+                child: Scrollbar(
+                  controller: widget.scrollController,
+                  child:
+                      ListView(controller: widget.scrollController, children: [
+                    Text(
+                      textDirection: widget.contentDirection,
+                      widget.content,
+                      style: TextStyle(
+                          fontSize: (MediumText().fontSize! * fontSize)),
+                    ),
+                  ]),
+                ),
               ),
             ],
           ),

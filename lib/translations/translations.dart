@@ -132,31 +132,6 @@ class Translations {
     "restore": "استعادة البيانات",
     "enterFolderName": "أدخل اسم المجلد",
     "restoreOldDbMsg": "هل تريد استعادة البيانات القديمة عوضا عن هذه",
-    "aboutContent": '''حول تطبيق ناف
-
-مرحبًا بك في ناف، رفيقك الموثوق لتسجيل الملاحظات بكفاءة، وتنظيم سلس، وتصنيف بدون متاعب. يتيح هذا التطبيق منصة خالية من الفوضى وسهلة الاستخدام لتسجيل أفكارك، وملاحظاتك والمعلومات المهمة.
-
-المميزات الرئيسية:
-
-📂المجلدات والملاحظات المصنفة: حافظ على تنظيمك مع إمكانية إنشاء المجلدات وتصنيف الملاحظات الخاصة بك. قم بتجميع المحتوى ذي الصلة معًا، مما يجعل من السهل العثور على ما تحتاجه عندما تحتاج إليه.
-
-✒️محرر الملاحظات سهل الاستخدام: يتيح لك محرر الملاحظات سهل الاستخدام التركيز على محتواك دون تشتيت. قم بتخصيص ملاحظاتك باستخدام الخطوط والأنماط والتنسيقات التي تناسب تفضيلاتك.
-
-🎨 الوضع الديناميكي: استمتع بتجربة رائعة مع دعم مميزات اندرويد 12+ في الوضع الديناميكي للألوان .
-
-🌎متعدد اللغات حاليا يدعم العربية والإنجليزية 
-
-مميزات قادمة التي ستتم اضافتها قريبا
-
-🔍 بحث سريع: اعثر على ملاحظات أو مجلدات معينة في لحظة باستخدام ميزة البحث الفعّالة لدينا. لا مزيد من البحث من خلال صفحات لا نهاية في سبيل العثور على ما تحتاجه بسهولة.
-تعليقاتك ومساهماتك غاية في الأهمية في تشكيل مستقبل التطبيق.
-
-🔓مفتوح المصدر وبدون إعلانات:
-
-نؤمن بالشفافية وتوفير تجربة مستخدم سلسة. لذا، يفتخرناف بأنه مفتوح المصدر وبدون إعلانات تجارية. لا تشتت، ولا إعلانات مزعجة - فقط بيئة نظيفة وخالية من التشتيت لتعزيز إنتاجيتك.
-
-
-سواء كنت طالبًا، أو محترفًا، أو فكرًا إبداعيًا، أو حتى شخصًا يحب تدوين الأفكار أثناء التنقل، ناف مصمم لتلبية احتياجاتك. اختبر حرية اتخاذ الملاحظات المنظمة بدون فوضى. قم بتنزيل ناف اليوم وانضم إلينا في تحويل طريقة التقاط وإدارة ملاحظاتك''',
     "permanentDelete": "حذف بشكل دائم",
     'priorityNotes': "مذكرات مهمة",
     'priority': "درجة الاهمية",
@@ -175,7 +150,7 @@ class Translations {
         "لا توجد أي ملاحظات في الوقت الحالي. لماذا لا تبدأ رحلتك بملاحظة جديدة؟"
   };
   static const Map<String, String> en = {
-    "title": "NAF",
+    "title": "KAF",
     "settings": "Settings",
     "backup": "Backup",
     "titleError": "Please enter your title",
@@ -197,36 +172,6 @@ class Translations {
     "fontFamily": "font family:",
     "restore": "Restore",
     "backupMsg": "the backup saved in the downloads directory",
-    "aboutContent":
-        ''' Welcome to NAF, your reliable companion for efficient note-taking,
-seamless organization, and hassle-free categorization.
-This app is committed to empowering you with a clutter-free
-and intuitive platform to capture your thoughts, ideas, and important information.
-
-Key Features:
-
-Folders and Categorized Notes: Stay organized with the ability to create folders and categorize your notes. Group related content together, making it effortless to find what you need when you need it.
-
-✒️ User-Friendly Note Editor: Our user-friendly note editor lets you focus on your content without distractions. Customize your notes with fonts, styles, and formatting that suit your preferences.
-
-🎨 Dynamic Mode: Enjoy with the support of android 12+ dynamic palate.
-
-🌎Multi Language Support: now it supports Arabic and English languages
-
-🔥 Priority Notes Page: you can find your important notes quickly
-
-Future Features:
-🔍 Quick Search: Locate specific notes or folders in an instant with our efficient search feature. No more sifting through endless pages – find what you need effortlessly.
-
-
-Your feedback and contributions are invaluable in shaping the future of the app.
-
-🔓 Open Source and Ad-Free:
-
-We believe in transparency and providing a seamless user experience. That's why NAF is proudly open source and completely ad-free. No distractions, no invasive ads – just a clean and distraction-free environment to enhance your productivity.
-
-
-Whether you're a student, professional, creative thinker, or simply someone who loves to jot down ideas on the go, NAF is designed to meet your needs. Experience the freedom of organized note-taking without the clutter. Download NAF today and join us in revolutionizing the way you capture and manage your notes.''',
     "permanentDelete": "Permanently delete",
     'priorityNotes': "Priority Notes",
     'priority': "Priority",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_files/functions/boolFn.dart';
 import 'package:note_files/models/styles.dart';
 import 'package:note_files/requiredData.dart';
 import 'package:provider/provider.dart';
@@ -35,10 +36,14 @@ class _PriorityMenuState extends State<PriorityMenu> {
 
     return PopupMenuButton(
       elevation: 0,
+      color: isDarkMode(context) ? Color(0xff2d2d2d) : Colors.grey.shade300,
       shape: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(25),
           borderSide: BorderSide(
-            width: 0,
+            color: isDarkMode(context)
+                ? Color.fromARGB(255, 50, 50, 50)
+                : Colors.white,
+            width: 3,
           )),
       child: Text(
         "${locale[TranslationsKeys.priority]!}: ${getPriority}",

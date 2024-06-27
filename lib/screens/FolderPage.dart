@@ -9,14 +9,13 @@ import 'package:note_files/screens/randomNotes.dart';
 import 'package:note_files/screens/settings.dart';
 import 'package:provider/provider.dart';
 
-import './homePageBody.dart';
 import '../collection/isarCURD.dart';
 import '../functions/isRtlTextDirection.dart';
 import '../models/MyWarningDialog.dart';
 import '../models/drawerItem.dart';
 import '../models/isRtlBackIcon.dart';
-import '../screens/AboutPage.dart';
 import '../translations/translations.dart';
+import './homePageBody.dart';
 
 class FolderPage extends StatelessWidget {
   final Map<String, String> locale = requiredData.locale;
@@ -192,12 +191,7 @@ class FolderPage extends StatelessWidget {
                             textDirection: isRtlTextDirection(isRtl),
                             child: RandomNotes()),
                         text: locale[TranslationsKeys.randomNotes]!),
-                    DrawerItem(
-                        page: Directionality(
-                          textDirection: isRtlTextDirection(isRtl),
-                          child: AboutPage(),
-                        ),
-                        text: locale[TranslationsKeys.about]!),
+
                     /*DrawerItem(
                         page: ChangeNotifierProvider(
                           create: (context) => SearchProvider(),
@@ -237,7 +231,7 @@ TODO in the next version add the widget
 
 TODO using flutter quill
 TODO adding animations
-TODO use lelezar in the images in google play
+
 
 
 

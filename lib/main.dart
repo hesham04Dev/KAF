@@ -56,8 +56,7 @@ class MyApp extends StatelessWidget {
     } else {
       requiredData.set_isRtl = false;
     }
-    String chosenFont = requiredData.isAmiri ? "Amiri" : "Noto";
-    print(chosenFont);
+    String chosenFont = requiredData.isAmiri ? "Amiri" : "Jozoor";
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
       if (isDarkMode(context)) {
         requiredData.primaryColor =
@@ -73,7 +72,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
             iconButtonTheme: IconButtonThemeData(
                 style: ButtonStyle(
-                    iconColor: MaterialStatePropertyAll(
+                    iconColor: WidgetStatePropertyAll(
               lightColorScheme?.onPrimary ?? _defaultLightColorScheme.onPrimary,
             ))),
             dialogBackgroundColor: Colors.white,
@@ -81,7 +80,7 @@ class MyApp extends StatelessWidget {
             dividerTheme: const DividerThemeData(color: Colors.black),
             textButtonTheme: TextButtonThemeData(
                 style: ButtonStyle(
-                    textStyle: MaterialStatePropertyAll(TextStyle(
+                    textStyle: WidgetStatePropertyAll(TextStyle(
                         color: Colors.black,
                         fontFamily: chosenFont,
                         fontSize: 19)))),
@@ -112,7 +111,7 @@ class MyApp extends StatelessWidget {
         darkTheme: ThemeData(
           iconButtonTheme: IconButtonThemeData(
               style: ButtonStyle(
-                  iconColor: MaterialStatePropertyAll(
+                  iconColor: WidgetStatePropertyAll(
             darkColorScheme?.onPrimary ?? _defaultDarkColorScheme.onPrimary,
           ))),
           inputDecorationTheme: const InputDecorationTheme(
@@ -120,7 +119,7 @@ class MyApp extends StatelessWidget {
               hintStyle: TextStyle(color: Colors.white70)),
           textButtonTheme: TextButtonThemeData(
               style: ButtonStyle(
-                  textStyle: MaterialStatePropertyAll(TextStyle(
+                  textStyle: WidgetStatePropertyAll(TextStyle(
                       color: darkColorScheme?.primary ??
                           _defaultDarkColorScheme.primary,
                       fontFamily: chosenFont,

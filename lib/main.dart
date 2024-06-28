@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:keep_screen_on/keep_screen_on.dart';
 import 'package:note_files/homePageData.dart';
 import 'package:note_files/provider/ListViewProvider.dart';
 import 'package:note_files/provider/PriorityProvider.dart';
@@ -23,7 +24,7 @@ void main() async {
   await requiredData.getDefaultFont();
   homePageFolders = await requiredData.db.getFolders(null);
   homePageNotes = await requiredData.db.getNotes(null);
-
+  KeepScreenOn.turnOn();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => ListViewProvider()),

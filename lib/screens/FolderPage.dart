@@ -32,7 +32,7 @@ class FolderPage extends StatelessWidget {
     final String title =
         folderId == null ? locale[TranslationsKeys.title]! : folderName!;
 
-    Future<bool> onWillPop() async {
+    Future<bool> onPop() async {
       if (folderId != null) {
         await context
             .read<ListViewProvider>()
@@ -56,8 +56,14 @@ class FolderPage extends StatelessWidget {
       return false;
     }
 
-    return WillPopScope(
-      onWillPop: onWillPop,
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop) {
+          return;
+        }
+        onPop;
+      },
       child: Directionality(
         textDirection: isRtlTextDirection(requiredData.isRtl!),
         child: Scaffold(

@@ -26,7 +26,6 @@ class RequiredData {
   get isAmiri => _isAmiri;
   set set_isAmiri(bool value) {
     _isAmiri = value;
-    /*TODO store it in the db*/
   }
 
   set set_isRtl(bool value) {

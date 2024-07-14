@@ -110,6 +110,7 @@ class MyApp extends StatelessWidget {
               backgroundColor: Colors.white,
             )),
         darkTheme: ThemeData(
+          dialogBackgroundColor: Color(0xff404040),
           iconButtonTheme: IconButtonThemeData(
               style: ButtonStyle(
                   iconColor: WidgetStatePropertyAll(

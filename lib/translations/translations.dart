@@ -108,11 +108,13 @@ abstract class TranslationsKeys {
   static const restoreOldDbMsg = 'restoreOldDbMsg';
   static const enterFolderName = 'enterFolderName';
   static const saveDataLocally = 'saveDataLocally';
+  static const save = 'save';
 }
 
 class Translations {
   static const List<String> supportedLocales = ["ar", "en"];
   static const Map<String, String> ar = {
+    "save": "حفظ",
     "title": "كاف",
     "settings": "الإعدادات",
     "backup": "النسخ الاحتياطي",
@@ -150,6 +152,7 @@ class Translations {
         "لا توجد أي ملاحظات في الوقت الحالي. لماذا لا تبدأ رحلتك بملاحظة جديدة؟"
   };
   static const Map<String, String> en = {
+    "save": "Save",
     "title": "KAF",
     "settings": "Settings",
     "backup": "Backup",

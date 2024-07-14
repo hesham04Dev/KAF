@@ -62,7 +62,7 @@ class FolderPage extends StatelessWidget {
         if (didPop) {
           return;
         }
-        onPop;
+        onPop();
       },
       child: Directionality(
         textDirection: isRtlTextDirection(requiredData.isRtl!),
@@ -220,19 +220,10 @@ class FolderPage extends StatelessWidget {
 //}
 /*
 
-TODO adding tasks
-  [] change the floating action button
-  [] adding the navigation bar
-  the shape is new task   new note  new folder
-  [] the task shown before the notes
-  [] the task shape is title description and new sub task
-  [] the sub task is shown until done in home page
-  [] when the task completes the all subtasks will disappear and its
-    value becomes complete => this version name is 1.2
+
 
 
 TODO in the next version add search for the notes
-TODO in the next version add the backup of the notes
 TODO in the next version add the widget
 
 TODO using flutter quill

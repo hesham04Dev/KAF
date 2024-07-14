@@ -122,7 +122,10 @@ class EditNote extends StatelessWidget {
               },
               translationsWarningButton: locale[TranslationsKeys.discard]!,
               translationsTitle: locale[TranslationsKeys.discardYourNote]!,
-              translationsCancelButton: locale[TranslationsKeys.cancel]!,
+              translationsCancelButton: locale[TranslationsKeys.save]!,
+              onCanselPressed: () {
+                save();
+              },
             );
           },
         );

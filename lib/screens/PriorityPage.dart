@@ -55,12 +55,10 @@ class _priorityScreenState extends State<priorityScreen> {
                       "${locale[TranslationsKeys.priority]} ${index + 1}")),
             ),
           ),
-        ), /*TODO move it to models and use it in edit note page*/
+        ),
       ),
       body: FutureBuilder(
-        future: context
-            .read<PriorityProvider>()
-            .getNotesByPriority(priority), //_getPriorityData(),
+        future: context.read<PriorityProvider>().getNotesByPriority(priority),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasData) {
             _listNotes = context.watch<PriorityProvider>().listNotes;
@@ -70,24 +68,18 @@ class _priorityScreenState extends State<priorityScreen> {
                 itemBuilder: (context, index) => NoteButton(
                     isPriorityPageOpened: true,
                     priority: priority,
-                    contentDirection: isRtlTextDirection(_listNotes[index]
-                        .isContentRtl! /*snapshot.data[index].isContentRtl ?? isRtl*/),
+                    contentDirection:
+                        isRtlTextDirection(_listNotes[index].isContentRtl!),
                     titleDirection: isRtlTextDirection(
-                        /*_listNotes[index].isTitleRtl*/ snapshot
-                                .data[index].isTitleRtl ??
-                            isRtl),
-                    parentFolderId: /*_listNotes[index].parentFolderId*/
-                        snapshot.data[index].parentFolderId,
-                    noteContent: _listNotes[index]
-                        .content! /*snapshot.data[index].content*/,
-                    noteId: /*_listNotes[index].id*/
-                        snapshot.data[index].id,
-                    noteTitle: _listNotes[index]
-                        .title! /*snapshot.data[index].title,*/,
+                        snapshot.data[index].isTitleRtl ?? isRtl),
+                    parentFolderId: snapshot.data[index].parentFolderId,
+                    noteContent: _listNotes[index].content!,
+                    noteId: snapshot.data[index].id,
+                    noteTitle: _listNotes[index].title!,
                     noteTime: formatDate(
                         /*_listNotes[index].date!*/ snapshot.data[index].date,
                         [yy, "/", mm, "/", dd, "   ", hh, ":", nn])),
-                itemCount: /*_listNotes.length*/ snapshot.data.length,
+                itemCount: snapshot.data.length,
               ),
             );
           } else {

@@ -11,6 +11,6 @@ class Note {
   late String? content;
   late bool? isContentRtl;
   late int? parentFolderId;
-  @Index()
+  late bool? isDone; //  null is not a task 0 is not done 1 is done
   late int? priority;
 }

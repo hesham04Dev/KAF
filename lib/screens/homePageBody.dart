@@ -44,9 +44,13 @@ class ListViewBody extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            ...List<Widget>.generate(
-              oldListFolders.length,
-              (index) => FolderButton(
+            ...List<Widget>.generate(oldListFolders.length, (i) {
+              var index = oldListFolders.length - i -1;
+              // int reverseIndex({required int listLength, required int index}) {
+              //   return listLength - index - 1;
+              // }
+
+              return FolderButton(
                   parentFolderId: oldListFolders[index].parent,
                   id: oldListFolders[index].id,
                   folderName: oldListFolders[index].name as String,
@@ -70,24 +74,27 @@ class ListViewBody extends StatelessWidget {
                         ),
                       ],
                     ),
-                  )),
-            ),
+                  ));
+            }),
             ...List<Widget>.generate(
               oldListNotes.length,
-              (index) => NoteButton(
-                  priority: oldListNotes[index].priority,
-                  contentDirection: oldListNotes[index].isContentRtl ?? isRtl
-                      ? TextDirection.rtl
-                      : TextDirection.ltr,
-                  titleDirection: oldListNotes[index].isTitleRtl ?? isRtl
-                      ? TextDirection.rtl
-                      : TextDirection.ltr,
-                  parentFolderId: oldListNotes[index].parentFolderId,
-                  noteContent: oldListNotes[index].content!,
-                  noteId: oldListNotes[index].id,
-                  noteTitle: oldListNotes[index].title!,
-                  noteTime: formatDate(oldListNotes[index].date!,
-                      [yy, "/", mm, "/", dd, "   ", hh, ":", nn])),
+              (i) {
+                var index = oldListNotes.length - 1 - i;
+                return NoteButton(
+                    priority: oldListNotes[index].priority,
+                    contentDirection: oldListNotes[index].isContentRtl ?? isRtl
+                        ? TextDirection.rtl
+                        : TextDirection.ltr,
+                    titleDirection: oldListNotes[index].isTitleRtl ?? isRtl
+                        ? TextDirection.rtl
+                        : TextDirection.ltr,
+                    parentFolderId: oldListNotes[index].parentFolderId,
+                    noteContent: oldListNotes[index].content!,
+                    noteId: oldListNotes[index].id,
+                    noteTitle: oldListNotes[index].title!,
+                    noteTime: formatDate(oldListNotes[index].date!,
+                        [yy, "/", mm, "/", dd, "   ", hh, ":", nn]));
+              },
             )
           ],
         ),

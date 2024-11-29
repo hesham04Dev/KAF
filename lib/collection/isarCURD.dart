@@ -161,7 +161,7 @@ class IsarService {
       return await Isar.open(
         [FolderSchema, NoteSchema],
         directory: dir.path,
-        inspector: false,
+        inspector: true,
       );
     } else
       print("instance is not empty");

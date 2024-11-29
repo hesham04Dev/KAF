@@ -65,7 +65,9 @@ class _priorityScreenState extends State<priorityScreen> {
             return Padding(
               padding: const EdgeInsets.all(15.0),
               child: ListView.builder(
-                itemBuilder: (context, index) => NoteButton(
+                itemBuilder: (context, i) { 
+                  int index = snapshot.data.length -1 - i;
+                  return NoteButton(
                     isPriorityPageOpened: true,
                     priority: priority,
                     contentDirection:
@@ -78,7 +80,7 @@ class _priorityScreenState extends State<priorityScreen> {
                     noteTitle: _listNotes[index].title!,
                     noteTime: formatDate(
                         /*_listNotes[index].date!*/ snapshot.data[index].date,
-                        [yy, "/", mm, "/", dd, "   ", hh, ":", nn])),
+                        [yy, "/", mm, "/", dd, "   ", hh, ":", nn]));},
                 itemCount: snapshot.data.length,
               ),
             );

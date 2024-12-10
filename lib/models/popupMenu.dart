@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../provider/searchProvider.dart';
 
+// ignore: must_be_immutable
 class MyPopUpMenu extends StatefulWidget {
   String initialText;
   final List<String> popList;
@@ -40,6 +41,6 @@ class _MyPopUpMenuState extends State<MyPopUpMenu> {
         ),
       ),
     );
-    ;
+    
   }
 }

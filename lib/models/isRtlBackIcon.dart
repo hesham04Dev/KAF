@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class IsRtlBackIcon extends StatelessWidget {
   bool isRtl;
   IsRtlBackIcon({super.key, this.isRtl = false});

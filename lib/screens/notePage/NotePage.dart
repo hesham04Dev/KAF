@@ -9,7 +9,7 @@ import '../../collection/isarCURD.dart';
 import '../../models/FadeRoute.dart';
 import '../../models/MyWarningDialog.dart';
 import '../../models/styles.dart';
-import '../../prioityColors.dart';
+import '../../priorityColors.dart';
 import '../../provider/ListViewProvider.dart';
 import '../../provider/PriorityProvider.dart';
 import '../../translations/translations.dart';

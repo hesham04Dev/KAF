@@ -4,9 +4,8 @@ import 'package:note_files/collection/Note.dart';
 import 'package:note_files/functions/boolFn.dart';
 import 'package:note_files/requiredData.dart';
 
-import '../collection/isarCURD.dart';
 import '../models/FolderOrNoteButton.dart';
-import '../prioityColors.dart';
+import '../priorityColors.dart';
 import '../screens/notePage/NotePage.dart';
 import 'FadeRoute.dart';
 import 'MultiLineText.dart';
@@ -36,7 +35,7 @@ class NoteButton extends StatelessWidget {
     final String noteTime = formatDate(note.date!, [yy, "/", mm, "/", dd, "   ", hh, ":", nn]);
     final String noteContent = note.content??"";
     final int noteId = note.id;
-    final IsarService db = requiredData.db;
+    // final IsarService db = requiredData.db;
     final TextDirection titleDirection = note.isTitleRtl??false ? TextDirection.rtl :TextDirection.ltr;
     final TextDirection contentDirection = note.isContentRtl??false ? TextDirection.rtl :TextDirection.ltr;
     final int? parentFolderId = note.parentFolderId;

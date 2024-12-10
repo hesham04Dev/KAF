@@ -16,6 +16,7 @@ import '../models/priorityMenu.dart';
 import '../provider/PriorityProvider.dart';
 import '../translations/translations.dart';
 
+// ignore: must_be_immutable
 class EditNote extends StatelessWidget {
   final int? parentFolderId;
 

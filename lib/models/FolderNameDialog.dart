@@ -6,6 +6,7 @@ import '../functions/isRtlTextDirection.dart';
 import '../translations/translations.dart';
 import 'MultiLineText.dart';
 
+// ignore: must_be_immutable
 class FolderNameDialog extends StatelessWidget {
   final Map<String, String> locale;
   final Function onSubmit;
@@ -102,8 +103,4 @@ class FolderNameDialog extends StatelessWidget {
     );
   }
 
-  @override
-  void dispose() {
-    folderNameController.dispose;
-  }
 }

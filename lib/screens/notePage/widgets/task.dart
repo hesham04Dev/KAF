@@ -79,7 +79,7 @@ class _TaskState extends State<Task> {
 
   @override
   Widget build(BuildContext context) {
-     final Map<String, String> locale = requiredData.locale;
+    //  final Map<String, String> locale = requiredData.locale;
     return FutureBuilder<Note?>(
       future: noteFuture,
       builder: (context, snapshot) {

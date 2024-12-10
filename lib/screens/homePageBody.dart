@@ -1,4 +1,3 @@
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:note_files/homePageData.dart';
 import 'package:note_files/provider/ListViewProvider.dart';
@@ -81,19 +80,23 @@ class ListViewBody extends StatelessWidget {
               (i) {
                 var index = oldListNotes.length - 1 - i;
                 return NoteButton(
-                    priority: oldListNotes[index].priority,
-                    contentDirection: oldListNotes[index].isContentRtl ?? isRtl
-                        ? TextDirection.rtl
-                        : TextDirection.ltr,
-                    titleDirection: oldListNotes[index].isTitleRtl ?? isRtl
-                        ? TextDirection.rtl
-                        : TextDirection.ltr,
-                    parentFolderId: oldListNotes[index].parentFolderId,
-                    noteContent: oldListNotes[index].content!,
-                    noteId: oldListNotes[index].id,
-                    noteTitle: oldListNotes[index].title!,
-                    noteTime: formatDate(oldListNotes[index].date!,
-                        [yy, "/", mm, "/", dd, "   ", hh, ":", nn]));
+                    note: oldListNotes[index],
+                    
+                    // priority: oldListNotes[index].priority,
+                    // contentDirection: oldListNotes[index].isContentRtl ?? isRtl
+                    //     ? TextDirection.rtl
+                    //     : TextDirection.ltr,
+                    // titleDirection: oldListNotes[index].isTitleRtl ?? isRtl
+                    //     ? TextDirection.rtl
+                    //     : TextDirection.ltr,
+                    // parentFolderId: oldListNotes[index].parentFolderId,
+                    // noteContent: oldListNotes[index].content!,
+                    // noteId: oldListNotes[index].id,
+                    // noteTitle: oldListNotes[index].title!,
+                    // noteTime: formatDate(oldListNotes[index].date!,
+                    //     [yy, "/", mm, "/", dd, "   ", hh, ":", nn])
+                        
+                        );
               },
             )
           ],

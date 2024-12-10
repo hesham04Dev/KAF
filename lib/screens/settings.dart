@@ -182,7 +182,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                           await Permission.storage.request();
                                       if (allowStorage.isGranted) {
                                         requiredData.db.copyDbToSupportDir(
-                                            result.files.single.path);
+                                            result.files.single.path!);
 
                                         showDialog(
                                             context: context,
@@ -191,7 +191,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                       }
                                     } else {
                                       requiredData.db.copyDbToSupportDir(
-                                          result.files.single.path);
+                                          result.files.single.path!);
 
                                       showDialog(
                                         context: context,
@@ -201,7 +201,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     }
                                   } else {
                                     requiredData.db.copyDbToSupportDir(
-                                        result.files.single.path);
+                                        result.files.single.path!);
 
                                     showDialog(
                                       context: context,

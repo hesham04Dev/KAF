@@ -24,7 +24,12 @@ void main() async {
   await requiredData.getDefaultFont();
   homePageFolders = await requiredData.db.getFolders(null);
   homePageNotes = await requiredData.db.getNotes(null);
-  KeepScreenOn.turnOn();
+  try{
+    if(!Platform.isWindows)
+  KeepScreenOn.turnOn();}
+  catch(e){
+
+  }
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => ListViewProvider()),
@@ -67,10 +72,11 @@ class MyApp extends StatelessWidget {
             lightColorScheme?.primary ?? _defaultLightColorScheme.primary;
       }
       return MaterialApp(
-        //themeMode: ThemeMode.dark,
+        // themeMode: ThemeMode.light,
         debugShowCheckedModeBanner: false,
         debugShowMaterialGrid: false,
         theme: ThemeData(
+          
             iconButtonTheme: IconButtonThemeData(
                 style: ButtonStyle(
                     iconColor: WidgetStatePropertyAll(
@@ -79,6 +85,7 @@ class MyApp extends StatelessWidget {
             dialogBackgroundColor: Colors.white,
             scaffoldBackgroundColor: Colors.white,
             dividerTheme: const DividerThemeData(color: Colors.black),
+            
             textButtonTheme: TextButtonThemeData(
                 style: ButtonStyle(
                     textStyle: WidgetStatePropertyAll(TextStyle(
@@ -88,8 +95,9 @@ class MyApp extends StatelessWidget {
             floatingActionButtonTheme:
                 const FloatingActionButtonThemeData(shape: CircleBorder()),
             iconTheme: IconThemeData(
-              color:
-                  lightColorScheme?.primary ?? _defaultLightColorScheme.primary,
+              // color:
+              //     lightColorScheme?.primary ?? _defaultLightColorScheme.primary,
+              color: Colors.red
             ),
             colorScheme: lightColorScheme ?? _defaultLightColorScheme,
             useMaterial3: true,
@@ -111,6 +119,7 @@ class MyApp extends StatelessWidget {
             )),
         darkTheme: ThemeData(
           dialogBackgroundColor: Color(0xff404040),
+          
           iconButtonTheme: IconButtonThemeData(
               style: ButtonStyle(
                   iconColor: WidgetStatePropertyAll(
@@ -130,7 +139,7 @@ class MyApp extends StatelessWidget {
           floatingActionButtonTheme:
               const FloatingActionButtonThemeData(shape: CircleBorder()),
           iconTheme: IconThemeData(
-            color: darkColorScheme?.primary ?? _defaultDarkColorScheme.primary,
+            color: Colors.red
           ),
           colorScheme: darkColorScheme ?? _defaultDarkColorScheme,
           useMaterial3: true,

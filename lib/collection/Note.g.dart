@@ -32,23 +32,28 @@ const NoteSchema = CollectionSchema(
       name: r'isContentRtl',
       type: IsarType.bool,
     ),
-    r'isTitleRtl': PropertySchema(
+    r'isDone': PropertySchema(
       id: 3,
+      name: r'isDone',
+      type: IsarType.bool,
+    ),
+    r'isTitleRtl': PropertySchema(
+      id: 4,
       name: r'isTitleRtl',
       type: IsarType.bool,
     ),
     r'parentFolderId': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'parentFolderId',
       type: IsarType.long,
     ),
     r'priority': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'priority',
       type: IsarType.long,
     ),
     r'title': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'title',
       type: IsarType.string,
     )
@@ -58,21 +63,7 @@ const NoteSchema = CollectionSchema(
   deserialize: _noteDeserialize,
   deserializeProp: _noteDeserializeProp,
   idName: r'id',
-  indexes: {
-    r'priority': IndexSchema(
-      id: -6477851841645083544,
-      name: r'priority',
-      unique: false,
-      replace: false,
-      properties: [
-        IndexPropertySchema(
-          name: r'priority',
-          type: IndexType.value,
-          caseSensitive: false,
-        )
-      ],
-    )
-  },
+  indexes: {},
   links: {},
   embeddedSchemas: {},
   getId: _noteGetId,
@@ -111,10 +102,11 @@ void _noteSerialize(
   writer.writeString(offsets[0], object.content);
   writer.writeDateTime(offsets[1], object.date);
   writer.writeBool(offsets[2], object.isContentRtl);
-  writer.writeBool(offsets[3], object.isTitleRtl);
-  writer.writeLong(offsets[4], object.parentFolderId);
-  writer.writeLong(offsets[5], object.priority);
-  writer.writeString(offsets[6], object.title);
+  writer.writeBool(offsets[3], object.isDone);
+  writer.writeBool(offsets[4], object.isTitleRtl);
+  writer.writeLong(offsets[5], object.parentFolderId);
+  writer.writeLong(offsets[6], object.priority);
+  writer.writeString(offsets[7], object.title);
 }
 
 Note _noteDeserialize(
@@ -128,10 +120,11 @@ Note _noteDeserialize(
   object.date = reader.readDateTimeOrNull(offsets[1]);
   object.id = id;
   object.isContentRtl = reader.readBoolOrNull(offsets[2]);
-  object.isTitleRtl = reader.readBoolOrNull(offsets[3]);
-  object.parentFolderId = reader.readLongOrNull(offsets[4]);
-  object.priority = reader.readLongOrNull(offsets[5]);
-  object.title = reader.readStringOrNull(offsets[6]);
+  object.isDone = reader.readBoolOrNull(offsets[3]);
+  object.isTitleRtl = reader.readBoolOrNull(offsets[4]);
+  object.parentFolderId = reader.readLongOrNull(offsets[5]);
+  object.priority = reader.readLongOrNull(offsets[6]);
+  object.title = reader.readStringOrNull(offsets[7]);
   return object;
 }
 
@@ -151,10 +144,12 @@ P _noteDeserializeProp<P>(
     case 3:
       return (reader.readBoolOrNull(offset)) as P;
     case 4:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 5:
       return (reader.readLongOrNull(offset)) as P;
     case 6:
+      return (reader.readLongOrNull(offset)) as P;
+    case 7:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -177,14 +172,6 @@ extension NoteQueryWhereSort on QueryBuilder<Note, Note, QWhere> {
   QueryBuilder<Note, Note, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
-    });
-  }
-
-  QueryBuilder<Note, Note, QAfterWhere> anyPriority() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        const IndexWhereClause.any(indexName: r'priority'),
-      );
     });
   }
 }
@@ -250,115 +237,6 @@ extension NoteQueryWhere on QueryBuilder<Note, Note, QWhereClause> {
         lower: lowerId,
         includeLower: includeLower,
         upper: upperId,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<Note, Note, QAfterWhereClause> priorityIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'priority',
-        value: [null],
-      ));
-    });
-  }
-
-  QueryBuilder<Note, Note, QAfterWhereClause> priorityIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'priority',
-        lower: [null],
-        includeLower: false,
-        upper: [],
-      ));
-    });
-  }
-
-  QueryBuilder<Note, Note, QAfterWhereClause> priorityEqualTo(int? priority) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'priority',
-        value: [priority],
-      ));
-    });
-  }
-
-  QueryBuilder<Note, Note, QAfterWhereClause> priorityNotEqualTo(
-      int? priority) {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'priority',
-              lower: [],
-              upper: [priority],
-              includeUpper: false,
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'priority',
-              lower: [priority],
-              includeLower: false,
-              upper: [],
-            ));
-      } else {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'priority',
-              lower: [priority],
-              includeLower: false,
-              upper: [],
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'priority',
-              lower: [],
-              upper: [priority],
-              includeUpper: false,
-            ));
-      }
-    });
-  }
-
-  QueryBuilder<Note, Note, QAfterWhereClause> priorityGreaterThan(
-    int? priority, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'priority',
-        lower: [priority],
-        includeLower: include,
-        upper: [],
-      ));
-    });
-  }
-
-  QueryBuilder<Note, Note, QAfterWhereClause> priorityLessThan(
-    int? priority, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'priority',
-        lower: [],
-        upper: [priority],
-        includeUpper: include,
-      ));
-    });
-  }
-
-  QueryBuilder<Note, Note, QAfterWhereClause> priorityBetween(
-    int? lowerPriority,
-    int? upperPriority, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'priority',
-        lower: [lowerPriority],
-        includeLower: includeLower,
-        upper: [upperPriority],
         includeUpper: includeUpper,
       ));
     });
@@ -651,6 +529,31 @@ extension NoteQueryFilter on QueryBuilder<Note, Note, QFilterCondition> {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'isContentRtl',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> isDoneIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'isDone',
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> isDoneIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'isDone',
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> isDoneEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isDone',
         value: value,
       ));
     });
@@ -1005,6 +908,18 @@ extension NoteQuerySortBy on QueryBuilder<Note, Note, QSortBy> {
     });
   }
 
+  QueryBuilder<Note, Note, QAfterSortBy> sortByIsDone() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDone', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterSortBy> sortByIsDoneDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDone', Sort.desc);
+    });
+  }
+
   QueryBuilder<Note, Note, QAfterSortBy> sortByIsTitleRtl() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isTitleRtl', Sort.asc);
@@ -1103,6 +1018,18 @@ extension NoteQuerySortThenBy on QueryBuilder<Note, Note, QSortThenBy> {
     });
   }
 
+  QueryBuilder<Note, Note, QAfterSortBy> thenByIsDone() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDone', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterSortBy> thenByIsDoneDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDone', Sort.desc);
+    });
+  }
+
   QueryBuilder<Note, Note, QAfterSortBy> thenByIsTitleRtl() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isTitleRtl', Sort.asc);
@@ -1172,6 +1099,12 @@ extension NoteQueryWhereDistinct on QueryBuilder<Note, Note, QDistinct> {
     });
   }
 
+  QueryBuilder<Note, Note, QDistinct> distinctByIsDone() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isDone');
+    });
+  }
+
   QueryBuilder<Note, Note, QDistinct> distinctByIsTitleRtl() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isTitleRtl');
@@ -1220,6 +1153,12 @@ extension NoteQueryProperty on QueryBuilder<Note, Note, QQueryProperty> {
   QueryBuilder<Note, bool?, QQueryOperations> isContentRtlProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isContentRtl');
+    });
+  }
+
+  QueryBuilder<Note, bool?, QQueryOperations> isDoneProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isDone');
     });
   }
 

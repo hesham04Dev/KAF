@@ -6,7 +6,7 @@ class MyWarningDialog extends StatelessWidget {
   final String translationsTitle;
   final String translationsWarningButton;
   final Function onWarningPressed;
-  final Function? onCanselPressed;
+  final Function? onCancelPressed;
   final String translationsCancelButton;
   const MyWarningDialog(
       {super.key,
@@ -14,7 +14,7 @@ class MyWarningDialog extends StatelessWidget {
       required this.onWarningPressed,
       required this.translationsTitle,
       required this.translationsCancelButton,
-      this.onCanselPressed});
+      this.onCancelPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +49,8 @@ class MyWarningDialog extends StatelessWidget {
                       )),
                   TextButton(
                       onPressed: () {
-                        if (onCanselPressed != null) {
-                          onCanselPressed!();
+                        if (onCancelPressed != null) {
+                          onCancelPressed!();
                         }
                         Navigator.pop(context);
                       },

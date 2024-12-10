@@ -109,11 +109,13 @@ abstract class TranslationsKeys {
   static const enterFolderName = 'enterFolderName';
   static const saveDataLocally = 'saveDataLocally';
   static const save = 'save';
+  static const task = 'task';
 }
 
 class Translations {
   static const List<String> supportedLocales = ["ar", "en"];
   static const Map<String, String> ar = {
+    "task": "مهمة",
     "save": "حفظ",
     "title": "كاف",
     "settings": "الإعدادات",
@@ -152,6 +154,7 @@ class Translations {
         "لا توجد أي ملاحظات في الوقت الحالي. لماذا لا تبدأ رحلتك بملاحظة جديدة؟"
   };
   static const Map<String, String> en = {
+    "task":"Task",
     "save": "Save",
     "title": "KAF",
     "settings": "Settings",

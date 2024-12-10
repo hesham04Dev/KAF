@@ -43,6 +43,7 @@ dependencies:
   shared_preferences: ^2.3.2
   keep_screen_on: ^3.0.0
   localization_lite: ^1.0.11
+  asset_icon: ^1.0.4
 
   #flutter_exit_app: ^1.1.2 debrecated
 

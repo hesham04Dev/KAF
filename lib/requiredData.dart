@@ -34,7 +34,7 @@ class RequiredData {
 
   get isRtl => _isRtl;
 
-  get db => _db;
+  IsarService get db => _db;
 /*
   get priority => _priority;
   set set_priority (int value) => _priority = value;*/

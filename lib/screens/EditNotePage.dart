@@ -64,6 +64,7 @@ class EditNote extends StatelessWidget {
             ..date = DateTime.now()
             ..priority = get_priority
             ..content = noteTextController.text
+            ..isDone = null //TODO
             ..isContentRtl = isRTL(
                 noteTextController.text.isEmpty
                     ? ""
@@ -123,7 +124,7 @@ class EditNote extends StatelessWidget {
               translationsWarningButton: locale[TranslationsKeys.discard]!,
               translationsTitle: locale[TranslationsKeys.discardYourNote]!,
               translationsCancelButton: locale[TranslationsKeys.save]!,
-              onCanselPressed: () {
+              onCancelPressed: () {
                 save();
               },
             );
@@ -136,7 +137,7 @@ class EditNote extends StatelessWidget {
     print("get_Priority = $get_priority");
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop,result) {
         if (didPop) {
           return;
         }

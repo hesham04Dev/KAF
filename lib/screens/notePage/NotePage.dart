@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:isar/isar.dart';
 import 'package:note_files/requiredData.dart';
+import 'package:note_files/screens/notePage/widgets/task.dart';
 import 'package:provider/provider.dart';
 
-import '../collection/isarCURD.dart';
-import '../models/FadeRoute.dart';
-import '../models/MyWarningDialog.dart';
-import '../models/styles.dart';
-import '../prioityColors.dart';
-import '../provider/ListViewProvider.dart';
-import '../provider/PriorityProvider.dart';
-import '../translations/translations.dart';
-import 'EditNotePage.dart';
+import '../../collection/isarCURD.dart';
+import '../../models/FadeRoute.dart';
+import '../../models/MyWarningDialog.dart';
+import '../../models/styles.dart';
+import '../../prioityColors.dart';
+import '../../provider/ListViewProvider.dart';
+import '../../provider/PriorityProvider.dart';
+import '../../translations/translations.dart';
+import '../EditNotePage.dart';
 
 class NotePage extends StatefulWidget {
   final String date;
@@ -80,10 +81,11 @@ class _NotePageState extends State<NotePage> {
                   fontSize += 0.1;
                   setState(() {});
                 },
-                icon: const Icon(Icons.add_rounded)),
+                icon: const Icon(Icons.add_rounded,)),
           ],
         ),
         actions: [
+          Task(noteId: widget.id,),
           IconButton(
               onPressed: () {
                 Clipboard.setData(

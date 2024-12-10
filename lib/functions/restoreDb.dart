@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:note_files/requiredData.dart';
 import 'package:path_provider/path_provider.dart';
 
 final _supportDir = getApplicationSupportDirectory();

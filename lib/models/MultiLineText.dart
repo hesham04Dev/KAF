@@ -6,6 +6,7 @@ class MultiLineText extends StatelessWidget {
   final int? maxLines;
   final bool bold;
   final double? fontSize;
+  final TextStyle? style;
   final TextDirection textDirection;
 
   const MultiLineText(
@@ -14,13 +15,14 @@ class MultiLineText extends StatelessWidget {
       this.maxLines = 1,
       required this.text,
       this.bold = false,
+      this.style,
       this.fontSize,
       this.textDirection = TextDirection.ltr});
 
   @override
   Widget build(BuildContext context) {
     bool unlimited = maxLines == 0 ? true : false;
-
+    var textStyle  = style??TextStyle();
     return Row(children: [
       SizedBox(
           width: MediaQuery.sizeOf(context).width - margin,
@@ -29,8 +31,8 @@ class MultiLineText extends StatelessWidget {
             textDirection: textDirection,
             overflow: TextOverflow.ellipsis,
             maxLines: unlimited ? null : maxLines,
-            style: TextStyle(
-                fontWeight: bold ? FontWeight.w600 : null, fontSize: fontSize),
+            style: textStyle.copyWith(
+                fontWeight: bold ? FontWeight.w600 : null, fontSize: fontSize, )
           ))
     ]);
   }

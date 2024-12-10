@@ -109,6 +109,7 @@ class IsarService {
     oldNote!.title = updatedNote.title;
     oldNote.content = updatedNote.content;
     oldNote.priority = updatedNote.priority;
+    oldNote.isDone = updatedNote.isDone;
     isar.writeTxn(() => isar.notes.put(oldNote));
   }
 

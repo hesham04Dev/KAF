@@ -1,11 +1,9 @@
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:note_files/models/NoteButton.dart';
 import 'package:note_files/requiredData.dart';
 import 'package:provider/provider.dart';
 
 import '../collection/Note.dart';
-import '../functions/isRtlTextDirection.dart';
 import '../provider/PriorityProvider.dart';
 import '../translations/translations.dart';
 
@@ -68,19 +66,22 @@ class _priorityScreenState extends State<priorityScreen> {
                 itemBuilder: (context, i) { 
                   int index = snapshot.data.length -1 - i;
                   return NoteButton(
+
                     isPriorityPageOpened: true,
-                    priority: priority,
-                    contentDirection:
-                        isRtlTextDirection(_listNotes[index].isContentRtl!),
-                    titleDirection: isRtlTextDirection(
-                        snapshot.data[index].isTitleRtl ?? isRtl),
-                    parentFolderId: snapshot.data[index].parentFolderId,
-                    noteContent: _listNotes[index].content!,
-                    noteId: snapshot.data[index].id,
-                    noteTitle: _listNotes[index].title!,
-                    noteTime: formatDate(
-                        /*_listNotes[index].date!*/ snapshot.data[index].date,
-                        [yy, "/", mm, "/", dd, "   ", hh, ":", nn]));},
+                    // priority: priority,
+                    // contentDirection:
+                    //     isRtlTextDirection(_listNotes[index].isContentRtl!),
+                    // titleDirection: isRtlTextDirection(
+                    //     snapshot.data[index].isTitleRtl ?? isRtl),
+                    // parentFolderId: snapshot.data[index].parentFolderId,
+                    // noteContent: _listNotes[index].content!,
+                    // noteId: snapshot.data[index].id,
+                    // noteTitle: _listNotes[index].title!,
+                    // noteTime: formatDate(
+                    //     /*_listNotes[index].date!*/ snapshot.data[index].date,
+                    //     [yy, "/", mm, "/", dd, "   ", hh, ":", nn])
+                    note: _listNotes[index],
+                        );},
                 itemCount: snapshot.data.length,
               ),
             );

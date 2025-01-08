@@ -1,10 +1,16 @@
 # KAF
 
+[<img src="https://user-images.githubusercontent.com/1694986/111364968-24a0fa00-864f-11eb-88aa-4b4127d8e012.png?width=100" width="200"></img>](https://play.google.com/store/apps/details?id=hesham.hcody.NoteAndFolder)
+![Header](assets/screenshots/panner.png)
+
+|   |   |   |   |
+|---|---|---|---|
+| ![](assets/screenshots/2.jpg) | ![](assets/screenshots/3.jpg) | ![](assets/screenshots/4.jpg) | ![](assets/screenshots/5.jpg) |
+
 Welcome to KAF, your reliable companion for efficient note-taking,
 seamless organization, and hassle-free categorization.
 This app is committed to empowering you with a clutter-free
 and intuitive platform to capture your thoughts, ideas, and important information.
-
 ## Key Features:
 
 TFolders and Categorized Notes:** Stay organized with the ability to create folders and categorize your notes. Group related content together, making it effortless to find what you need when you need it.
